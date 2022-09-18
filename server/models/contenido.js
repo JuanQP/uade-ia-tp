@@ -4,17 +4,22 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Contenido extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Contenido.belongsToMany(models.Carrusel, {
+        through: "ContenidoCarrusel",
+     });
     }
   }
   Contenido.init({
-    title: DataTypes.STRING
+    title: DataTypes.STRING,
+    description: DataTypes.STRING,
+    year: DataTypes.INTEGER,
+    duration: DataTypes.INTEGER,
+    director: DataTypes.STRING,
+    cast: DataTypes.STRING,
+    writer: DataTypes.STRING,
+    genres: DataTypes.STRING,
+    maturity_rating: DataTypes.STRING 
   }, {
     sequelize,
     modelName: 'Contenido',
