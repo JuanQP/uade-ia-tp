@@ -6,10 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, InputAdornment, Stack, TextField } from '@mui/material';
 import { setFieldValue } from './utils';
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('/api').then(response => {
@@ -22,6 +24,7 @@ function App() {
 
   function handleIngresarClick() {
     console.log(user, password);
+    navigate('/dashboard');
   }
 
   return (
