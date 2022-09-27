@@ -1,3 +1,4 @@
+import '../App.css';
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -10,27 +11,27 @@ const links = [
   {
     label: 'Dashboard',
     to: '/dashboard',
-    icon: <DashboardIcon />,
+    icon: <DashboardIcon className="side-panel-color" />,
   },
   {
     label: 'Contenido',
     to: '/content',
-    icon: <MovieIcon />,
+    icon: <MovieIcon className="side-panel-color" />,
   },
   {
     label: 'Carruseles',
     to: '/carousels',
-    icon: <ListIcon />,
+    icon: <ListIcon className="side-panel-color" />,
   },
   {
     label: 'Landing pages',
     to: '/landing-pages',
-    icon: <WebIcon />,
+    icon: <WebIcon className="side-panel-color" />,
   },
   {
     label: 'Log out',
     to: '/login',
-    icon: <LogoutIcon />,
+    icon: <LogoutIcon className="side-panel-color" />,
   },
 ];
 
@@ -44,13 +45,13 @@ export function Layout({children, ...props}) {
       <Drawer
         variant="permanent"
         anchor="left"
+        className="side-panel"
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
-            // backgroundColor: 'blue',
           },
         }}
       >
@@ -58,9 +59,14 @@ export function Layout({children, ...props}) {
           {/* <Toolbar /> */}
           {links.map(item => (
             <ListItem key={item.label} disablePadding>
-              <ListItemButton selected={location.pathname === item.to} component={Link} to={item.to}>
+              <ListItemButton
+                selected={location.pathname === item.to}
+                component={Link}
+                to={item.to}
+                className={location.pathname !== item.to ? undefined : "side-panel-color-selected"}
+              >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
+                <ListItemText className="side-panel-color" primary={item.label} />
               </ListItemButton>
             </ListItem>
           ))}
