@@ -14,6 +14,7 @@ module.exports = (app) => {
 
 	// Contenidos
 	routes.get('/contenidos', contenidoController.list);
+	routes.post('/contenidos', contenidoController.create);
 	// Carruseles
 	routes.get('/carruseles', carruselController.list);
 

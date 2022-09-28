@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { ContentTable } from "./Content/ContentTable";
 import { useEffect } from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function Content() {
 
@@ -20,7 +21,13 @@ export function Content() {
       <Box>
         <div style={{display: 'flex', gap: 10}}>
           <Typography sx={{fontSize: 24}}>Contenidos</Typography>
-          <Button startIcon={ <AddIcon /> } variant="contained" color="primary">
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/content/new"
+          >
             Nuevo
           </Button>
         </div>

@@ -15,6 +15,7 @@ import { Dashboard } from './Pages/Dashboard';
 import { Content } from './Pages/Content';
 import { Carousel } from './Pages/Carousel';
 import { LandingPage } from './Pages/LandingPage';
+import { NewContent } from './Pages/Content/NewContent';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/content",
     element: <Content />,
+  },
+  {
+    path: "/content/new",
+    element: <NewContent />,
   },
   {
     path: "/carousels",
