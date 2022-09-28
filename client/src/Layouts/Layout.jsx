@@ -74,7 +74,7 @@ export function Layout({children, ...props}) {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        sx={{ flexGrow: 1, bgcolor: '#E4E6EB', minHeight: '100vh', p: 3 }}
       >
         {/* Page content is placed here */}
         {children}
