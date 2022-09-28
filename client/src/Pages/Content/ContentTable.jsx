@@ -7,7 +7,9 @@ export function ContentTable({contents, onDelete, ...props}) {
 
   if(contents.length === 0) {
     return (
-      <Typography>Todavía no hay contenidos creados 😅...</Typography>
+      <Typography align="center">
+        Todavía no hay contenidos creados 😅...
+      </Typography>
     );
   }
 
