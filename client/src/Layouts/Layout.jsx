@@ -57,19 +57,23 @@ export function Layout({children, ...props}) {
       >
         <List>
           {/* <Toolbar /> */}
-          {links.map(item => (
-            <ListItem key={item.label} disablePadding>
-              <ListItemButton
-                selected={location.pathname === item.to}
-                component={Link}
-                to={item.to}
-                className={location.pathname !== item.to ? undefined : "side-panel-color-selected"}
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText className="side-panel-color" primary={item.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {links.map(item => {
+            const regexp = new RegExp(`^${item.to}`, 'i');
+            const match = regexp.test(location.pathname);
+            return (
+              <ListItem key={item.label} disablePadding>
+                <ListItemButton
+                  selected={match}
+                  component={Link}
+                  to={item.to}
+                  className={!match ? undefined : "side-panel-color-selected"}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText className="side-panel-color" primary={item.label} />
+                </ListItemButton>
+              </ListItem>
+            )
+          })}
         </List>
       </Drawer>
       <Box
