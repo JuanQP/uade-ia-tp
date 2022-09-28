@@ -3,7 +3,13 @@ import { useState } from "react";
 import { setFieldValue } from "../../utils";
 import SaveIcon from '@mui/icons-material/Save';
 
-export function ContentForm({loading, onSubmit, ...props}) {
+export function ContentForm({
+  editing = false,
+  initialValues,
+  loading,
+  onSubmit,
+  ...props
+}) {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -14,6 +20,20 @@ export function ContentForm({loading, onSubmit, ...props}) {
   const [writer, setWriter] = useState('');
   const [genres, setGenres] = useState('');
   const [maturity_rating, setMaturityRating] = useState('');
+
+  useState(() => {
+    if(!editing) return;
+
+    setTitle(initialValues.title);
+    setDescription(initialValues.description);
+    setYear(initialValues.year);
+    setDuration(initialValues.duration);
+    setDirector(initialValues.director);
+    setCast(initialValues.cast);
+    setWriter(initialValues.writer);
+    setGenres(initialValues.genres);
+    setMaturityRating(initialValues.maturity_rating);
+  }, []);
 
   function handleSubmit() {
     onSubmit({

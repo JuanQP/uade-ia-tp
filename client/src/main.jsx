@@ -16,6 +16,7 @@ import { Content } from './Pages/Content';
 import { Carousel } from './Pages/Carousel';
 import { LandingPage } from './Pages/LandingPage';
 import { NewContent } from './Pages/Content/NewContent';
+import { EditContent } from './Pages/Content/EditContent';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/content",
     element: <Content />,
+  },
+  {
+    path: "/content/:id",
+    element: <EditContent />,
   },
   {
     path: "/content/new",

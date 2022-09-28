@@ -18,4 +18,25 @@ module.exports = {
       res.status(400).send(error);
     }
   },
+
+  get: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const content = await Contenido.findByPk(id);
+      res.status(200).send({ content });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
+
+  patch: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const content = await Contenido.findByPk(id);
+      const savedContent = await content.update({...req.body});
+      res.status(200).send({ content: savedContent });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
 };

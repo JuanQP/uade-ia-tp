@@ -13,15 +13,6 @@ function App() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios.get('/api').then(response => {
-      console.log(response.data.message);
-    })
-    .catch((err) => {
-      console.log("Error");
-    })
-  }, []);
-
   function handleIngresarClick() {
     console.log(user, password);
     navigate('/dashboard');
