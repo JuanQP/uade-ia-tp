@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+// Parse request body to JSON
+app.use(express.json());
+
 require('./routes')(app);
 
 // Have Node serve the files for our built React app
