@@ -5,16 +5,33 @@ import { ContentTable } from "./Content/ContentTable";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+
+async function fetchContents() {
+  const response = await axios.get(`/api/contenidos`);
+  return response.data.contenidos;
+}
 
 export function Content() {
 
   const [contents, setContents] = useState([]);
+  
+  async function fetchData () {
+    const contents = await fetchContents();
+    setContents(contents);
+  };
 
   useEffect(() => {
-    fetch('/api/contenidos')
-      .then((response) => response.json())
-      .then((data) => setContents(data.contenidos));
+    fetchData();
   }, []);
+
+  async function handleDelete(content) {
+    const response = confirm("¿Estás seguro?");
+    if(response === true) {
+      await axios.delete(`/api/contenidos/${content.id}`);
+      fetchData();
+    }
+  }
 
   return (
     <Layout>
@@ -35,7 +52,10 @@ export function Content() {
           marginTop: 10,
           padding: 10
         }}>
-          <ContentTable contents={contents} />
+          <ContentTable
+            contents={contents}
+            onDelete={handleDelete}
+          />
         </Paper>
       </Box>
     </Layout>

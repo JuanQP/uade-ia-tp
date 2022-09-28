@@ -17,6 +17,7 @@ module.exports = (app) => {
 	routes.post('/contenidos', contenidoController.create);
 	routes.get('/contenidos/:id', contenidoController.get);
 	routes.patch('/contenidos/:id', contenidoController.patch);
+	routes.delete('/contenidos/:id', contenidoController.delete);
 	// Carruseles
 	routes.get('/carruseles', carruselController.list);
 

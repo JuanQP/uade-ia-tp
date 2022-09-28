@@ -39,4 +39,14 @@ module.exports = {
       res.status(400).send(error);
     }
   },
+
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await Contenido.destroy({ where: { id }});
+      res.status(200).send({});
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
 };
