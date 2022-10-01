@@ -35,7 +35,6 @@ export function EditContent() {
     setWaiting(true);
     try {
       const newContent = await axios.patch(`/api/contenidos/${id}`, content);
-      console.log("Server response:", newContent);
       navigate('/contents');
     } catch (error) {
       console.error("Server error", error);

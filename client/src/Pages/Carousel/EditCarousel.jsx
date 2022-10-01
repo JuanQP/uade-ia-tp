@@ -35,7 +35,6 @@ export function EditCarousel() {
     setWaiting(true);
     try {
       const newCarousel = await axios.patch(`/api/carruseles/${id}`, carousel);
-      console.log("Server response:", newCarousel);
       navigate('/carousels');
     } catch (error) {
       console.error("Server error", error);

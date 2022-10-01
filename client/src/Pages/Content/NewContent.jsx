@@ -14,7 +14,6 @@ export function NewContent() {
     setWaiting(true);
     try {
       const newContent = await axios.post('/api/contenidos', content);
-      console.log("Server response:", newContent);
       navigate('/contents');
     } catch (error) {
       console.error("Server error", error);

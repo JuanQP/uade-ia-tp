@@ -45,7 +45,6 @@ export function Layout({children, ...props}) {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log(token);
     if(!token) {
       navigate('/');
     } else {

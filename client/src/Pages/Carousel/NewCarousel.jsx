@@ -14,7 +14,6 @@ export function NewCarousel() {
     setWaiting(true);
     try {
       const newCarousel = await axios.post('/api/carruseles', carousel);
-      console.log("Server response:", newCarousel);
       navigate('/carousels');
     } catch (error) {
       console.error("Server error", error);
