@@ -7,6 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import WebIcon from '@mui/icons-material/Web';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import axios from 'axios';
 
 const links = [
   {
@@ -43,8 +44,12 @@ export function Layout({children, ...props}) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if(!token) {
       navigate('/');
+    } else {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
   }, []);
 
