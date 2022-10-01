@@ -2,6 +2,17 @@ import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { setFieldValue } from "../../utils";
 import SaveIcon from '@mui/icons-material/Save';
+import { useEffect } from "react";
+import axios from "axios";
+import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
+
+function loadContentsDelayed(searchText, callback) {
+  axios.get('/api/contenidos', {
+    params: { title: searchText },
+  }).then((response) => {
+    callback(response.data.contenidos);
+  });
+}
 
 export function CarouselForm({
   editing = false,
@@ -12,16 +23,19 @@ export function CarouselForm({
 }) {
 
   const [title, setTitle] = useState('');
+  const [selected, setSelected] = useState([]);
 
-  useState(() => {
+  useEffect(() => {
     if(!editing) return;
 
     setTitle(initialValues.title);
+    setSelected(initialValues.contenidos);
   }, []);
 
   function handleSubmit() {
     onSubmit({
       title,
+      contenidos: selected.map(s => s.id),
     });
   }
 
@@ -35,7 +49,7 @@ export function CarouselForm({
         gap: 10,
       }}
     >
-      <div style={{display: 'flex', gap: 10}}>
+      <div style={{display: 'flex', gap: 10, flexDirection: 'column'}}>
         <TextField
           style={{flex: 1}}
           required
@@ -44,6 +58,17 @@ export function CarouselForm({
           value={title}
           placeholder="El Señor de los Anillos"
           onChange={setFieldValue(setTitle)}
+        />
+        <DelayedAsyncSelect
+          placeholder="Contenidos de este carrusel"
+          cacheOptions
+          isMulti
+          getOptionLabel={item => item.title}
+          getOptionValue={item => item.id}
+          onChange={setFieldValue(setSelected)}
+          value={selected}
+          fetchCallback={loadContentsDelayed}
+          delay={1500}
         />
       </div>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>

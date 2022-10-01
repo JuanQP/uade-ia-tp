@@ -15,7 +15,9 @@ module.exports = {
 
   create: async (req, res) => {
     try {
-      const newCarousel = await Carrusel.create(req.body);
+      const { contenidos, ...fields } = req.body;
+      const newCarousel = await Carrusel.create(fields);
+      await newCarousel.setContenidos(contenidos);
       res.status(200).send({ carousel: newCarousel });
     } catch (error) {
       res.status(400).send(error);
@@ -25,7 +27,9 @@ module.exports = {
   get: async (req, res) => {
     try {
       const { id } = req.params;
-      const carousel = await Carrusel.findByPk(id);
+      const carousel = await Carrusel.findByPk(id, {
+        include: [{model: Contenido, as: 'contenidos'}],
+      });
       res.status(200).send({ carousel });
     } catch (error) {
       res.status(400).send(error);
@@ -35,8 +39,10 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const { id } = req.params;
+      const { contenidos, ...fields } = req.body;
       const carousel = await Carrusel.findByPk(id);
-      const savedCarousel = await carousel.update({...req.body});
+      const savedCarousel = await carousel.update(fields);
+      await savedCarousel.setContenidos(contenidos);
       res.status(200).send({ carousel: savedCarousel });
     } catch (error) {
       res.status(400).send(error);
@@ -46,8 +52,8 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const { id } = req.params;
-      await Carrusel.destroy({ where: { id }});
-      res.status(200).send({});
+      const deletedCount = await Carrusel.destroy({ where: { id }});
+      res.status(200).send({message: `${deletedCount} carousels deleted.`});
     } catch (error) {
       res.status(400).send(error);
     }

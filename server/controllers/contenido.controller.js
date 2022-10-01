@@ -1,9 +1,15 @@
+const { Op } = require('sequelize');
 const { Contenido } = require('../models');
 
 module.exports = {
-  list: async (_, res) => {
+  list: async (req, res) => {
     try {
-      const contenidos = await Contenido.findAll();
+      const titleSearch = req.query.title ?? '';
+      const contenidos = await Contenido.findAll({
+        where: {
+          title: { [Op.iLike]: `%${titleSearch}%` },
+        }
+      });
       res.status(200).send({ contenidos });
     } catch (error) {
       res.status(400).send(error);
