@@ -13,10 +13,12 @@ import {
 } from "react-router-dom";
 import { Dashboard } from './Pages/Dashboard';
 import { Content } from './Pages/Content';
-import { Carousel } from './Pages/Carousel';
-import { LandingPage } from './Pages/LandingPage';
 import { NewContent } from './Pages/Content/NewContent';
 import { EditContent } from './Pages/Content/EditContent';
+import { Carousel } from './Pages/Carousel';
+import { NewCarousel } from './Pages/Carousel/NewCarousel';
+import { EditCarousel } from './Pages/Carousel/EditCarousel';
+import { LandingPage } from './Pages/LandingPage';
 
 const router = createBrowserRouter([
   {
@@ -32,20 +34,28 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "/content",
+    path: "/contents",
     element: <Content />,
   },
   {
-    path: "/content/:id",
+    path: "/contents/:id",
     element: <EditContent />,
   },
   {
-    path: "/content/new",
+    path: "/contents/new",
     element: <NewContent />,
   },
   {
     path: "/carousels",
     element: <Carousel />,
+  },
+  {
+    path: "/carousels/:id",
+    element: <EditCarousel />,
+  },
+  {
+    path: "/carousels/new",
+    element: <NewCarousel />,
   },
   {
     path: "/landing-pages",

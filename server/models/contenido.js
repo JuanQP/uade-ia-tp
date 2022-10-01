@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Contenido.belongsToMany(models.Carrusel, {
         through: "ContenidoCarrusel",
+        as: 'carousels',
      });
     }
   }

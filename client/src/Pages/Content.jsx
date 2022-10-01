@@ -43,7 +43,7 @@ export function Content() {
             variant="contained"
             color="primary"
             component={Link}
-            to="/content/new"
+            to="/contents/new"
           >
             Nuevo
           </Button>

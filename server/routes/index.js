@@ -20,6 +20,10 @@ module.exports = (app) => {
 	routes.delete('/contenidos/:id', contenidoController.delete);
 	// Carruseles
 	routes.get('/carruseles', carruselController.list);
+	routes.post('/carruseles', carruselController.create);
+	routes.get('/carruseles/:id', carruselController.get);
+	routes.patch('/carruseles/:id', carruselController.patch);
+	routes.delete('/carruseles/:id', carruselController.delete);
 
 	/*
 	contenido por id

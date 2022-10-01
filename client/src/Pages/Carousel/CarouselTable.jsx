@@ -3,18 +3,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from "react-router-dom";
 
-export function ContentTable({contents, onDelete, ...props}) {
+export function CarouselTable({carousels, onDelete, ...props}) {
 
-  if(contents.length === 0) {
+  if(carousels.length === 0) {
     return (
       <Typography align="center">
-        Todavía no hay contenidos creados 😅...
+        Todavía no hay carruseles creados 😅...
       </Typography>
     );
   }
 
-  function handleDelete(content) {
-    onDelete(content);
+  function handleDelete(carousel) {
+    onDelete(carousel);
   }
 
   return (
@@ -23,34 +23,30 @@ export function ContentTable({contents, onDelete, ...props}) {
         <TableRow>
           <TableCell>ID</TableCell>
           <TableCell>Título</TableCell>
-          <TableCell>Año</TableCell>
-          <TableCell>Duración</TableCell>
-          <TableCell>Director</TableCell>
+          <TableCell>#Contenidos</TableCell>
           <TableCell></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {contents.map((content) => (
-          <TableRow key={content.id}>
+        {carousels.map((carousel) => (
+          <TableRow key={carousel.id}>
             <TableCell>
-              {content.id}
+              {carousel.id}
             </TableCell>
-            <TableCell>{content.title}</TableCell>
-            <TableCell>{content.year}</TableCell>
-            <TableCell>{content.duration}</TableCell>
-            <TableCell>{content.director}</TableCell>
+            <TableCell>{carousel.title}</TableCell>
+            <TableCell>{carousel.contenidos.length}</TableCell>
             <TableCell style={{display: 'flex', justifyContent: 'end'}}>
               <IconButton
                 color="primary"
                 component={Link}
-                to={`/contents/${content.id}`}
+                to={`/carousels/${carousel.id}`}
               >
                 <EditIcon/>
               </IconButton>
               <IconButton
                 color="error"
                 component="label"
-                onClick={() => handleDelete(content)}
+                onClick={() => handleDelete(carousel)}
               >
                 <DeleteIcon/>
               </IconButton>

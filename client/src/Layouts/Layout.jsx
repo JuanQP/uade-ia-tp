@@ -15,7 +15,7 @@ const links = [
   },
   {
     label: 'Contenido',
-    to: '/content',
+    to: '/contents',
     icon: <MovieIcon className="side-panel-color" />,
   },
   {
