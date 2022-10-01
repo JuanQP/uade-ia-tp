@@ -4,5 +4,5 @@
  * @returns
  */
 export function setFieldValue(setter) {
-  return (element) => setter(element.target.value);
+  return (element) => setter(element.target?.value ?? element);
 }
