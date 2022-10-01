@@ -5,7 +5,8 @@ import MovieIcon from '@mui/icons-material/Movie';
 import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
 import WebIcon from '@mui/icons-material/Web';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const links = [
   {
@@ -30,7 +31,7 @@ const links = [
   },
   {
     label: 'Log out',
-    to: '/login',
+    to: '/logout',
     icon: <LogoutIcon className="side-panel-color" />,
   },
 ];
@@ -39,6 +40,13 @@ const drawerWidth = 240;
 
 export function Layout({children, ...props}) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>

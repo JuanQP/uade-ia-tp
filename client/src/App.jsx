@@ -7,53 +7,96 @@ import Typography from '@mui/material/Typography';
 import { Button, InputAdornment, Stack, TextField } from '@mui/material';
 import { setFieldValue } from './utils';
 import { useNavigate } from "react-router-dom";
+import { Box } from '@mui/system';
 
 function App() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [waiting, setWaiting] = useState(false);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  function handleIngresarClick() {
-    console.log(user, password);
+  useEffect(() => {
+    const existingToken = localStorage.getItem('token');
+    if(!existingToken) return;
+    
+    axios.defaults.headers.common['Authorization'] = `Bearer ${existingToken}`;
     navigate('/dashboard');
+  }, []);
+
+  async function handleIngresarClick() {
+    try {
+      setWaiting(true);
+      const { data } = await axios.post('/api/login', {
+        email: user,
+        password,
+      });
+      localStorage.setItem('token', data.token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      navigate('/dashboard');
+    } catch (error) {
+      setMessage(error.response.data.message);
+    } finally {
+      setWaiting(false);
+    }
   }
 
   return (
     <div style={{
-      display: 'flex',
       backgroundImage: 'linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh'
     }}>
-      <Card elevation={6}>
-        <CardContent>
-          <Stack spacing={2}>
-            <Typography sx={{ fontSize: 22 }}>Ingresar</Typography>
-            <TextField
-              label="Usuario"
-              variant="outlined"
-              InputProps={{
-                endAdornment: <InputAdornment position="end">@uade.edu.ar</InputAdornment>,
-              }}
-              onChange={setFieldValue(setUser)}
-            />
-            <TextField
-              label="Contraseña"
-              variant="outlined"
-              type="password"
-              onChange={setFieldValue(setPassword)}
-            />
-            <Button
-              size='large'
-              variant='contained'
-              onClick={handleIngresarClick}
-            >
-              Ingresar
-            </Button>
-          </Stack>
-        </CardContent>
-      </Card>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100vh'
+      }}>
+        <div style={{
+          display: 'flex',
+          marginBottom: 'auto',
+          justifyContent: 'flex-end',
+          width: '100%'
+        }}>
+          <Typography sx={{ fontSize: 14, color: 'white' }}>
+            UADE - Integración de Aplicaciones - Grupo 1
+          </Typography>
+        </div>
+        <Card elevation={6} sx={{marginTop: 'auto'}}>
+          <CardContent>
+            <Stack spacing={2}>
+              <Typography sx={{ fontSize: 14 }}>Sistema de Administración de Contenido</Typography>
+              <Typography sx={{ fontSize: 22 }}>Ingresar</Typography>
+              <TextField
+                label="Usuario"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">@uade.edu.ar</InputAdornment>,
+                }}
+                onChange={setFieldValue(setUser)}
+              />
+              <TextField
+                label="Contraseña"
+                variant="outlined"
+                type="password"
+                onChange={setFieldValue(setPassword)}
+              />
+              <Button
+                size='large'
+                variant='contained'
+                disabled={waiting}
+                onClick={handleIngresarClick}
+              >
+                Ingresar
+              </Button>
+              {message !== '' && (
+                <Typography sx={{ color: 'error.main' }}>{message}</Typography>
+              )}
+            </Stack>
+          </CardContent>
+        </Card>
+        {/* Invisible box to center Card */}
+        <Box sx={{marginTop: 'auto', marginBottom: 'auto'}}></Box>
+      </div>
     </div>
   );
 }

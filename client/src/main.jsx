@@ -19,6 +19,7 @@ import { Carousel } from './Pages/Carousel';
 import { NewCarousel } from './Pages/Carousel/NewCarousel';
 import { EditCarousel } from './Pages/Carousel/EditCarousel';
 import { LandingPage } from './Pages/LandingPage';
+import { Logout } from './Pages/Logout';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <App />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
   {
     path: "/dashboard",
