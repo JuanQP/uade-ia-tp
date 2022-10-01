@@ -48,7 +48,7 @@ export function EditCarousel() {
   return (
     <Layout>
       <Box>
-        <Typography sx={{fontSize: 24}}>Editando {carousel?.title ?? 'carrusel'}</Typography>
+        <Typography sx={{fontSize: 24}}>Editando carrusel {carousel?.title ?? 'carrusel'}</Typography>
         <Paper style={{
           marginTop: 10,
           padding: 12

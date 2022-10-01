@@ -48,7 +48,7 @@ export function EditContent() {
   return (
     <Layout>
       <Box>
-        <Typography sx={{fontSize: 24}}>Editando {content?.title ?? 'contenido'}</Typography>
+        <Typography sx={{fontSize: 24}}>Editando contenido {content?.title ?? 'contenido'}</Typography>
         <Paper style={{
           marginTop: 10,
           padding: 12
