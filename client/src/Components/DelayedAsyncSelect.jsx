@@ -18,6 +18,16 @@ export function DelayedAsyncSelect({delay, fetchCallback, ...props}) {
   return (
     <AsyncSelect
       {...props}
+      styles={{
+        control: base => ({
+          ...base,
+          fontFamily: 'Roboto',
+        }),
+        menu: base => ({
+          ...base,
+          fontFamily: 'Roboto',
+        }),
+      }}
       loadOptions={(text, callback) => loadContents(text, callback, fetchCallback, delay)}
     />
   )
