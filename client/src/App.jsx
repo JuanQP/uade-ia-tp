@@ -24,7 +24,8 @@ function App() {
     navigate('/dashboard');
   }, []);
 
-  async function handleIngresarClick() {
+  async function handleIngresarClick(event) {
+    event.preventDefault();
     try {
       setWaiting(true);
       const { data } = await axios.post('/api/login', {
@@ -66,28 +67,38 @@ function App() {
             <Stack spacing={2}>
               <Typography sx={{ fontSize: 14 }}>Sistema de Administración de Contenido</Typography>
               <Typography sx={{ fontSize: 22 }}>Ingresar</Typography>
-              <TextField
-                label="Usuario"
-                variant="outlined"
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">@uade.edu.ar</InputAdornment>,
-                }}
-                onChange={setFieldValue(setUser)}
-              />
-              <TextField
-                label="Contraseña"
-                variant="outlined"
-                type="password"
-                onChange={setFieldValue(setPassword)}
-              />
-              <Button
-                size='large'
-                variant='contained'
-                disabled={waiting}
-                onClick={handleIngresarClick}
+              <Box
+                component="form"
+                noValidate
+                autoComplete="off"
               >
-                Ingresar
-              </Button>
+                <Stack spacing={2}>
+                  <TextField
+                    autoFocus
+                    label="Usuario"
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">@uade.edu.ar</InputAdornment>,
+                    }}
+                    onChange={setFieldValue(setUser)}
+                  />
+                  <TextField
+                    label="Contraseña"
+                    variant="outlined"
+                    type="password"
+                    onChange={setFieldValue(setPassword)}
+                  />
+                  <Button
+                    size='large'
+                    variant='contained'
+                    disabled={waiting}
+                    type="submit"
+                    onClick={handleIngresarClick}
+                  >
+                    Ingresar
+                  </Button>
+                </Stack>
+              </Box>
               {message !== '' && (
                 <Typography sx={{ color: 'error.main' }}>{message}</Typography>
               )}
