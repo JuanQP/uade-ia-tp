@@ -18,8 +18,8 @@ import { EditContent } from './Pages/Content/EditContent';
 import { Carousel } from './Pages/Carousel';
 import { NewCarousel } from './Pages/Carousel/NewCarousel';
 import { EditCarousel } from './Pages/Carousel/EditCarousel';
-import { LandingPage } from './Pages/LandingPage';
 import { Logout } from './Pages/Logout';
+import { User } from './Pages/User';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/carousels/new",
     element: <NewCarousel />,
+  },
+  {
+    path: "/users",
+    element: <User />,
   },
 ]);
 

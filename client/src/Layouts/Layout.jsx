@@ -4,7 +4,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import MovieIcon from '@mui/icons-material/Movie';
 import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
-import WebIcon from '@mui/icons-material/Web';
+import PersonIcon from '@mui/icons-material/Person';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -24,6 +24,11 @@ const links = [
     label: 'Carruseles',
     to: '/carousels',
     icon: <ListIcon className="side-panel-color" />,
+  },
+  {
+    label: 'Curadores',
+    to: '/users',
+    icon: <PersonIcon className="side-panel-color" />,
   },
   {
     label: 'Log out',

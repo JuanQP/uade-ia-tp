@@ -61,4 +61,36 @@ module.exports = {
       res.status(400).send(error);
     }
   },
+
+  register: async (req, res) => {
+    const {
+      nombre,
+      apellido,
+      email,
+      password,
+      telefono,
+      tenant,
+    } = req.body;
+    try {
+      const ignoreSSO = process.env.USE_SSO.toLowerCase() === 'false';
+      if(ignoreSSO) {
+        res.status(200).send({message: 'Register ok.'});
+      } else {
+        await axios.post(`${SSO_AUTH_BASEURL}/register`, {
+          nombre,
+          apellido,
+          email,
+          password,
+          telefono,
+          tenant,
+        });
+        console.log(`Usuario ${email} creado`);
+        res.status(201).send({
+          message: 'Usuario creado.',
+        });
+      }
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  },
 };
