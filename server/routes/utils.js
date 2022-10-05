@@ -1,5 +1,12 @@
-function useSSO(process) {
-	return /^true/i.test(process.env.USE_SSO);
+const jwt = require('jsonwebtoken');
+const {
+	CMS_DEV_ADMIN_USER,
+  SSO_JWT_PUBLIC_KEY,
+  USE_SSO,
+} = process.env;
+
+function useSSO() {
+	return /^true/i.test(USE_SSO);
 }
 
 function getAuthorizationToken(req) {
@@ -7,15 +14,17 @@ function getAuthorizationToken(req) {
 }
 
 function verifyAuth(req, res, next) {
-	const { CMS_DEV_ADMIN_USER } = process.env;
+	const token = getAuthorizationToken(req)
 	try {
 		// SSO mode
-		if(useSSO(process)) {
-			throw new Error("Not implemented yet");
+		if(useSSO()) {
+			jwt.verify(token, SSO_JWT_PUBLIC_KEY);
+			next();
+			return;
 		}
 		// Development without SSO
 		else {
-			if(getAuthorizationToken(req) === CMS_DEV_ADMIN_USER) {
+			if(token === CMS_DEV_ADMIN_USER) {
 				next();
 				return;
 			}
