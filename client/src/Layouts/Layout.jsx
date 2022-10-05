@@ -26,11 +26,6 @@ const links = [
     icon: <ListIcon className="side-panel-color" />,
   },
   {
-    label: 'Landing pages',
-    to: '/landing-pages',
-    icon: <WebIcon className="side-panel-color" />,
-  },
-  {
     label: 'Log out',
     to: '/logout',
     icon: <LogoutIcon className="side-panel-color" />,

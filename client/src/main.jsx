@@ -62,10 +62,6 @@ const router = createBrowserRouter([
     path: "/carousels/new",
     element: <NewCarousel />,
   },
-  {
-    path: "/landing-pages",
-    element: <LandingPage />,
-  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
