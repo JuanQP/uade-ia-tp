@@ -1,9 +1,11 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { setFieldValue } from "../../utils";
+import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
 import axios from "axios";
+import { LoadingButton } from "@mui/lab";
 
 function loadGenresDelayed(searchText, callback) {
   axios.get('/api/generos', {
@@ -78,43 +80,38 @@ export function ContentForm({
       }}
     >
       <div style={{display: 'flex', gap: 10}}>
-        <TextField
-          style={{flex: 1}}
-          required
-          variant="outlined"
-          label="Título"
-          value={title}
-          placeholder="El Señor de los Anillos"
-          onChange={setFieldValue(setTitle)}
-        />
-        <TextField
-          style={{flex: 1}}
-          required
-          variant="outlined"
-          label="Año"
-          value={year}
-          type="number"
-          InputProps={{ inputProps: {min: 1900, max: 2022} }}
-          onChange={setFieldValue(setYear)}
-        />
-        <TextField
-          style={{flex: 1}}
-          required
-          variant="outlined"
-          label="Duración (minutos)"
-          value={duration}
-          type="number"
-          onChange={setFieldValue(setDuration)}
-        />
-        <TextField
-          style={{flex: 1}}
-          required
-          variant="outlined"
-          label="Director"
-          value={director}
-          placeholder="Peter Jackson"
-          onChange={setFieldValue(setDirector)}
-        />
+        <div style={{display: 'flex', flex: 1}}>
+          <TextField
+            style={{flex: 1}}
+            required
+            variant="outlined"
+            label="Título"
+            value={title}
+            placeholder="El Señor de los Anillos"
+            onChange={setFieldValue(setTitle)}
+          />
+        </div>
+        <div style={{display: 'flex', flex: 1, gap: 10}}>
+          <TextField
+            style={{flex: 1}}
+            required
+            variant="outlined"
+            label="Año"
+            value={year}
+            type="number"
+            InputProps={{ inputProps: {min: 1900, max: 2022} }}
+            onChange={setFieldValue(setYear)}
+          />
+          <TextField
+            style={{flex: 1}}
+            required
+            variant="outlined"
+            label="Duración (minutos)"
+            value={duration}
+            type="number"
+            onChange={setFieldValue(setDuration)}
+          />
+        </div>
       </div>
       <div style={{display: 'flex', flex: 1, gap: 10}}>
         <TextField
@@ -129,67 +126,82 @@ export function ContentForm({
           onChange={setFieldValue(setDescription)}
         />
         <div style={{display: 'flex', flex: 1, gap: 10, flexDirection: 'column'}}>
-          <div style={{display: 'flex', flex: 1, gap: 10}}>
-            <TextField
-              style={{flex: 1}}
-              required
-              variant="outlined"
-              label="Elenco"
-              value={cast}
-              placeholder="Viggo Mortensen, Orlando Bloom, Elijah Wood..."
-              onChange={setFieldValue(setCast)}
-            />  
-            <TextField
-              style={{flex: 1}}
-              required
-              variant="outlined"
-              label="Escritor"
-              value={writer}
-              placeholder="John Doe"
-              onChange={setFieldValue(setWriter)}
-            /> 
-          </div>
-          <div style={{display: 'flex', flex: 1, gap: 10}}>
-            <div style={{flex: 1}}>
-              <DelayedAsyncSelect
-                placeholder="Géneros"
-                cacheOptions
-                defaultOptions
-                isMulti
-                getOptionLabel={item => item.description}
-                getOptionValue={item => item.id}
-                onChange={setFieldValue(setGenres)}
-                value={genres}
-                fetchCallback={loadGenresDelayed}
-                delay={1500}
-              />
-            </div>
-            <div style={{flex: 1}}>
-              <DelayedAsyncSelect
-                placeholder="Calificación de Madurez"
-                cacheOptions
-                defaultOptions
-                getOptionLabel={item => item.description}
-                getOptionValue={item => item.id}
-                onChange={setFieldValue(setMaturityRating)}
-                value={maturity_rating}
-                fetchCallback={loadMaturityRatingsDelayed}
-                delay={1500}
-              />
-            </div>
-          </div>
+          <TextField
+            style={{flex: 1}}
+            required
+            variant="outlined"
+            label="Director"
+            value={director}
+            placeholder="Peter Jackson"
+            onChange={setFieldValue(setDirector)}
+          />
+          <TextField
+            style={{flex: 1}}
+            required
+            variant="outlined"
+            label="Escritor"
+            value={writer}
+            placeholder="John Doe"
+            onChange={setFieldValue(setWriter)}
+          /> 
         </div>
       </div>
+      <div style={{display: 'flex', gap: 10}}>
+        <div style={{flex: 1}}>
+          <DelayedAsyncSelect
+            placeholder="Géneros"
+            cacheOptions
+            defaultOptions
+            isMulti
+            getOptionLabel={item => item.description}
+            getOptionValue={item => item.id}
+            onChange={setFieldValue(setGenres)}
+            value={genres}
+            fetchCallback={loadGenresDelayed}
+            delay={1500}
+          />
+        </div>
+        <div style={{flex: 1}}>
+          <DelayedAsyncSelect
+            placeholder="Calificación de Madurez"
+            cacheOptions
+            defaultOptions
+            getOptionLabel={item => item.description}
+            getOptionValue={item => item.id}
+            onChange={setFieldValue(setMaturityRating)}
+            value={maturity_rating}
+            fetchCallback={loadMaturityRatingsDelayed}
+            delay={1500}
+          />
+        </div>
+      </div>
+      <div style={{display: 'flex', gap: 10}}>
+        <TextField
+          style={{flex: 1}}
+          // This is to avoid getting rendered on top of react-selects
+          sx={{
+            '& label': {
+              zIndex: 0
+            }
+          }}
+          required
+          variant="outlined"
+          label="Elenco"
+          value={cast}
+          placeholder="Viggo Mortensen, Orlando Bloom, Elijah Wood..."
+          onChange={setFieldValue(setCast)}
+        />
+      </div>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <Button
+        <LoadingButton
+          loading={loading}
           className={loading ? "" : "create-button"}
           variant="contained"
-          startIcon={<SaveIcon />}
-          disabled={loading}
+          startIcon={editing ? <SaveIcon /> : <AddIcon />}
           onClick={handleSubmit}
         >
-          Guardar
-        </Button>
+          {editing ? "Guardar" : "Agregar"}
+        </LoadingButton>
       </div>
     </Box>
   )

@@ -1,7 +1,8 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { useState } from "react";
 import { setFieldValue } from "../../utils";
-import SaveIcon from '@mui/icons-material/Save';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { LoadingButton } from "@mui/lab";
 
 export function UserForm({
   loading,
@@ -78,15 +79,15 @@ export function UserForm({
         />
       </div>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <Button
+        <LoadingButton
+          loading={loading}
           className={loading ? "" : "create-button"}
           variant="contained"
-          startIcon={<SaveIcon />}
-          disabled={loading}
+          startIcon={<PersonAddIcon />}
           onClick={handleSubmit}
         >
-          Guardar
-        </Button>
+          Agregar
+        </LoadingButton>
       </div>
     </Box>
   )

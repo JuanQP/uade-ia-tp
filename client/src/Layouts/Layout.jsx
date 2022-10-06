@@ -92,8 +92,12 @@ export function Layout({children, ...props}) {
         component="main"
         sx={{ flexGrow: 1, bgcolor: '#E4E6EB', minHeight: '100vh', p: 3 }}
       >
-        {/* Page content is placed here */}
-        {children}
+        <Box sx={{display: 'flex', justifyContent: 'center'}}>
+          <Box maxWidth="lg" sx={{flex: 1}}>
+            {/* Page content is placed here */}
+            {children}
+          </Box>
+        </Box>
       </Box>
     </Box>
   )

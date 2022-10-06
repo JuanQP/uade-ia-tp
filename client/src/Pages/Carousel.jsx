@@ -16,7 +16,6 @@ async function fetchCarousels() {
 export function Carousel() {
 
   const [carousels, setCarousels] = useState([]);
-  const navigate = useNavigate();
   
   async function fetchData () {
     const carousels = await fetchCarousels();
@@ -38,29 +37,27 @@ export function Carousel() {
 
   return (
     <Layout>
-      <Box>
-        <div style={{display: 'flex', gap: 10}}>
-          <Typography sx={{fontSize: 24}}>Carruseles</Typography>
-          <Button
-            startIcon={<AddIcon />}
-            variant="contained"
-            color="primary"
-            component={Link}
-            to="/carousels/new"
-          >
-            Nuevo
-          </Button>
-        </div>
-        <Paper style={{
-          marginTop: 10,
-          padding: 10
-        }}>
-          <CarouselTable
-            carousels={carousels}
-            onDelete={handleDelete}
-          />
-        </Paper>
-      </Box>
+      <div style={{display: 'flex', gap: 10}}>
+        <Typography sx={{fontSize: 24}}>Carruseles</Typography>
+        <Button
+          startIcon={<AddIcon />}
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/carousels/new"
+        >
+          Nuevo
+        </Button>
+      </div>
+      <Paper style={{
+        marginTop: 10,
+        padding: 10
+      }}>
+        <CarouselTable
+          carousels={carousels}
+          onDelete={handleDelete}
+        />
+      </Paper>
     </Layout>
   );
 }

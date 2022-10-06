@@ -4,7 +4,11 @@ import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, InputAdornment, Stack, TextField } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { setFieldValue } from './utils';
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from '@mui/system';
@@ -14,6 +18,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
   const [message, setMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -30,6 +35,7 @@ function App() {
 
   async function handleIngresarClick(event) {
     event.preventDefault();
+    setMessage('');
     try {
       setWaiting(true);
       const { data } = await axios.post('/api/login', {
@@ -44,6 +50,10 @@ function App() {
     } finally {
       setWaiting(false);
     }
+  }
+
+  function handleClickShowPassword() {
+    setShowPassword(previous => !previous);
   }
 
   return (
@@ -78,6 +88,7 @@ function App() {
               >
                 <Stack spacing={2}>
                   <TextField
+                    disabled={waiting}
                     autoFocus
                     label="Usuario"
                     variant="outlined"
@@ -87,20 +98,34 @@ function App() {
                     onChange={setFieldValue(setUser)}
                   />
                   <TextField
+                    disabled={waiting}
                     label="Contraseña"
                     variant="outlined"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                     onChange={setFieldValue(setPassword)}
                   />
-                  <Button
+                  <LoadingButton
+                    loading={waiting}
+                    startIcon={<LoginIcon />}
                     size='large'
                     variant='contained'
-                    disabled={waiting}
                     type="submit"
                     onClick={handleIngresarClick}
                   >
                     Ingresar
-                  </Button>
+                  </LoadingButton>
                 </Stack>
               </Box>
               {message !== '' && (

@@ -38,7 +38,7 @@ export function Content() {
 
   return (
     <Layout>
-      <Box>
+      {/* <Box> */}
         <div style={{display: 'flex', gap: 10}}>
           <Typography sx={{fontSize: 24}}>Contenidos</Typography>
           <Button
@@ -60,7 +60,7 @@ export function Content() {
             onDelete={handleDelete}
           />
         </Paper>
-      </Box>
+      {/* </Box> */}
     </Layout>
   );
 }

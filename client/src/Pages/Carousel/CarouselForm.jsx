@@ -1,10 +1,12 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { setFieldValue } from "../../utils";
+import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { useEffect } from "react";
 import axios from "axios";
 import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
+import { LoadingButton } from "@mui/lab";
 
 function loadContentsDelayed(searchText, callback) {
   axios.get('/api/contenidos', {
@@ -72,15 +74,15 @@ export function CarouselForm({
         />
       </div>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <Button
+        <LoadingButton
+          loading={loading}
           className={loading ? "" : "create-button"}
           variant="contained"
-          startIcon={<SaveIcon />}
-          disabled={loading}
+          startIcon={editing ? <SaveIcon /> : <AddIcon />}
           onClick={handleSubmit}
         >
-          Guardar
-        </Button>
+          {editing ? "Guardar" : "Agregar"}
+        </LoadingButton>
       </div>
     </Box>
   )

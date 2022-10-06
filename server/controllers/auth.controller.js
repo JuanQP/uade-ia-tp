@@ -16,6 +16,7 @@ module.exports = {
       const ignoreSSO = USE_SSO.toLowerCase() === 'false';
       const { email, password } = req.body;
       if(ignoreSSO) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
         if(email !== CMS_DEV_ADMIN_USER || password !== CMS_DEV_ADMIN_PASSWORD) {
           res.status(401).send({message: 'Incorrect credentials'});
           return;

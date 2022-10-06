@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import { Layout } from "../Layouts/Layout";
 import { UserForm } from "./Users/UserForm";
@@ -31,18 +31,16 @@ export function User() {
 
   return (
     <Layout>
-      <Box>
-        <Typography sx={{fontSize: 24}}>Agregar nuevo curador</Typography>
-        <Paper style={{
-          marginTop: 10,
-          padding: 12
-        }}>
-          <UserForm
-            loading={waiting}
-            onSubmit={handleCarouselSubmit}
-          />
-        </Paper>
-      </Box>
+      <Typography sx={{fontSize: 24}}>Agregar nuevo curador</Typography>
+      <Paper style={{
+        marginTop: 10,
+        padding: 12
+      }}>
+        <UserForm
+          loading={waiting}
+          onSubmit={handleCarouselSubmit}
+        />
+      </Paper>
     </Layout>
   )
 }

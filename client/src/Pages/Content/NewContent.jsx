@@ -25,18 +25,16 @@ export function NewContent() {
 
   return (
     <Layout>
-      <Box>
-        <Typography sx={{fontSize: 24}}>Nuevo contenido</Typography>
-        <Paper style={{
-          marginTop: 10,
-          padding: 12
-        }}>
-          <ContentForm
-            loading={waiting}
-            onSubmit={handleContentSubmit}
-          />
-        </Paper>
-      </Box>
+      <Typography sx={{fontSize: 24}}>Nuevo contenido</Typography>
+      <Paper style={{
+        marginTop: 10,
+        padding: 12
+      }}>
+        <ContentForm
+          loading={waiting}
+          onSubmit={handleContentSubmit}
+        />
+      </Paper>
     </Layout>
   )
 }
