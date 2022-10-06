@@ -1,11 +1,17 @@
 const path = require('path');
 const express = require("express");
+const cors = require('cors');
 require('dotenv').config();
 const db = require('./models');
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+// Use CORS
+app.use(cors({
+	origin: '*',
+}));
 
 // Parse request body to JSON
 app.use(express.json());
