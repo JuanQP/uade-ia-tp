@@ -1,12 +1,13 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import { Layout } from "../Layouts/Layout";
 import AddIcon from '@mui/icons-material/Add';
 import { CarouselTable } from "./Carousel/CarouselTable";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from 'axios';
-import { checkToken } from "../utils";
+import { checkToken, notification } from "../utils";
+import { useSnackbar } from "notistack";
 
 async function fetchCarousels() {
   const response = await axios.get(`/api/carruseles`);
@@ -16,6 +17,7 @@ async function fetchCarousels() {
 export function Carousel() {
 
   const [carousels, setCarousels] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
   
   async function fetchData () {
     const carousels = await fetchCarousels();
@@ -31,6 +33,7 @@ export function Carousel() {
     const response = confirm("¿Estás seguro?");
     if(response === true) {
       await axios.delete(`/api/carruseles/${carousel.id}`);
+      notification(enqueueSnackbar, `Se eliminó el carrusel ${carousel.title}`);
       fetchData();
     }
   }

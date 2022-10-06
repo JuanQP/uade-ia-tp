@@ -1,12 +1,13 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import { Layout } from "../Layouts/Layout";
 import AddIcon from '@mui/icons-material/Add';
 import { ContentTable } from "./Content/ContentTable";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from 'axios';
-import { checkToken } from "../utils";
+import { checkToken, notification } from "../utils";
+import { useSnackbar } from 'notistack';
 
 async function fetchContents() {
   const response = await axios.get(`/api/contenidos`);
@@ -16,7 +17,7 @@ async function fetchContents() {
 export function Content() {
 
   const [contents, setContents] = useState([]);
-  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   
   async function fetchData () {
     const contents = await fetchContents();
@@ -32,6 +33,7 @@ export function Content() {
     const response = confirm("¿Estás seguro?");
     if(response === true) {
       await axios.delete(`/api/contenidos/${content.id}`);
+      notification(enqueueSnackbar, `Se eliminó ${content.title}`);
       fetchData();
     }
   }

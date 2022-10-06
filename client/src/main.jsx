@@ -11,6 +11,7 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
+import { SnackbarProvider } from 'notistack';
 import { Dashboard } from './Pages/Dashboard';
 import { Content } from './Pages/Content';
 import { NewContent } from './Pages/Content/NewContent';
@@ -71,6 +72,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <SnackbarProvider maxSnack={3}>
+      <RouterProvider router={router} />
+    </SnackbarProvider>
   </React.StrictMode>
 );

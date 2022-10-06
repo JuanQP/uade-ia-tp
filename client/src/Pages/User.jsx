@@ -5,12 +5,14 @@ import { UserForm } from "./Users/UserForm";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { checkToken } from "../utils";
+import { checkToken, notification } from "../utils";
+import { useSnackbar } from "notistack";
 
 export function User() {
 
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     checkToken(navigate);
@@ -20,6 +22,7 @@ export function User() {
     setWaiting(true);
     try {
       await axios.post('/api/register', user);
+      notification(enqueueSnackbar, `Usuario ${user.email} creado correctamente`, "success");
       navigate('/dashboard');
     } catch (error) {
       console.error("Server error", error);

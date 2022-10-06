@@ -5,6 +5,8 @@ import { ContentForm } from "./ContentForm";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useSnackbar } from "notistack";
+import { notification } from "../../utils";
 
 export function EditContent() {
 
@@ -13,6 +15,7 @@ export function EditContent() {
   const [waiting, setWaiting] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [content, setContent] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,14 +30,15 @@ export function EditContent() {
         setFetching(false);
       }
     };
-
+    
     fetchData();
   }, []);
-
+  
   async function handleContentSubmit(content) {
     setWaiting(true);
     try {
       const newContent = await axios.patch(`/api/contenidos/${id}`, content);
+      notification(enqueueSnackbar, `${content.title} se guardó correctamente 👌`, "success");
       navigate('/contents');
     } catch (error) {
       console.error("Server error", error);

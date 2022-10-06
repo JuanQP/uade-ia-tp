@@ -5,6 +5,8 @@ import { CarouselForm } from "./CarouselForm";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { notification } from "../../utils";
+import { useSnackbar } from "notistack";
 
 export function EditCarousel() {
 
@@ -13,6 +15,7 @@ export function EditCarousel() {
   const [waiting, setWaiting] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [carousel, setCarousel] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +38,7 @@ export function EditCarousel() {
     setWaiting(true);
     try {
       const newCarousel = await axios.patch(`/api/carruseles/${id}`, carousel);
+      notification(enqueueSnackbar, `El carrusel ${carousel.title} se guardó correctamente 👌`, "success");
       navigate('/carousels');
     } catch (error) {
       console.error("Server error", error);

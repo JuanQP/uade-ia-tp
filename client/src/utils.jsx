@@ -1,3 +1,4 @@
+import { Slide } from '@mui/material';
 import axios from 'axios';
 
 /**
@@ -18,3 +19,16 @@ export async function checkToken(navigate) {
     });
   }
 }
+
+export function notification(enqueue, message = '', variant = 'info') {
+  enqueue(message, {
+    ...snackbarOptions,
+    variant,
+  });
+}
+
+export const snackbarOptions = {
+  variant: 'info',
+  anchorOrigin: {vertical: 'top', horizontal: 'right'},
+  TransitionComponent: (props) => (<Slide {...props} direction="down" />),
+};
