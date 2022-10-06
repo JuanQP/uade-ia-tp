@@ -93,4 +93,8 @@ module.exports = {
       res.status(400).send(error);
     }
   },
+
+  verify: async (_, res) => {
+    res.status(200).send({ message: 'Ok' });
+  },
 };

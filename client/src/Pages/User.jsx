@@ -4,11 +4,17 @@ import { Layout } from "../Layouts/Layout";
 import { UserForm } from "./Users/UserForm";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { checkToken } from "../utils";
 
 export function User() {
 
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
+
+  useEffect(() => {
+    checkToken(navigate);
+  }, []);
 
   async function handleCarouselSubmit(user) {
     setWaiting(true);

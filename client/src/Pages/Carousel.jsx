@@ -4,8 +4,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { CarouselTable } from "./Carousel/CarouselTable";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { checkToken } from "../utils";
 
 async function fetchCarousels() {
   const response = await axios.get(`/api/carruseles`);
@@ -15,6 +16,7 @@ async function fetchCarousels() {
 export function Carousel() {
 
   const [carousels, setCarousels] = useState([]);
+  const navigate = useNavigate();
   
   async function fetchData () {
     const carousels = await fetchCarousels();
@@ -22,6 +24,7 @@ export function Carousel() {
   };
 
   useEffect(() => {
+    checkToken();
     fetchData();
   }, []);
 

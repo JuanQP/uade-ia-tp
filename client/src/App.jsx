@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, InputAdornment, Stack, TextField } from '@mui/material';
 import { setFieldValue } from './utils';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from '@mui/system';
 
 function App() {
@@ -14,12 +14,16 @@ function App() {
   const [password, setPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
   const [message, setMessage] = useState('');
+  const { state } = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(state?.message) {
+      setMessage(state.message);
+    }
     const existingToken = localStorage.getItem('token');
     if(!existingToken) return;
-    
+
     axios.defaults.headers.common['Authorization'] = `Bearer ${existingToken}`;
     navigate('/dashboard');
   }, []);

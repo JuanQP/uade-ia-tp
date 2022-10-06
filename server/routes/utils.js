@@ -31,7 +31,12 @@ function verifyAuth(req, res, next) {
 			throw new Error("Invalid development token");
 		}
 	} catch (error) {
-		res.status(401).send({message: error.message});
+		if(error instanceof jwt.TokenExpiredError) {
+			res.status(401).send({message: "El token expiró. Vuelva a iniciar sesión."});
+		}
+		else {
+			res.status(401).send({message: error.message});
+		}
 	}
 }
 

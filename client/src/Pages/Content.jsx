@@ -4,8 +4,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { ContentTable } from "./Content/ContentTable";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { checkToken } from "../utils";
 
 async function fetchContents() {
   const response = await axios.get(`/api/contenidos`);
@@ -15,6 +16,7 @@ async function fetchContents() {
 export function Content() {
 
   const [contents, setContents] = useState([]);
+  const navigate = useNavigate();
   
   async function fetchData () {
     const contents = await fetchContents();
@@ -22,6 +24,7 @@ export function Content() {
   };
 
   useEffect(() => {
+    checkToken();
     fetchData();
   }, []);
 

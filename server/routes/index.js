@@ -18,6 +18,7 @@ module.exports = (app) => {
 	routes.post('/login', authController.login);
 	routes.post('/logout', authController.logout);
 	routes.post('/register', verifyAuth, authController.register);
+	routes.get('/verify', verifyAuth, authController.verify);
 
 	// Contenidos
 	routes.get('/contenidos', contenidoController.list);

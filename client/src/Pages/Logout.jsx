@@ -3,11 +3,12 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useEffect } from "react";
 import { Layout } from "../Layouts/Layout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function Logout() {
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const logout = async () => {
@@ -15,7 +16,8 @@ export function Logout() {
         await axios.post('/api/logout');
         localStorage.removeItem('token');
         axios.defaults.headers.common['Authorization'] = ``;
-        navigate('/');
+        const state = location.state ?? undefined;
+        navigate('/login', { state });
       } catch (error) {
         console.error(error);
       }
