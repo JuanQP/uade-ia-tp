@@ -4,6 +4,8 @@ const mockController = require('../controllers/mock.controller');
 const contenidoController = require('../controllers/contenido.controller');
 const carruselController = require('../controllers/carrusel.controller');
 const authController = require('../controllers/auth.controller');
+const generoController = require('../controllers/genero.controller');
+const maturityRatingController = require('../controllers/maturity_rating.controller');
 const routes = express.Router();
 const { verifyAuth } = require('./utils');
 
@@ -19,6 +21,14 @@ module.exports = (app) => {
 	routes.post('/logout', authController.logout);
 	routes.post('/register', verifyAuth, authController.register);
 	routes.get('/verify', verifyAuth, authController.verify);
+
+	// Géneros
+	routes.get('/generos', generoController.list);
+	routes.get('/generos/:id', generoController.get);
+
+	// Maturity ratings
+	routes.get('/maturity-ratings', maturityRatingController.list);
+	routes.get('/maturity-ratings/:id', maturityRatingController.get);
 
 	// Contenidos
 	routes.get('/contenidos', contenidoController.list);

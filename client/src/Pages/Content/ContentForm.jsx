@@ -2,6 +2,24 @@ import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { setFieldValue } from "../../utils";
 import SaveIcon from '@mui/icons-material/Save';
+import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
+import axios from "axios";
+
+function loadGenresDelayed(searchText, callback) {
+  axios.get('/api/generos', {
+    params: { description: searchText },
+  }).then((response) => {
+    callback(response.data.generos);
+  });
+}
+
+function loadMaturityRatingsDelayed(searchText, callback) {
+  axios.get('/api/maturity-ratings', {
+    params: { description: searchText },
+  }).then((response) => {
+    callback(response.data.maturity_ratings);
+  });
+}
 
 export function ContentForm({
   editing = false,
@@ -18,8 +36,8 @@ export function ContentForm({
   const [director, setDirector] = useState('');
   const [cast, setCast] = useState('');
   const [writer, setWriter] = useState('');
-  const [genres, setGenres] = useState('');
-  const [maturity_rating, setMaturityRating] = useState('');
+  const [genres, setGenres] = useState([]);
+  const [maturity_rating, setMaturityRating] = useState(null);
 
   useState(() => {
     if(!editing) return;
@@ -32,7 +50,7 @@ export function ContentForm({
     setCast(initialValues.cast);
     setWriter(initialValues.writer);
     setGenres(initialValues.genres);
-    setMaturityRating(initialValues.maturity_rating);
+    setMaturityRating(initialValues.MaturityRating);
   }, []);
 
   function handleSubmit() {
@@ -44,8 +62,8 @@ export function ContentForm({
       director,
       cast,
       writer,
-      genres,
-      maturity_rating,
+      genres: genres.map(g => g.id),
+      maturity_rating_id: maturity_rating.id,
     });
   }
 
@@ -132,24 +150,33 @@ export function ContentForm({
             /> 
           </div>
           <div style={{display: 'flex', flex: 1, gap: 10}}>
-          <TextField
-            style={{flex: 1}}
-            required
-            variant="outlined"
-            label="Géneros"
-            value={genres}
-            placeholder="Acción, aventura, ..."
-            onChange={setFieldValue(setGenres)}
-          />  
-          <TextField
-            style={{flex: 1}}
-            required
-            variant="outlined"
-            label="Calificación de Madurez"
-            value={maturity_rating}
-            placeholder="PG-13"
-            onChange={setFieldValue(setMaturityRating)}
-          />
+            <div style={{flex: 1}}>
+              <DelayedAsyncSelect
+                placeholder="Géneros"
+                cacheOptions
+                defaultOptions
+                isMulti
+                getOptionLabel={item => item.description}
+                getOptionValue={item => item.id}
+                onChange={setFieldValue(setGenres)}
+                value={genres}
+                fetchCallback={loadGenresDelayed}
+                delay={1500}
+              />
+            </div>
+            <div style={{flex: 1}}>
+              <DelayedAsyncSelect
+                placeholder="Calificación de Madurez"
+                cacheOptions
+                defaultOptions
+                getOptionLabel={item => item.description}
+                getOptionValue={item => item.id}
+                onChange={setFieldValue(setMaturityRating)}
+                value={maturity_rating}
+                fetchCallback={loadMaturityRatingsDelayed}
+                delay={1500}
+              />
+            </div>
           </div>
         </div>
       </div>

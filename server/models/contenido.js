@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
         through: "ContenidoCarrusel",
         as: 'carousels',
      });
+      Contenido.belongsToMany(models.Genero, {
+        through: "ContenidoGenero",
+        as: 'genres',
+     });
+      Contenido.belongsTo(models.MaturityRating, {
+        foreignKey: 'maturity_rating_id',
+      });
     }
   }
   Contenido.init({
@@ -19,8 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     director: DataTypes.STRING,
     cast: DataTypes.STRING,
     writer: DataTypes.STRING,
-    genres: DataTypes.STRING,
-    maturity_rating: DataTypes.STRING 
   }, {
     sequelize,
     modelName: 'Contenido',

@@ -1,11 +1,15 @@
 const { Op } = require('sequelize');
-const { Contenido } = require('../models');
+const { Contenido, Genero, MaturityRating } = require('../models');
 
 module.exports = {
   list: async (req, res) => {
     try {
       const titleSearch = req.query.title ?? '';
       const contenidos = await Contenido.findAll({
+        include: [
+          {model: Genero, as: 'genres'},
+          {model: MaturityRating},
+        ],
         where: {
           title: { [Op.iLike]: `%${titleSearch}%` },
         }
@@ -18,7 +22,9 @@ module.exports = {
 
   create: async (req, res) => {
     try {
-      const newContent = await Contenido.create(req.body);
+      const { genres, ...fields } = req.body;
+      const newContent = await Contenido.create(fields);
+      await newContent.setGenres(genres);
       res.status(200).send({ content: newContent });
     } catch (error) {
       res.status(400).send(error);
@@ -28,7 +34,12 @@ module.exports = {
   get: async (req, res) => {
     try {
       const { id } = req.params;
-      const content = await Contenido.findByPk(id);
+      const content = await Contenido.findByPk(id, {
+        include: [
+          {model: Genero, as: 'genres'},
+          {model: MaturityRating},
+        ],
+      });
       res.status(200).send({ content });
     } catch (error) {
       res.status(400).send(error);
@@ -38,8 +49,10 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const { id } = req.params;
+      const { genres, ...fields } = req.body;
       const content = await Contenido.findByPk(id);
-      const savedContent = await content.update({...req.body});
+      const savedContent = await content.update(fields);
+      await savedContent.setGenres(genres);
       res.status(200).send({ content: savedContent });
     } catch (error) {
       res.status(400).send(error);
