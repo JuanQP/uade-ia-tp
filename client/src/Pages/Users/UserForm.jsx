@@ -67,6 +67,7 @@ export function UserForm({
         />
         <TextField
           style={{flex: 1}}
+          autoComplete="new-password"
           required
           type="password"
           variant="outlined"
