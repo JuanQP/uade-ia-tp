@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { useState } from "react";
 import { setFieldValue } from "../../utils";
 import AddIcon from '@mui/icons-material/Add';
@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
 import { LoadingButton } from "@mui/lab";
+import Grid from "@mui/material/Unstable_Grid2";
 
 function loadContentsDelayed(searchText, callback) {
   axios.get('/api/contenidos', {
@@ -21,7 +22,6 @@ export function CarouselForm({
   initialValues,
   loading,
   onSubmit,
-  ...props
 }) {
 
   const [title, setTitle] = useState('');
@@ -45,45 +45,46 @@ export function CarouselForm({
     <Box
       component="form"
       autoComplete="off"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 10,
-      }}
     >
-      <div style={{display: 'flex', gap: 10, flexDirection: 'column'}}>
-        <TextField
-          style={{flex: 1}}
-          required
-          variant="outlined"
-          label="Título"
-          value={title}
-          placeholder="El Señor de los Anillos"
-          onChange={setFieldValue(setTitle)}
-        />
-        <DelayedAsyncSelect
-          placeholder="Contenidos de este carrusel"
-          cacheOptions
-          isMulti
-          getOptionLabel={item => item.title}
-          getOptionValue={item => item.id}
-          onChange={setFieldValue(setSelected)}
-          value={selected}
-          fetchCallback={loadContentsDelayed}
-          delay={1500}
-        />
-      </div>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <LoadingButton
-          loading={loading}
-          className={loading ? "" : "create-button"}
-          variant="contained"
-          startIcon={editing ? <SaveIcon /> : <AddIcon />}
-          onClick={handleSubmit}
-        >
-          {editing ? "Guardar" : "Agregar"}
-        </LoadingButton>
-      </div>
+      <Grid container spacing={2}>
+        <Grid xs={12}>
+          <TextField
+            fullWidth
+            required
+            variant="outlined"
+            label="Título"
+            value={title}
+            placeholder="El Señor de los Anillos"
+            onChange={setFieldValue(setTitle)}
+          />
+        </Grid>
+        <Grid xs={12}>
+          <DelayedAsyncSelect
+            placeholder="Contenidos de este carrusel"
+            cacheOptions
+            isMulti
+            getOptionLabel={item => item.title}
+            getOptionValue={item => item.id}
+            onChange={setFieldValue(setSelected)}
+            value={selected}
+            fetchCallback={loadContentsDelayed}
+            delay={1500}
+          />
+        </Grid>
+        <Grid xs={12}>
+          <Box display="flex" justifyContent="end">
+            <LoadingButton
+              loading={loading}
+              className={loading ? "" : "create-button"}
+              variant="contained"
+              startIcon={editing ? <SaveIcon /> : <AddIcon />}
+              onClick={handleSubmit}
+            >
+              {editing ? "Guardar" : "Agregar"}
+            </LoadingButton>
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   )
 }

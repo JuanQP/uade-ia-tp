@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { useState } from "react";
 import { setFieldValue } from "../../utils";
 import AddIcon from '@mui/icons-material/Add';
@@ -6,6 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
+import Grid from "@mui/material/Unstable_Grid2";
 
 function loadGenresDelayed(searchText, callback) {
   axios.get('/api/generos', {
@@ -28,7 +29,6 @@ export function ContentForm({
   initialValues,
   loading,
   onSubmit,
-  ...props
 }) {
 
   const [title, setTitle] = useState('');
@@ -73,16 +73,11 @@ export function ContentForm({
     <Box
       component="form"
       autoComplete="off"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 10,
-      }}
     >
-      <div style={{display: 'flex', gap: 10}}>
-        <div style={{display: 'flex', flex: 1}}>
+      <Grid container spacing={2}>
+        <Grid xs={12} md={6}>
           <TextField
-            style={{flex: 1}}
+            fullWidth
             required
             variant="outlined"
             label="Título"
@@ -90,10 +85,10 @@ export function ContentForm({
             placeholder="El Señor de los Anillos"
             onChange={setFieldValue(setTitle)}
           />
-        </div>
-        <div style={{display: 'flex', flex: 1, gap: 10}}>
+        </Grid>
+        <Grid xs={12} md={3}>
           <TextField
-            style={{flex: 1}}
+            fullWidth
             required
             variant="outlined"
             label="Año"
@@ -102,8 +97,10 @@ export function ContentForm({
             InputProps={{ inputProps: {min: 1900, max: 2022} }}
             onChange={setFieldValue(setYear)}
           />
+        </Grid>
+        <Grid xs={12} md={3}>
           <TextField
-            style={{flex: 1}}
+            fullWidth
             required
             variant="outlined"
             label="Duración (minutos)"
@@ -111,23 +108,10 @@ export function ContentForm({
             type="number"
             onChange={setFieldValue(setDuration)}
           />
-        </div>
-      </div>
-      <div style={{display: 'flex', flex: 1, gap: 10}}>
-        <TextField
-          style={{flex: 1}}
-          required
-          variant="outlined"
-          label="Descripción"
-          value={description}
-          multiline
-          minRows={4}
-          placeholder="Esta película narra la historia de Frodo Bolsón..."
-          onChange={setFieldValue(setDescription)}
-        />
-        <div style={{display: 'flex', flex: 1, gap: 10, flexDirection: 'column'}}>
+        </Grid>
+        <Grid xs={12} md={6}>
           <TextField
-            style={{flex: 1}}
+            fullWidth
             required
             variant="outlined"
             label="Director"
@@ -135,8 +119,10 @@ export function ContentForm({
             placeholder="Peter Jackson"
             onChange={setFieldValue(setDirector)}
           />
+        </Grid>
+        <Grid xs={12} md={6}>
           <TextField
-            style={{flex: 1}}
+            fullWidth
             required
             variant="outlined"
             label="Escritor"
@@ -144,10 +130,8 @@ export function ContentForm({
             placeholder="John Doe"
             onChange={setFieldValue(setWriter)}
           /> 
-        </div>
-      </div>
-      <div style={{display: 'flex', gap: 10}}>
-        <div style={{flex: 1}}>
+        </Grid>
+        <Grid xs={12} md={6}>
           <DelayedAsyncSelect
             placeholder="Géneros"
             cacheOptions
@@ -160,8 +144,8 @@ export function ContentForm({
             fetchCallback={loadGenresDelayed}
             delay={1500}
           />
-        </div>
-        <div style={{flex: 1}}>
+        </Grid>
+        <Grid xs={12} md={6}>
           <DelayedAsyncSelect
             placeholder="Calificación de Madurez"
             cacheOptions
@@ -173,36 +157,48 @@ export function ContentForm({
             fetchCallback={loadMaturityRatingsDelayed}
             delay={1500}
           />
-        </div>
-      </div>
-      <div style={{display: 'flex', gap: 10}}>
-        <TextField
-          style={{flex: 1}}
-          // This is to avoid getting rendered on top of react-selects
-          sx={{
-            '& label': {
-              zIndex: 0
-            }
-          }}
-          required
-          variant="outlined"
-          label="Elenco"
-          value={cast}
-          placeholder="Viggo Mortensen, Orlando Bloom, Elijah Wood..."
-          onChange={setFieldValue(setCast)}
-        />
-      </div>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <LoadingButton
-          loading={loading}
-          className={loading ? "" : "create-button"}
-          variant="contained"
-          startIcon={editing ? <SaveIcon /> : <AddIcon />}
-          onClick={handleSubmit}
-        >
-          {editing ? "Guardar" : "Agregar"}
-        </LoadingButton>
-      </div>
+        </Grid>
+        <Grid xs={12} md={6}>
+          <TextField
+            fullWidth
+            // This is to avoid getting rendered on top of react-selects
+            sx={{'& label': { zIndex: 0 }}}
+            required
+            variant="outlined"
+            label="Elenco"
+            value={cast}
+            placeholder="Viggo Mortensen, Orlando Bloom, Elijah Wood..."
+            onChange={setFieldValue(setCast)}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <TextField
+            sx={{'& label': { zIndex: 0 }}}
+            fullWidth
+            required
+            variant="outlined"
+            label="Descripción"
+            value={description}
+            multiline
+            minRows={4}
+            placeholder="Esta película narra la historia de Frodo Bolsón..."
+            onChange={setFieldValue(setDescription)}
+          />
+        </Grid>
+        <Grid xs={12}>
+          <Box display="flex" justifyContent="end">
+            <LoadingButton
+              loading={loading}
+              className={loading ? "" : "create-button"}
+              variant="contained"
+              startIcon={editing ? <SaveIcon /> : <AddIcon />}
+              onClick={handleSubmit}
+            >
+              {editing ? "Guardar" : "Agregar"}
+            </LoadingButton>
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   )
 }
