@@ -90,7 +90,8 @@ export function Layout({children, ...props}) {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: '#E4E6EB', minHeight: '100vh', p: 3 }}
+        className='bg-dots'
+        sx={{ flexGrow: 1, minHeight: '100vh', p: 3 }}
       >
         <Box sx={{display: 'flex', justifyContent: 'center'}}>
           <Box maxWidth="lg" sx={{flex: 1}}>
