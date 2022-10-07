@@ -21,7 +21,12 @@ module.exports = {
           res.status(401).send({message: 'Incorrect credentials'});
           return;
         }
-        res.status(200).send({token: `${CMS_DEV_ADMIN_USER}`});
+        res.status(200).send({
+          nombre: "Admin",
+          email: "admin@admin.com",
+          tenant: "Cms",
+          token: `${CMS_DEV_ADMIN_USER}`,
+        });
       } else {
         // SSO URL login
         const response = await axios.post(`${SSO_AUTH_BASEURL}/login`, {
