@@ -12,7 +12,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { SnackbarProvider } from 'notistack';
-import { Dashboard } from './Pages/Dashboard';
+import { Home } from './Pages/Home';
 import { Content } from './Pages/Content';
 import { NewContent } from './Pages/Content/NewContent';
 import { EditContent } from './Pages/Content/EditContent';
@@ -21,6 +21,7 @@ import { NewCarousel } from './Pages/Carousel/NewCarousel';
 import { EditCarousel } from './Pages/Carousel/EditCarousel';
 import { Logout } from './Pages/Logout';
 import { User } from './Pages/User';
+import { UserContextProvider } from './hooks/UserContext';
 
 const router = createBrowserRouter([
   {
@@ -36,8 +37,8 @@ const router = createBrowserRouter([
     element: <Logout />,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
+    path: "/home",
+    element: <Home />,
   },
   {
     path: "/contents",
@@ -73,7 +74,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <SnackbarProvider maxSnack={3}>
-      <RouterProvider router={router} />
+      <UserContextProvider>
+        <RouterProvider router={router} />
+      </UserContextProvider>
     </SnackbarProvider>
   </React.StrictMode>
 );

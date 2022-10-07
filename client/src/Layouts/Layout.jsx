@@ -1,19 +1,20 @@
 import '../App.css';
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
-import ListIcon from '@mui/icons-material/List';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useUserContext } from '../hooks/UserContext';
 
 const links = [
   {
-    label: 'Dashboard',
-    to: '/dashboard',
-    icon: <DashboardIcon className="side-panel-color" />,
+    label: 'Home',
+    to: '/home',
+    icon: <HomeIcon className="side-panel-color" />,
   },
   {
     label: 'Contenido',
@@ -23,7 +24,7 @@ const links = [
   {
     label: 'Carruseles',
     to: '/carousels',
-    icon: <ListIcon className="side-panel-color" />,
+    icon: <ViewCarouselIcon className="side-panel-color" />,
   },
   {
     label: 'Curadores',
@@ -42,13 +43,19 @@ const drawerWidth = 240;
 export function Layout({children, ...props}) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setUser } = useUserContext();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const nombre = localStorage.getItem('nombre');
     if(!token) {
       navigate('/');
+      return;
     } else {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    if(nombre) {
+      setUser({ nombre });
     }
   }, []);
 

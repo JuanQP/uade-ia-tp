@@ -23,7 +23,7 @@ export function User() {
     try {
       await axios.post('/api/register', user);
       notification(enqueueSnackbar, `Usuario ${user.email} creado correctamente`, "success");
-      navigate('/dashboard');
+      navigate('/home');
     } catch (error) {
       console.error("Server error", error);
     }

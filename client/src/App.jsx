@@ -12,15 +12,17 @@ import { LoadingButton } from '@mui/lab';
 import { setFieldValue } from './utils';
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from '@mui/system';
+import { useUserContext } from './hooks/UserContext';
 
 function App() {
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { setUser } = useUserContext();
 
   useEffect(() => {
     if(state?.message) {
@@ -30,7 +32,7 @@ function App() {
     if(!existingToken) return;
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${existingToken}`;
-    navigate('/dashboard');
+    navigate('/home');
   }, []);
 
   async function handleIngresarClick(event) {
@@ -39,12 +41,14 @@ function App() {
     try {
       setWaiting(true);
       const { data } = await axios.post('/api/login', {
-        email: user,
+        email,
         password,
       });
       localStorage.setItem('token', data.token);
+      localStorage.setItem('nombre', data.nombre);
+      setUser(data);
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
-      navigate('/dashboard');
+      navigate('/home');
     } catch (error) {
       setMessage(error.response.data.message);
     } finally {
@@ -95,7 +99,7 @@ function App() {
                     InputProps={{
                       endAdornment: <InputAdornment position="end">@uade.edu.ar</InputAdornment>,
                     }}
-                    onChange={setFieldValue(setUser)}
+                    onChange={setFieldValue(setEmail)}
                   />
                   <TextField
                     disabled={waiting}

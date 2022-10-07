@@ -4,17 +4,21 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Layout } from "../Layouts/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useUserContext } from "../hooks/UserContext";
 
 export function Logout() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { setUser } = useUserContext();
 
   useEffect(() => {
     const logout = async () => {
       try {
         await axios.post('/api/logout');
         localStorage.removeItem('token');
+        localStorage.removeItem('nombre');
+        setUser({});
         axios.defaults.headers.common['Authorization'] = ``;
         const state = location.state ?? undefined;
         navigate('/login', { state });
