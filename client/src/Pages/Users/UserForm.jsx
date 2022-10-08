@@ -32,7 +32,7 @@ export function UserForm({
       autoComplete="off"
     >
       <Grid container spacing={2}>
-        <Grid sm={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             fullWidth
             required
@@ -43,7 +43,7 @@ export function UserForm({
             onChange={setFieldValue(setNombre)}
           />
         </Grid>
-        <Grid sm={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             fullWidth
             required
@@ -54,7 +54,7 @@ export function UserForm({
             onChange={setFieldValue(setApellido)}
           />
         </Grid>
-        <Grid sm={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             fullWidth
             required
@@ -65,7 +65,7 @@ export function UserForm({
             onChange={setFieldValue(setEmail)}
           />
         </Grid>
-        <Grid sm={12} md={6}>
+        <Grid xs={12} md={6}>
           <TextField
             fullWidth
             autoComplete="new-password"
@@ -78,7 +78,7 @@ export function UserForm({
             onChange={setFieldValue(setPassword)}
           />
         </Grid>
-        <Grid sm={12}>
+        <Grid xs={12}>
           <Box display="flex" justifyContent="end">
             <LoadingButton
               loading={loading}

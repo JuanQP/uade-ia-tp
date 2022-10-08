@@ -36,7 +36,7 @@ export function Home() {
         <Grid xs={12} md={4}>
           <HomeCard bgColor="#1565c0" title="Contenidos" Icon={MovieIcon} linkTo="/contents">
             <Typography>
-              Son las distintas películas con las que contamos en la plataforma 🎥🍿
+              Son las películas con las que contamos en la plataforma 🎥🍿
             </Typography>
           </HomeCard>
         </Grid>
