@@ -1,18 +1,26 @@
-import { Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Layout } from "../Layouts/Layout";
 import AddIcon from '@mui/icons-material/Add';
-import { ContentTable } from "./Content/ContentTable";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { checkToken, notification } from "../utils";
 import { useSnackbar } from 'notistack';
+import { CMSTable } from "../Components/CMSTable";
 
 async function fetchContents() {
   const response = await axios.get(`/api/contenidos`);
   return response.data.contenidos;
 }
+
+const columns = [
+  {name: 'ID', key: "id", hide: true},
+  {name: 'Título', key: "title", hide: false},
+  {name: 'Año', key: "year", hide: true},
+  {name: 'Duración', key: "duration", hide: true},
+  {name: 'Director', key: "director", hide: true},
+];
 
 export function Content() {
 
@@ -40,29 +48,25 @@ export function Content() {
 
   return (
     <Layout>
-      {/* <Box> */}
-        <div style={{display: 'flex', gap: 10}}>
-          <Typography sx={{fontSize: 24}}>Contenidos</Typography>
-          <Button
-            startIcon={<AddIcon />}
-            variant="contained"
-            color="primary"
-            component={Link}
-            to="/contents/new"
-          >
-            Nuevo
-          </Button>
-        </div>
-        <Paper style={{
-          marginTop: 10,
-          padding: 10
-        }}>
-          <ContentTable
-            contents={contents}
-            onDelete={handleDelete}
-          />
-        </Paper>
-      {/* </Box> */}
+      <div style={{display: 'flex', gap: 10}}>
+        <Typography sx={{fontSize: 24}}>Contenidos</Typography>
+        <Button
+          startIcon={<AddIcon />}
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/contents/new"
+        >
+          Nuevo
+        </Button>
+      </div>
+      <Box mt={2} />
+      <CMSTable
+        items={contents}
+        columns={columns}
+        url="/contents/"
+        onDelete={handleDelete}
+      />
     </Layout>
   );
 }

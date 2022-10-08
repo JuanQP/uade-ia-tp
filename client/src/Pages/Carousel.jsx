@@ -1,18 +1,23 @@
-import { Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { Layout } from "../Layouts/Layout";
 import AddIcon from '@mui/icons-material/Add';
-import { CarouselTable } from "./Carousel/CarouselTable";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { checkToken, notification } from "../utils";
 import { useSnackbar } from "notistack";
+import { CMSTable } from "../Components/CMSTable";
 
 async function fetchCarousels() {
   const response = await axios.get(`/api/carruseles`);
   return response.data.carruseles;
 }
+
+const columns = [
+  {name: 'ID', key: "id", hide: true},
+  {name: 'Título', key: "title", hide: false},
+];
 
 export function Carousel() {
 
@@ -52,15 +57,13 @@ export function Carousel() {
           Nuevo
         </Button>
       </div>
-      <Paper style={{
-        marginTop: 10,
-        padding: 10
-      }}>
-        <CarouselTable
-          carousels={carousels}
-          onDelete={handleDelete}
-        />
-      </Paper>
+      <Box mt={2}/>
+      <CMSTable
+        items={carousels}
+        columns={columns}
+        url="/carousels/"
+        onDelete={handleDelete}
+      />
     </Layout>
   );
 }
