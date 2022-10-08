@@ -102,6 +102,7 @@ export function Layout({ children }) {
             />
           </ListItem>
           {links.map(item => {
+            // It checks if current location starts with this element URL
             const regexp = new RegExp(`^${item.to}`, 'i');
             const match = regexp.test(location.pathname);
             return (

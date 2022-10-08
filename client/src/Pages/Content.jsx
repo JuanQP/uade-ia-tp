@@ -3,7 +3,7 @@ import { Layout } from "../Layouts/Layout";
 import AddIcon from '@mui/icons-material/Add';
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { checkToken, notification } from "../utils";
 import { useSnackbar } from 'notistack';
@@ -26,6 +26,7 @@ export function Content() {
 
   const [contents, setContents] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   
   async function fetchData () {
     const contents = await fetchContents();
@@ -33,7 +34,7 @@ export function Content() {
   };
 
   useEffect(() => {
-    checkToken();
+    checkToken(navigate);
     fetchData();
   }, []);
 

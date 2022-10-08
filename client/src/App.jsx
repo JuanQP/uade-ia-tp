@@ -5,21 +5,19 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import LoginIcon from '@mui/icons-material/Login';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import { InputAdornment, Stack, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { setFieldValue } from './utils';
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from '@mui/system';
 import { useUserContext } from './hooks/UserContext';
+import { PasswordTextField } from './Pages/Login/PasswordTextField';
 
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
   const [message, setMessage] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const { state } = useLocation();
   const navigate = useNavigate();
   const { setUser } = useUserContext();
@@ -56,10 +54,6 @@ function App() {
     }
   }
 
-  function handleClickShowPassword() {
-    setShowPassword(previous => !previous);
-  }
-
   return (
     <div style={{
       backgroundImage: 'linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
@@ -68,7 +62,7 @@ function App() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        height: '100vh'
+        height: '100vh',
       }}>
         <div style={{
           display: 'flex',
@@ -83,8 +77,12 @@ function App() {
         <Card elevation={6} sx={{marginTop: 'auto'}}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography sx={{ fontSize: 14 }}>Sistema de Administración de Contenido</Typography>
-              <Typography sx={{ fontSize: 22 }}>Ingresar</Typography>
+              <Typography sx={{ fontSize: 14 }}>
+                Sistema de Administración de Contenido
+              </Typography>
+              <Typography sx={{ fontSize: 22 }}>
+                Ingresar
+              </Typography>
               <Box
                 component="form"
                 noValidate
@@ -101,23 +99,10 @@ function App() {
                     }}
                     onChange={setFieldValue(setEmail)}
                   />
-                  <TextField
+                  <PasswordTextField
                     disabled={waiting}
                     label="Contraseña"
                     variant="outlined"
-                    type={showPassword ? "text" : "password"}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={handleClickShowPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
                     onChange={setFieldValue(setPassword)}
                   />
                   <LoadingButton

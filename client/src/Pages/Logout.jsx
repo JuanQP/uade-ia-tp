@@ -28,7 +28,7 @@ export function Logout() {
     };
 
     logout();
-  });
+  }, []);
 
   return (
     <Layout>

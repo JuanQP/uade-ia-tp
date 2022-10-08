@@ -3,11 +3,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from "react-router-dom";
 
+/**
+ * Table to show properly formatted contents and carousels
+ * It will hide columns if screen is too small
+ */
 export function CMSTable({
   items = [],
   columns = [],
   url = '',
-  onDelete = () => {},
+  onDelete = (item) => {},
 }) {
 
   const theme = useTheme();
