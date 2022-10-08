@@ -1,12 +1,13 @@
 import '../App.css';
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
+import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
+import MenuIcon from "@mui/icons-material/Menu";
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from '../hooks/UserContext';
 
@@ -40,10 +41,13 @@ const links = [
 
 const drawerWidth = 240;
 
-export function Layout({children, ...props}) {
+export function Layout({ children }) {
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { setUser } = useUserContext();
+  const { user, setUser } = useUserContext();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -61,10 +65,23 @@ export function Layout({children, ...props}) {
 
   return (
     <Box sx={{ display: 'flex' }}>
+      <AppBar position="fixed" sx={{display: isMdUp ? 'none' : 'flex'}}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="end"
+            onClick={() => setDrawerOpen(previous => !previous)}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
       <Drawer
-        variant="permanent"
+        open={isMdUp || drawerOpen}
+        variant={isMdUp ? "permanent" : "temporary"}
         anchor="left"
         className="side-panel"
+        onClose={() => setDrawerOpen(false)}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -75,7 +92,15 @@ export function Layout({children, ...props}) {
         }}
       >
         <List>
-          {/* <Toolbar /> */}
+          <ListItem>
+            <ListItemText
+              primary={user.nombre}
+              primaryTypographyProps={{
+                color: theme.palette.primary.light,
+                fontWeight: 'bold',
+              }}
+            />
+          </ListItem>
           {links.map(item => {
             const regexp = new RegExp(`^${item.to}`, 'i');
             const match = regexp.test(location.pathname);
@@ -100,6 +125,7 @@ export function Layout({children, ...props}) {
         className='bg-dots'
         sx={{ flexGrow: 1, minHeight: '100vh', p: 3 }}
       >
+        {!isMdUp && <Toolbar />}
         <Box sx={{display: 'flex', justifyContent: 'center'}}>
           <Box maxWidth="lg" sx={{flex: 1}}>
             {/* Page content is placed here */}
