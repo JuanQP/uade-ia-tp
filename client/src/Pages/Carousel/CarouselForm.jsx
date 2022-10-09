@@ -8,6 +8,8 @@ import axios from "axios";
 import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
 import { LoadingButton } from "@mui/lab";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useSnackbar } from "notistack";
+import { notification } from "../../utils";
 
 function loadContentsDelayed(searchText, callback) {
   axios.get('/api/contenidos', {
@@ -24,6 +26,8 @@ export function CarouselForm({
   onSubmit,
 }) {
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const [title, setTitle] = useState('');
   const [selected, setSelected] = useState([]);
 
@@ -35,6 +39,10 @@ export function CarouselForm({
   }, []);
 
   function handleSubmit() {
+    if (!title || !selected.length) { 
+      notification(enqueueSnackbar, "Complete los campos obligatorios", "warning");
+      return;
+    }
     onSubmit({
       title,
       contenidos: selected.map(s => s.id),

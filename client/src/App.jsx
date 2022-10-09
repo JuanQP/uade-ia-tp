@@ -35,6 +35,10 @@ function App() {
 
   async function handleIngresarClick(event) {
     event.preventDefault();
+    if (!email || !password) { 
+      setMessage('Ingrese usuario y contraseña'); 
+      return;
+    }
     setMessage('');
     try {
       setWaiting(true);

@@ -7,6 +7,8 @@ import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useSnackbar } from "notistack";
+import { notification } from "../../utils";
 
 function loadGenresDelayed(searchText, callback) {
   axios.get('/api/generos', {
@@ -31,12 +33,16 @@ export function ContentForm({
   onSubmit,
 }) {
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [year, setYear] = useState(2022);
   const [duration, setDuration] = useState(60);
   const [director, setDirector] = useState('');
   const [cast, setCast] = useState('');
+  const [urlImage, setUrlImage] = useState('https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg');
+  const [urlVideo, setUrlVideo] = useState('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
   const [writer, setWriter] = useState('');
   const [genres, setGenres] = useState([]);
   const [maturity_rating, setMaturityRating] = useState(null);
@@ -50,12 +56,18 @@ export function ContentForm({
     setDuration(initialValues.duration);
     setDirector(initialValues.director);
     setCast(initialValues.cast);
+    setUrlImage(initialValues.urlImage);
+    setUrlVideo(initialValues.urlVideo);
     setWriter(initialValues.writer);
     setGenres(initialValues.genres);
     setMaturityRating(initialValues.MaturityRating);
   }, []);
 
   function handleSubmit() {
+    if (!title || !description || !year || !duration || !director || !cast || !urlImage || !writer || !genres.length || !maturity_rating) { 
+      notification(enqueueSnackbar, "Complete los campos obligatorios", "warning");
+      return;
+    }
     onSubmit({
       title,
       description,
@@ -63,6 +75,8 @@ export function ContentForm({
       duration,
       director,
       cast,
+      urlImage,
+      urlVideo,
       writer,
       genres: genres.map(g => g.id),
       maturity_rating_id: maturity_rating.id,
@@ -133,7 +147,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <DelayedAsyncSelect
-            placeholder="Géneros"
+            placeholder="Géneros *"
             cacheOptions
             defaultOptions
             isMulti
@@ -147,7 +161,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <DelayedAsyncSelect
-            placeholder="Calificación de Madurez"
+            placeholder="Calificación de Madurez *"
             cacheOptions
             defaultOptions
             getOptionLabel={item => item.description}
@@ -165,10 +179,36 @@ export function ContentForm({
             sx={{'& label': { zIndex: 0 }}}
             required
             variant="outlined"
+            label="URL Imagen"
+            value={urlImage}
+            placeholder="URL Imagen"
+            onChange={setFieldValue(setUrlImage)}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <TextField
+            fullWidth
+            // This is to avoid getting rendered on top of react-selects
+            sx={{'& label': { zIndex: 0 }}}
+            required
+            variant="outlined"
             label="Elenco"
             value={cast}
             placeholder="Viggo Mortensen, Orlando Bloom, Elijah Wood..."
             onChange={setFieldValue(setCast)}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <TextField
+            fullWidth
+            // This is to avoid getting rendered on top of react-selects
+            sx={{'& label': { zIndex: 0 }}}
+            required
+            variant="outlined"
+            label="URL Video"
+            value={urlVideo}
+            placeholder="URL Video"
+            onChange={setFieldValue(setUrlVideo)}
           />
         </Grid>
         <Grid xs={12} md={6}>

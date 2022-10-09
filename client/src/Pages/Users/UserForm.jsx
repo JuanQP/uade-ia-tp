@@ -4,11 +4,15 @@ import { setFieldValue } from "../../utils";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { LoadingButton } from "@mui/lab";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useSnackbar } from "notistack";
+import { notification } from "../../utils";
 
 export function UserForm({
   loading,
   onSubmit,
 }) {
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -16,6 +20,10 @@ export function UserForm({
   const [password, setPassword] = useState('');
 
   function handleSubmit() {
+    if (!nombre || !apellido || !email || !password) { 
+      notification(enqueueSnackbar, "Complete los campos obligatorios", "warning");
+      return;
+    }
     onSubmit({
       nombre,
       apellido,
