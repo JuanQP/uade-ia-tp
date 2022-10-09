@@ -44,8 +44,8 @@ const contenidosTerror = [
       id: 1, 
       description: "R - Restricted"
     }, 
-    imageURL: "https://i.pinimg.com/550x/7c/35/df/7c35dfe2a932a5dd558ade30986a28ff.jpg", 
-    videoURL:"https://www.youtube.com/watch?v=_zU1gLWGnpg&ab_channel=WarnerBros.PicturesLatinoam%C3%A9rica"
+    urlImage: "https://i.pinimg.com/550x/7c/35/df/7c35dfe2a932a5dd558ade30986a28ff.jpg", 
+    urlVideo:"https://www.youtube.com/watch?v=_zU1gLWGnpg&ab_channel=WarnerBros.PicturesLatinoam%C3%A9rica"
   },
   {
     title: "La monja",
@@ -66,8 +66,8 @@ const contenidosTerror = [
       id: 1,
       description: "NC-17 - Adults Only"
     }, 
-    imageURL: "https://i.pinimg.com/236x/ce/3d/68/ce3d6811da999a716a4f76ed795fa832.jpg",
-    videoURL:"https://www.youtube.com/watch?v=eqVjGwYFVqQ&ab_channel=WarnerBros.PicturesLatinoam%C3%A9rica"
+    urlImage: "https://i.pinimg.com/236x/ce/3d/68/ce3d6811da999a716a4f76ed795fa832.jpg",
+    urlVideo:"https://www.youtube.com/watch?v=eqVjGwYFVqQ&ab_channel=WarnerBros.PicturesLatinoam%C3%A9rica"
   }
 ];
 const contenidosSuspenso = [
@@ -91,8 +91,8 @@ const contenidosSuspenso = [
       id: 1,
       description: "G - General Audiences"
     },
-    imageURL: "https://i.pinimg.com/originals/72/7d/ec/727decb796307b9404ba2bb4b86cb4ed.jpg",
-    videoURL:"https://www.youtube.com/watch?v=uVTbS1wg_wQ&ab_channel=Arkham1888"
+    urlImage: "https://i.pinimg.com/originals/72/7d/ec/727decb796307b9404ba2bb4b86cb4ed.jpg",
+    urlVideo:"https://www.youtube.com/watch?v=uVTbS1wg_wQ&ab_channel=Arkham1888"
   },
   {
     title: "La sospecha",
@@ -114,8 +114,8 @@ const contenidosSuspenso = [
       id: 1,
       description: "G - General Audiences"
     },
-    imageURL: "https://i.pinimg.com/736x/c4/54/8f/c4548f1c58860c6ca97542a0614dc1b3.jpg",
-    videoURL:"https://www.youtube.com/watch?v=v35O1w575UI&ab_channel=AlfaFilmsArgentina"
+    urlImage: "https://i.pinimg.com/736x/c4/54/8f/c4548f1c58860c6ca97542a0614dc1b3.jpg",
+    urlVideo:"https://www.youtube.com/watch?v=v35O1w575UI&ab_channel=AlfaFilmsArgentina"
   }
 ];
 const contenidosComedia = [
@@ -139,8 +139,8 @@ const contenidosComedia = [
       id: 1,
       description: "G - General Audiences"
     },
-    imageURL: "https://i.pinimg.com/originals/18/66/47/186647e3d2c91b3438811b6f9f0f0636.jpg",
-    videoURL:"https://www.youtube.com/watch?v=UksH0NGHdns&ab_channel=SonyPicturesM%C3%A9xico"
+    urlImage: "https://i.pinimg.com/originals/18/66/47/186647e3d2c91b3438811b6f9f0f0636.jpg",
+    urlVideo:"https://www.youtube.com/watch?v=UksH0NGHdns&ab_channel=SonyPicturesM%C3%A9xico"
   },
   {
     title: "Mentiroso mentiroso",
@@ -160,7 +160,7 @@ const contenidosComedia = [
     {
       id: 1, description: "G - General Audiences"
     },
-    imageURL: "https://i.pinimg.com/736x/a7/5d/8a/a75d8a605519d4e0e460c01a22e66518.jpg",
-    videoURL: "https://www.youtube.com/watch?v=cCXzjto5LtI&ab_channel=ElDespotricadorCin%C3%A9filo"
+    urlImage: "https://i.pinimg.com/736x/a7/5d/8a/a75d8a605519d4e0e460c01a22e66518.jpg",
+    urlVideo: "https://www.youtube.com/watch?v=cCXzjto5LtI&ab_channel=ElDespotricadorCin%C3%A9filo"
   }
 ];

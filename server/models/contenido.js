@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     director: DataTypes.STRING,
     cast: DataTypes.STRING,
     writer: DataTypes.STRING,
-    imageURL: DataTypes.STRING,
-    videoURL: DataTypes.STRING
+    urlImage: DataTypes.STRING,
+    urlVideo: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Contenido',
