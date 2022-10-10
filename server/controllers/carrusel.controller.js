@@ -5,9 +5,9 @@ module.exports = {
     try {
       const carruseles = await Carrusel.findAll({
         attributes: ['id', 'title'],
-        include: [{model: Contenido, as: 'contenidos'}],
+        include: [{ model: Contenido, as: 'contenidos' }],
       });
-      res.status(200).send({ carruseles });
+      res.status(200).send({ results: carruseles });
     } catch (error) {
       res.status(400).send(error);
     }
@@ -18,7 +18,7 @@ module.exports = {
       const { contenidos, ...fields } = req.body;
       const newCarousel = await Carrusel.create(fields);
       await newCarousel.setContenidos(contenidos);
-      res.status(200).send({ carousel: newCarousel });
+      res.status(200).send(newCarousel);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -28,9 +28,9 @@ module.exports = {
     try {
       const { id } = req.params;
       const carousel = await Carrusel.findByPk(id, {
-        include: [{model: Contenido, as: 'contenidos'}],
+        include: [{ model: Contenido, as: 'contenidos' }],
       });
-      res.status(200).send({ carousel });
+      res.status(200).send(carousel);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -43,7 +43,7 @@ module.exports = {
       const carousel = await Carrusel.findByPk(id);
       const savedCarousel = await carousel.update(fields);
       await savedCarousel.setContenidos(contenidos);
-      res.status(200).send({ carousel: savedCarousel });
+      res.status(200).send(savedCarousel);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -52,8 +52,8 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const { id } = req.params;
-      const deletedCount = await Carrusel.destroy({ where: { id }});
-      res.status(200).send({message: `${deletedCount} carousels deleted.`});
+      const deletedCount = await Carrusel.destroy({ where: { id } });
+      res.status(200).send({ message: `${deletedCount} carousels deleted.` });
     } catch (error) {
       res.status(400).send(error);
     }

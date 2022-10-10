@@ -11,7 +11,7 @@ import { CMSTable } from "../Components/CMSTable";
 
 async function fetchContents() {
   const response = await axios.get(`/api/contenidos`);
-  return response.data.contenidos;
+  return response.data.results;
 }
 
 const columns = [

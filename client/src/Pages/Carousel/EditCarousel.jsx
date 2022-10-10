@@ -22,7 +22,7 @@ export function EditCarousel() {
       try {
         setFetching(true);
         const { data } = await axios.get(`/api/carruseles/${id}`);
-        setCarousel(data.carousel);
+        setCarousel(data);
       } catch (error) {
         console.error(error);
         navigate('/carousels');

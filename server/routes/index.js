@@ -32,15 +32,15 @@ module.exports = (app) => {
 
 	// Contenidos
 	routes.get('/contenidos', contenidoController.list);
+	routes.get('/contenidos/:id', contenidoController.get);
 	routes.post('/contenidos', verifyAuth, contenidoController.create);
-	routes.get('/contenidos/:id', verifyAuth, contenidoController.get);
 	routes.patch('/contenidos/:id', verifyAuth, contenidoController.patch);
 	routes.delete('/contenidos/:id', verifyAuth, contenidoController.delete);
 
 	// Carruseles
 	routes.get('/carruseles', carruselController.list);
+	routes.get('/carruseles/:id', carruselController.get);
 	routes.post('/carruseles', verifyAuth, carruselController.create);
-	routes.get('/carruseles/:id', verifyAuth, carruselController.get);
 	routes.patch('/carruseles/:id', verifyAuth, carruselController.patch);
 	routes.delete('/carruseles/:id', verifyAuth, carruselController.delete);
 
@@ -51,8 +51,12 @@ module.exports = (app) => {
 	crear y actualizar carrusel
 	*/
 
-  // Mocks
-  routes.get('/mocks/contenidos', mockController.contenidosList);
-  routes.get('/mocks/carruseles', mockController.carruselesList);
+	// Mocks contenidos
+	routes.get('/mocks/contenidos', mockController.contenidosList);
+	routes.get('/mocks/contenidos/:id', mockController.contenidoGet);
+
+	// Mocks carruseles
+	routes.get('/mocks/carruseles', mockController.carruselesList);
+	routes.get('/mocks/carruseles/:id', mockController.carruselesGet);
 
 };

@@ -22,7 +22,7 @@ export function EditContent() {
       try {
         setFetching(true);
         const { data } = await axios.get(`/api/contenidos/${id}`);
-        setContent(data.content);
+        setContent(data);
       } catch (error) {
         console.error(error);
         navigate('/contents');
@@ -37,7 +37,7 @@ export function EditContent() {
   async function handleContentSubmit(content) {
     setWaiting(true);
     try {
-      const newContent = await axios.patch(`/api/contenidos/${id}`, content);
+      const editContent = await axios.patch(`/api/contenidos/${id}`, content);
       notification(enqueueSnackbar, `${content.title} se guardó correctamente 👌`, "success");
       navigate('/contents');
     } catch (error) {

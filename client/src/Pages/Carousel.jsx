@@ -11,7 +11,7 @@ import { CMSTable } from "../Components/CMSTable";
 
 async function fetchCarousels() {
   const response = await axios.get(`/api/carruseles`);
-  return response.data.carruseles;
+  return response.data.results;
 }
 
 const columns = [
