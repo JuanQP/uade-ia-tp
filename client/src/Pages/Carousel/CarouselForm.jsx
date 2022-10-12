@@ -15,7 +15,7 @@ function loadContentsDelayed(searchText, callback) {
   axios.get('/api/contenidos', {
     params: { title: searchText },
   }).then((response) => {
-    callback(response.data.contenidos);
+    callback(response.data.results);
   });
 }
 
