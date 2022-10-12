@@ -8,8 +8,9 @@ import { useSnackbar } from "notistack";
 import { notification } from "../../utils";
 
 export function UserForm({
-  loading,
-  onSubmit,
+  loading = false,
+  errors = [],
+  onSubmit = (user) => {},
 }) {
 
   const { enqueueSnackbar } = useSnackbar();
@@ -20,7 +21,7 @@ export function UserForm({
   const [password, setPassword] = useState('');
 
   function handleSubmit() {
-    if (!nombre || !apellido || !email || !password) { 
+    if (!nombre || !apellido || !email || !password) {
       notification(enqueueSnackbar, "Complete los campos obligatorios", "warning");
       return;
     }
@@ -48,6 +49,8 @@ export function UserForm({
             label="Nombre"
             value={nombre}
             placeholder="Linus"
+            error={errors.find(e => e.param === 'nombre')}
+            helperText={errors.find(e => e.param === 'nombre')?.msg}
             onChange={setFieldValue(setNombre)}
           />
         </Grid>
@@ -59,6 +62,8 @@ export function UserForm({
             label="Apellido"
             value={apellido}
             placeholder="Torvalds"
+            error={errors.find(e => e.param === 'apellido')}
+            helperText={errors.find(e => e.param === 'apellido')?.msg}
             onChange={setFieldValue(setApellido)}
           />
         </Grid>
@@ -70,6 +75,8 @@ export function UserForm({
             label="E-Mail"
             value={email}
             placeholder="tu@email.com"
+            error={errors.find(e => e.param === 'email')}
+            helperText={errors.find(e => e.param === 'email')?.msg}
             onChange={setFieldValue(setEmail)}
           />
         </Grid>
@@ -83,6 +90,8 @@ export function UserForm({
             label="Password"
             value={password}
             placeholder="No se lo digas a nadie 🤫"
+            error={errors.find(e => e.param === 'password')}
+            helperText={errors.find(e => e.param === 'password')?.msg}
             onChange={setFieldValue(setPassword)}
           />
         </Grid>

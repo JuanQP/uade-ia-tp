@@ -49,7 +49,10 @@ module.exports = {
           message: error.response.data.error
         });
       } else {
-        res.status(400).send(error);
+        res.status(400).send({
+          message: error.response?.data?.error,
+          errors: error.response?.data?.errors ?? [],
+        });
       }
     }
   },
@@ -96,7 +99,9 @@ module.exports = {
         });
       }
     } catch (error) {
-      res.status(400).send(error);
+      res.status(400).send({
+        errors: error.response?.data?.errors ?? [],
+      });
     }
   },
 

@@ -13,6 +13,7 @@ export function User() {
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const [errors, setErrors] = useState([])
 
   useEffect(() => {
     checkToken(navigate);
@@ -26,6 +27,8 @@ export function User() {
       navigate('/home');
     } catch (error) {
       console.error("Server error", error);
+      setErrors(error.response?.data?.errors ?? []);
+      notification(enqueueSnackbar, `Error al intentar crear usuario`, "error");
     }
     finally {
       setWaiting(false);
@@ -41,6 +44,7 @@ export function User() {
       }}>
         <UserForm
           loading={waiting}
+          errors={errors}
           onSubmit={handleCarouselSubmit}
         />
       </Paper>

@@ -17,6 +17,7 @@ function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
+  const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -35,8 +36,8 @@ function App() {
 
   async function handleIngresarClick(event) {
     event.preventDefault();
-    if (!email || !password) { 
-      setMessage('Ingrese usuario y contraseña'); 
+    if (!email || !password) {
+      setMessage('Ingrese usuario y contraseña');
       return;
     }
     setMessage('');
@@ -52,7 +53,9 @@ function App() {
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       navigate('/home');
     } catch (error) {
-      setMessage(error.response.data.message);
+      const { data } = error.response;
+      setMessage(data?.message);
+      setErrors(data?.errors ?? []);
     } finally {
       setWaiting(false);
     }
@@ -75,7 +78,7 @@ function App() {
           width: '100%'
         }}>
           <Typography sx={{ fontSize: 14, color: 'white' }}>
-            UADE - Integración de Aplicaciones - Grupo 1
+            UADE - Integración de Aplicaciones - Grupo 4
           </Typography>
         </div>
         <Card elevation={6} sx={{marginTop: 'auto'}}>
@@ -101,12 +104,16 @@ function App() {
                     InputProps={{
                       endAdornment: <InputAdornment position="end">@uade.edu.ar</InputAdornment>,
                     }}
+                    error={errors.find(e => e.param === 'email')}
+                    helperText={errors.find(e => e.param === 'email')?.msg}
                     onChange={setFieldValue(setEmail)}
                   />
                   <PasswordTextField
                     disabled={waiting}
                     label="Contraseña"
                     variant="outlined"
+                    error={errors.find(e => e.param === 'password')}
+                    helperText={errors.find(e => e.param === 'password')?.msg}
                     onChange={setFieldValue(setPassword)}
                   />
                   <LoadingButton
