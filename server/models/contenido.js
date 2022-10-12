@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     cast: DataTypes.STRING,
     writer: DataTypes.STRING,
     urlImage: DataTypes.STRING,
-    urlVideo: DataTypes.STRING
+    verticalUrlImage: DataTypes.STRING,
+    urlVideo: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Contenido',
