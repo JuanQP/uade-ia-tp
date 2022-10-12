@@ -1,7 +1,7 @@
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const SSO_CMS_TENANT = 'Cms';
-const DOMAIN = 'uade.edu.ar';
+const { SSO_TENANT_STRING, SSO_ADMIN_STRING } = require('../routes/utils');
+const DOMAIN = 'uadeflix.com';
 const {
   CMS_DEV_ADMIN_USER,
   CMS_DEV_ADMIN_PASSWORD,
@@ -23,8 +23,8 @@ module.exports = {
         }
         res.status(200).send({
           nombre: "Admin",
-          email: "admin@admin.com",
-          tenant: "Cms",
+          email: `admin@${DOMAIN}`,
+          tenant: SSO_TENANT_STRING,
           token: `${CMS_DEV_ADMIN_USER}`,
         });
       } else {
@@ -32,7 +32,7 @@ module.exports = {
         const response = await axios.post(`${SSO_AUTH_BASEURL}/login`, {
           email: `${email}@${DOMAIN}`,
           password,
-          tenant: SSO_CMS_TENANT,
+          tenant: SSO_TENANT_STRING,
         });
         // Check if token signature is valid here:
         const decrypted = jwt.verify(response.data.token, SSO_JWT_PUBLIC_KEY);
@@ -43,7 +43,6 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.log(error.response);
       if(error.response?.status === 403) {
         res.status(403).send({
           message: error.response.data.error
@@ -77,8 +76,6 @@ module.exports = {
       apellido,
       email,
       password,
-      telefono,
-      tenant,
     } = req.body;
     try {
       const ignoreSSO = process.env.USE_SSO.toLowerCase() === 'false';
@@ -90,8 +87,9 @@ module.exports = {
           apellido,
           email,
           password,
-          telefono,
-          tenant,
+          telefono: '',
+          tenant: SSO_TENANT_STRING,
+          admin: SSO_ADMIN_STRING,
         });
         console.log(`Usuario ${email} creado`);
         res.status(201).send({

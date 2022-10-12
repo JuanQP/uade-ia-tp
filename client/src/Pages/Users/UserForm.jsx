@@ -30,8 +30,6 @@ export function UserForm({
       apellido,
       email,
       password,
-      telefono: '',
-      tenant: 'Cms',
     });
   }
 

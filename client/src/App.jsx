@@ -102,7 +102,7 @@ function App() {
                     label="Usuario"
                     variant="outlined"
                     InputProps={{
-                      endAdornment: <InputAdornment position="end">@uade.edu.ar</InputAdornment>,
+                      endAdornment: <InputAdornment position="end">@uadeflix.com</InputAdornment>,
                     }}
                     error={errors.find(e => e.param === 'email')}
                     helperText={errors.find(e => e.param === 'email')?.msg}

@@ -5,6 +5,9 @@ const {
   USE_SSO,
 } = process.env;
 
+const SSO_TENANT_STRING = 'Cms';
+const SSO_ADMIN_STRING = 'true';
+
 function useSSO() {
 	return /^true/i.test(USE_SSO);
 }
@@ -13,12 +16,19 @@ function getAuthorizationToken(req) {
 	return req.headers.authorization?.split(' ')[1];
 }
 
+function isCMSAdmin(decryptedToken) {
+	return decryptedToken.admin === SSO_ADMIN_STRING
+		&& decryptedToken.tenant === SSO_TENANT_STRING;
+}
+
 function verifyAuth(req, res, next) {
 	const token = getAuthorizationToken(req)
 	try {
 		// SSO mode
 		if(useSSO()) {
-			jwt.verify(token, SSO_JWT_PUBLIC_KEY);
+			const decryptedToken = jwt.verify(token, SSO_JWT_PUBLIC_KEY);
+			if(!isCMSAdmin(decryptedToken)) return new Error("Not a CMS Admin user");
+
 			next();
 			return;
 		}
@@ -42,4 +52,6 @@ function verifyAuth(req, res, next) {
 
 module.exports = {
   verifyAuth,
+	SSO_TENANT_STRING,
+	SSO_ADMIN_STRING,
 };
