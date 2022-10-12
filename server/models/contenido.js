@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Contenido.init({
     title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.STRING(800),
     year: DataTypes.INTEGER,
     duration: DataTypes.INTEGER,
     director: DataTypes.STRING,

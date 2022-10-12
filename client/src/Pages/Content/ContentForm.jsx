@@ -114,6 +114,7 @@ export function ContentForm({
       <Grid container spacing={2}>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -133,7 +134,7 @@ export function ContentForm({
             type="number"
             InputProps={{ inputProps: {min: 1900, max: 2022} }}
             onChange={setFieldValue(setYear)}
-          />
+            />
         </Grid>
         <Grid xs={12} md={3}>
           <TextField
@@ -143,11 +144,13 @@ export function ContentForm({
             label="Duración (minutos)"
             value={duration}
             type="number"
+            InputProps={{ inputProps: {min: 0, max: 600} }}
             onChange={setFieldValue(setDuration)}
           />
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -159,6 +162,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -197,6 +201,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             // This is to avoid getting rendered on top of react-selects
             sx={{'& label': { zIndex: 0 }}}
@@ -210,6 +215,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             // This is to avoid getting rendered on top of react-selects
             sx={{'& label': { zIndex: 0 }}}
@@ -225,6 +231,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             // This is to avoid getting rendered on top of react-selects
             sx={{'& label': { zIndex: 0 }}}
@@ -240,6 +247,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             // This is to avoid getting rendered on top of react-selects
             sx={{'& label': { zIndex: 0 }}}
@@ -263,7 +271,7 @@ export function ContentForm({
             value={description}
             multiline
             minRows={4}
-            inputProps={{maxLength: 255}}
+            inputProps={{maxLength: 800}}
             placeholder="Esta película narra la historia de Frodo Bolsón..."
             onChange={setFieldValue(setDescription)}
           />

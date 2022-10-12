@@ -102,6 +102,7 @@ function App() {
                     label="Usuario"
                     variant="outlined"
                     InputProps={{
+                      maxLength: 255,
                       endAdornment: <InputAdornment position="end">@uadeflix.com</InputAdornment>,
                     }}
                     error={errors.find(e => e.param === 'email')}
@@ -109,6 +110,7 @@ function App() {
                     onChange={setFieldValue(setEmail)}
                   />
                   <PasswordTextField
+                    inputProps={{maxLength: 255}}
                     disabled={waiting}
                     label="Contraseña"
                     variant="outlined"

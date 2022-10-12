@@ -39,7 +39,7 @@ export function CarouselForm({
   }, []);
 
   function handleSubmit() {
-    if (!title || !selected.length) { 
+    if (!title || !selected.length) {
       notification(enqueueSnackbar, "Complete los campos obligatorios", "warning");
       return;
     }
@@ -57,6 +57,7 @@ export function CarouselForm({
       <Grid container spacing={2}>
         <Grid xs={12}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"

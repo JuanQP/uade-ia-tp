@@ -41,6 +41,7 @@ export function UserForm({
       <Grid container spacing={2}>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -54,6 +55,7 @@ export function UserForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -67,6 +69,7 @@ export function UserForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -80,6 +83,7 @@ export function UserForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
+            inputProps={{maxLength: 255}}
             fullWidth
             autoComplete="new-password"
             required
