@@ -94,10 +94,13 @@ export function Layout({ children }) {
         <List>
           <ListItem>
             <ListItemText
-              primary={user.nombre}
+              primary={"UADEFLIX CMS"}
+              secondary={user.nombre}
               primaryTypographyProps={{
                 color: theme.palette.primary.light,
-                fontWeight: 'bold',
+              }}
+              secondaryTypographyProps={{
+                color: theme.palette.primary.main,
               }}
             />
           </ListItem>
