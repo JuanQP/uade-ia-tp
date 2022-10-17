@@ -266,7 +266,7 @@ export function ContentForm({
             value={verticalUrlImage}
             placeholder="URL Imagen Vertical"
             error={!isImageURL(verticalUrlImage)}
-            helperText={!isImageURL(verticalUrlImage) ? "No es una URL de una imagen" : "Intentá que la imagen sea resolución 9:16 🙏"}
+            helperText={!isImageURL(verticalUrlImage) ? "No es una URL de una imagen" : "Intentá que la imagen sea resolución 2:3 🙏"}
             onChange={setFieldValue(setVerticalUrlImage)}
           />
         </Grid>
@@ -294,6 +294,7 @@ export function ContentForm({
                   src={loadedUrlImage}
                   alt="Imagen horizontal"
                   width="100%"
+                  height="auto"
                   style={ImageStyles}
                   showLoading
                 />

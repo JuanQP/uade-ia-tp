@@ -1,11 +1,18 @@
-const { Carrusel, Contenido } = require('../models');
+const { Carrusel, Contenido, Genero, MaturityRating } = require('../models');
 
 module.exports = {
   list: async (_, res) => {
     try {
       const carruseles = await Carrusel.findAll({
         attributes: ['id', 'title'],
-        include: [{ model: Contenido, as: 'contenidos' }],
+        include: [{
+          model: Contenido,
+          as: 'contenidos',
+          include: [
+            { model: Genero, as: 'genres' },
+            { model: MaturityRating },
+          ],
+        }],
       });
       res.status(200).send({ results: carruseles });
     } catch (error) {
@@ -28,7 +35,14 @@ module.exports = {
     try {
       const { id } = req.params;
       const carousel = await Carrusel.findByPk(id, {
-        include: [{ model: Contenido, as: 'contenidos' }],
+        include: [{
+          model: Contenido,
+          as: 'contenidos',
+          include: [
+            { model: Genero, as: 'genres' },
+            { model: MaturityRating },
+          ],
+        }],
       });
       res.status(200).send(carousel);
     } catch (error) {

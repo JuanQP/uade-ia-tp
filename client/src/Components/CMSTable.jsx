@@ -37,10 +37,12 @@ export function CMSTable({
             backgroundColor: theme.palette.common.black,
             color: theme.palette.common.white,
           }}>
-            {columns.map(column => (
-              <TableCell sx={{
-                color: 'inherit',
-                display: column.hide && !isMdUp ? 'none' : undefined,
+            {columns.map((column, index) => (
+              <TableCell
+                key={index}
+                sx={{
+                  color: 'inherit',
+                  display: column.hide && !isMdUp ? 'none' : undefined,
               }}>
                 {column.name}
               </TableCell>
@@ -61,8 +63,9 @@ export function CMSTable({
                 },
               }}
             >
-              {columns.map(column => (
+              {columns.map((column, columnIndex) => (
                 <TableCell
+                  key={columnIndex}
                   sx={{display: column.hide && !isMdUp ? 'none' : undefined}}
                 >
                   {item[column.key]}
