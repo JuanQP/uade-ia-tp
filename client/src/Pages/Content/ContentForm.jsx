@@ -10,6 +10,15 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useSnackbar } from "notistack";
 import { notification } from "../../utils";
 import { useEffect } from "react";
+import Image from "mui-image";
+
+const DEFAULT_HORIZONTAL_IMAGE = 'http://cdn.bongobd.com/upload/content/landscape/hd/O1rJFgE8KTD.jpg';
+const DEFAULT_VERTICAL_IMAGE = 'https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg';
+const DEFAULT_VIDEO = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+
+const ImageStyles = {
+  boxShadow: '2px 2px 8px dimgray'
+};
 
 function loadGenresDelayed(searchText, callback) {
   axios.get('/api/generos', {
@@ -50,11 +59,11 @@ export function ContentForm({
   const [duration, setDuration] = useState(60);
   const [director, setDirector] = useState('');
   const [cast, setCast] = useState('');
-  const [urlImage, setUrlImage] = useState('http://cdn.bongobd.com/upload/content/landscape/hd/O1rJFgE8KTD.jpg');
-  const [verticalUrlImage, setVerticalUrlImage] = useState('https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg');
-  const [loadedUrlImage, setLoadedUrlImage] = useState('https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg');
-  const [loadedVerticalUrlImage, setLoadedVerticalUrlImage] = useState('https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg');
-  const [urlVideo, setUrlVideo] = useState('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+  const [urlImage, setUrlImage] = useState(DEFAULT_HORIZONTAL_IMAGE);
+  const [verticalUrlImage, setVerticalUrlImage] = useState(DEFAULT_VERTICAL_IMAGE);
+  const [loadedUrlImage, setLoadedUrlImage] = useState(DEFAULT_HORIZONTAL_IMAGE);
+  const [loadedVerticalUrlImage, setLoadedVerticalUrlImage] = useState(DEFAULT_VERTICAL_IMAGE);
+  const [urlVideo, setUrlVideo] = useState(DEFAULT_VIDEO);
   const [writer, setWriter] = useState('');
   const [genres, setGenres] = useState([]);
   const [maturity_rating, setMaturityRating] = useState(null);
@@ -281,13 +290,25 @@ export function ContentForm({
             <Grid display="flex" flexDirection="column" xs={12} md={6}>
               <Typography textAlign="center">Portada horizontal (Web)</Typography>
               <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="center" alignItems="center">
-                <img src={loadedUrlImage} alt="Imagen" width="100%" style={{boxShadow: '2px 2px 8px dimgray'}} />
+                <Image
+                  src={loadedUrlImage}
+                  alt="Imagen horizontal"
+                  width="100%"
+                  style={ImageStyles}
+                  showLoading
+                />
               </Box>
             </Grid>
             <Grid xs={12} md={6}>
               <Typography textAlign="center">Portada vertical (Mobile)</Typography>
               <Box display="flex" justifyContent="center" alignItems="center">
-                <img src={loadedVerticalUrlImage} alt="Imagen" width="50%" style={{boxShadow: '2px 2px 8px dimgray'}} />
+                <Image
+                  src={loadedVerticalUrlImage}
+                  alt="Imagen vertical"
+                  width="50%"
+                  style={ImageStyles}
+                  showLoading
+                />
               </Box>
             </Grid>
           </Grid>
