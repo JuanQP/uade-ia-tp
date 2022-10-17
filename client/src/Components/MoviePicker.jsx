@@ -96,7 +96,7 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
           </Box>
         )}
         {contents.map((content) => (
-          <Grid key={content.id} xs={12} md={3}>
+          <Grid key={content.id} xs={12} sm={6} md={4} lg={3}>
             <ContentCard content={content} values={values} onClick={handleContentClick} />
           </Grid>
         ))}

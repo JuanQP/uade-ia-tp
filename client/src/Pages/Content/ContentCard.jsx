@@ -26,22 +26,22 @@ export function ContentCard({ content, values, onClick }) {
           onClick={() => onClick(content)}
         />
       </CardActionArea>
-      <CardContent>
+      <CardContent sx={{py: 1}}>
         <Typography textAlign="center">{content.title}</Typography>
       </CardContent>
       {/* Genres, maturity ratings, and buttons will go to bottom */}
-      <CardContent sx={{marginTop: 'auto'}}>
+      <CardContent sx={{marginTop: 'auto', py: 0}}>
         <Box>
-          <Typography>Calificación</Typography>
+          <Typography variant="body2" color="text.secondary">Calificación</Typography>
           <Chip label={content.MaturityRating.description} />
         </Box>
         <Box>
-          <Typography>Géneros</Typography>
+          <Typography variant="body2" color="text.secondary">Géneros</Typography>
           {content.genres.map(genre => <Chip key={genre.id} label={genre.description}/>)}
         </Box>
       </CardContent>
       {/* disableSpacing allows me to move CheckIcon to right */}
-      <CardActions disableSpacing>
+      <CardActions disableSpacing sx={{py: 0}}>
         <IconButton size="large" href={`/contents/${content.id}`} target="_blank" >
           <OpenInNewIcon />
         </IconButton>
