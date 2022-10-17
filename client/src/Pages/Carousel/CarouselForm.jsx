@@ -4,20 +4,11 @@ import { setFieldValue } from "../../utils";
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { useEffect } from "react";
-import axios from "axios";
-import { DelayedAsyncSelect } from "../../Components/DelayedAsyncSelect";
 import { LoadingButton } from "@mui/lab";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useSnackbar } from "notistack";
 import { notification } from "../../utils";
-
-function loadContentsDelayed(searchText, callback) {
-  axios.get('/api/contenidos', {
-    params: { title: searchText },
-  }).then((response) => {
-    callback(response.data.results);
-  });
-}
+import { MoviePicker } from "../../Components/MoviePicker";
 
 export function CarouselForm({
   editing = false,
@@ -57,6 +48,7 @@ export function CarouselForm({
       <Grid container spacing={2}>
         <Grid xs={12}>
           <TextField
+            autoFocus
             inputProps={{maxLength: 255}}
             fullWidth
             required
@@ -68,16 +60,9 @@ export function CarouselForm({
           />
         </Grid>
         <Grid xs={12}>
-          <DelayedAsyncSelect
-            placeholder="Contenidos de este carrusel"
-            cacheOptions
-            isMulti
-            getOptionLabel={item => item.title}
-            getOptionValue={item => item.id}
+          <MoviePicker
+            values={selected}
             onChange={setFieldValue(setSelected)}
-            value={selected}
-            fetchCallback={loadContentsDelayed}
-            delay={1500}
           />
         </Grid>
         <Grid xs={12}>
