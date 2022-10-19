@@ -10,7 +10,9 @@ import { useSnackbar } from "notistack";
 import { CMSTable } from "../Components/CMSTable";
 
 async function fetchCarousels() {
-  const response = await axios.get(`/api/carruseles`);
+  const response = await axios.get(`/api/carruseles`, {
+    params: { format: 'table' },
+  });
   return response.data.results;
 }
 
@@ -24,7 +26,7 @@ export function Carousel() {
   const [carousels, setCarousels] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  
+
   async function fetchData () {
     const carousels = await fetchCarousels();
     setCarousels(carousels);

@@ -1,18 +1,34 @@
 const { Carrusel, Contenido, Genero, MaturityRating } = require('../models');
 
+const ATTRIBUTES_FORMAT = {
+  default: {
+    attributes: [
+      'id',
+      'title',
+    ],
+    include: [{
+      model: Contenido,
+      as: 'contenidos',
+      include: [
+        { model: Genero, as: 'genres' },
+        { model: MaturityRating },
+      ],
+    }],
+  },
+  table: {
+    attributes: [
+      'id',
+      'title',
+    ],
+  },
+};
+
 module.exports = {
-  list: async (_, res) => {
+  list: async (req, res) => {
     try {
+      const format = req.query?.format === 'table' ? ATTRIBUTES_FORMAT.table : ATTRIBUTES_FORMAT.default;
       const carruseles = await Carrusel.findAll({
-        attributes: ['id', 'title'],
-        include: [{
-          model: Contenido,
-          as: 'contenidos',
-          include: [
-            { model: Genero, as: 'genres' },
-            { model: MaturityRating },
-          ],
-        }],
+        ...format,
       });
       res.status(200).send({ results: carruseles });
     } catch (error) {
@@ -35,14 +51,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const carousel = await Carrusel.findByPk(id, {
-        include: [{
-          model: Contenido,
-          as: 'contenidos',
-          include: [
-            { model: Genero, as: 'genres' },
-            { model: MaturityRating },
-          ],
-        }],
+        ...ATTRIBUTES_FORMAT.default,
       });
       res.status(200).send(carousel);
     } catch (error) {

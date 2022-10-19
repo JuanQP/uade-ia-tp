@@ -35,7 +35,7 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
   async function handleSearch() {
     try {
       const response = await axios.get("/api/contenidos", {
-        params: { title: searchText },
+        params: { title: searchText, format: 'card' },
       });
       const newContents = mergeValuesWithNewContents(values, response.data.results);
       setContents([

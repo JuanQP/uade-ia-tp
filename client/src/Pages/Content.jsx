@@ -9,11 +9,6 @@ import { checkToken, notification } from "../utils";
 import { useSnackbar } from 'notistack';
 import { CMSTable } from "../Components/CMSTable";
 
-async function fetchContents() {
-  const response = await axios.get(`/api/contenidos`);
-  return response.data.results;
-}
-
 const columns = [
   {name: 'ID', key: "id", hide: true},
   {name: 'Título', key: "title", hide: false},
@@ -22,12 +17,19 @@ const columns = [
   {name: 'Director', key: "director", hide: true},
 ];
 
+async function fetchContents() {
+  const response = await axios.get(`/api/contenidos`, {
+    params: { format: 'table' },
+  });
+  return response.data.results;
+}
+
 export function Content() {
 
   const [contents, setContents] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  
+
   async function fetchData () {
     const contents = await fetchContents();
     setContents(contents);
