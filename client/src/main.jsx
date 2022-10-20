@@ -9,13 +9,16 @@ import { RouterProvider } from "react-router-dom";
 import { SnackbarProvider } from 'notistack';
 import { UserContextProvider } from './hooks/UserContext';
 import { router } from './routes';
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <SnackbarProvider maxSnack={3}>
       <UserContextProvider>
-        <RouterProvider router={router} />
+        <HelmetProvider>
+          <RouterProvider router={router} />
+        </HelmetProvider>
       </UserContextProvider>
     </SnackbarProvider>
   </React.StrictMode>

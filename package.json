@@ -29,7 +29,6 @@
     "mui-image": "^1.0.7",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
-    "react-helmet": "^6.1.0",
     "sequelize": "^6.21.6"
   },
   "engines": {

@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from '@mui/system';
 import { useUserContext } from './hooks/UserContext';
 import { PasswordTextField } from './Pages/Login/PasswordTextField';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 function App() {
   const [email, setEmail] = useState('');
