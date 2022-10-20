@@ -10,6 +10,7 @@ import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from '../hooks/UserContext';
+import { Helmet } from 'react-helmet';
 
 const links = [
   {
@@ -65,6 +66,9 @@ export function Layout({ children }) {
 
   return (
     <Box sx={{ display: 'flex' }}>
+      <Helmet>
+        <meta name="theme-color" content={theme.palette.primary.main} />
+      </Helmet>
       <AppBar position="fixed" sx={{display: isMdUp ? 'none' : 'flex'}}>
         <Toolbar>
           <IconButton

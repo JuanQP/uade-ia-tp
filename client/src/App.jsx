@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from '@mui/system';
 import { useUserContext } from './hooks/UserContext';
 import { PasswordTextField } from './Pages/Login/PasswordTextField';
+import { Helmet } from 'react-helmet';
 
 function App() {
   const [email, setEmail] = useState('');
@@ -65,6 +66,9 @@ function App() {
     <div style={{
       backgroundImage: 'linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
     }}>
+      <Helmet>
+        <meta name="theme-color" content="rgb(2, 0, 36)" />
+      </Helmet>
       <div style={{
         display: 'flex',
         flexDirection: 'column',
