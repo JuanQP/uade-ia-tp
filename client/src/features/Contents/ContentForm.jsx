@@ -14,8 +14,10 @@ const DEFAULT_HORIZONTAL_IMAGE = 'http://cdn.bongobd.com/upload/content/landscap
 const DEFAULT_VERTICAL_IMAGE = 'https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg';
 const DEFAULT_VIDEO = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
-const ImageStyles = {
-  boxShadow: '2px 2px 8px dimgray'
+const styles = {
+  image: {
+    boxShadow: '2px 2px 8px dimgray'
+  },
 };
 
 function loadGenresDelayed(searchText, callback) {
@@ -286,26 +288,30 @@ export function ContentForm({
         <Grid xs={12}>
           <Grid container>
             <Grid display="flex" flexDirection="column" xs={12} md={6}>
-              <Typography textAlign="center">Portada horizontal (Web)</Typography>
+              <Typography textAlign="center">
+                Portada horizontal (Web)
+              </Typography>
               <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="center" alignItems="center">
                 <Image
                   src={loadedUrlImage}
                   alt="Imagen horizontal"
                   width="100%"
                   height="auto"
-                  style={ImageStyles}
+                  style={styles.image}
                   showLoading
                 />
               </Box>
             </Grid>
             <Grid xs={12} md={6}>
-              <Typography textAlign="center">Portada vertical (Mobile)</Typography>
+              <Typography textAlign="center">
+                Portada vertical (Mobile)
+              </Typography>
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image
                   src={loadedVerticalUrlImage}
                   alt="Imagen vertical"
                   width="50%"
-                  style={ImageStyles}
+                  style={styles.image}
                   showLoading
                 />
               </Box>

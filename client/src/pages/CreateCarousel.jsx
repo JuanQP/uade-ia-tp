@@ -7,6 +7,13 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const styles = {
+  paper: {
+    marginTop: 10,
+    padding: 12
+  },
+};
+
 export function CreateCarousel() {
 
   const navigate = useNavigate();
@@ -31,10 +38,7 @@ export function CreateCarousel() {
     <Layout>
       <Box>
         <Typography sx={{fontSize: 24}}>Nuevo carrusel</Typography>
-        <Paper style={{
-          marginTop: 10,
-          padding: 12
-        }}>
+        <Paper style={styles.paper}>
           <CarouselForm
             loading={waiting}
             onSubmit={handleCarouselSubmit}

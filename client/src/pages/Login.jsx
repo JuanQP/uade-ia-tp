@@ -1,7 +1,7 @@
+import { LoginForm } from '@features/Users';
 import { setFieldValue } from '@/utils';
 import { PasswordTextField } from '@features/Users';
 import { useUserContext } from '@hooks/UserContext';
-import LoginIcon from '@mui/icons-material/Login';
 import { LoadingButton } from '@mui/lab';
 import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
@@ -15,9 +15,30 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from "react-router-dom";
 
+const styles = {
+  backgroundDiv: {
+    backgroundImage: 'linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
+  },
+  containerDiv: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: '100vh',
+  },
+  firstRowDiv: {
+    display: 'flex',
+    marginBottom: 'auto',
+    justifyContent: 'flex-end',
+    width: '100%'
+  },
+  bottomBox: {
+    marginTop: 'auto',
+    marginBottom: 'auto'
+  },
+}
+
 export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
   const [waiting, setWaiting] = useState(false);
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
@@ -36,8 +57,7 @@ export function Login() {
     navigate('/home');
   }, []);
 
-  async function handleIngresarClick(event) {
-    event.preventDefault();
+  async function handleIngresar({ email, password }) {
     if (!email || !password) {
       setMessage('Ingrese usuario y contraseña');
       return;
@@ -64,24 +84,12 @@ export function Login() {
   }
 
   return (
-    <div style={{
-      backgroundImage: 'linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
-    }}>
+    <div style={styles.backgroundDiv}>
       <Helmet>
         <meta name="theme-color" content="rgb(2, 0, 36)" />
       </Helmet>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        height: '100vh',
-      }}>
-        <div style={{
-          display: 'flex',
-          marginBottom: 'auto',
-          justifyContent: 'flex-end',
-          width: '100%'
-        }}>
+      <div style={styles.containerDiv}>
+        <div style={styles.firstRowDiv}>
           <Typography sx={{ fontSize: 14, color: 'white' }}>
             UADE - Integración de Aplicaciones - Grupo 4
           </Typography>
@@ -95,46 +103,11 @@ export function Login() {
               <Typography sx={{ fontSize: 22 }}>
                 Ingresar
               </Typography>
-              <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-              >
-                <Stack spacing={2}>
-                  <TextField
-                    disabled={waiting}
-                    autoFocus
-                    label="Usuario"
-                    variant="outlined"
-                    InputProps={{
-                      maxLength: 255,
-                      endAdornment: <InputAdornment position="end">@uadeflix.com</InputAdornment>,
-                    }}
-                    error={errors.find(e => e.param === 'email')}
-                    helperText={errors.find(e => e.param === 'email')?.msg}
-                    onChange={setFieldValue(setEmail)}
-                  />
-                  <PasswordTextField
-                    inputProps={{maxLength: 255}}
-                    disabled={waiting}
-                    label="Contraseña"
-                    variant="outlined"
-                    error={errors.find(e => e.param === 'password')}
-                    helperText={errors.find(e => e.param === 'password')?.msg}
-                    onChange={setFieldValue(setPassword)}
-                  />
-                  <LoadingButton
-                    loading={waiting}
-                    startIcon={<LoginIcon />}
-                    size='large'
-                    variant='contained'
-                    type="submit"
-                    onClick={handleIngresarClick}
-                  >
-                    Ingresar
-                  </LoadingButton>
-                </Stack>
-              </Box>
+              <LoginForm
+                disabled={waiting}
+                errors={errors}
+                onSubmit={handleIngresar}
+              />
               {message !== '' && (
                 <Typography sx={{ color: 'error.main' }}>{message}</Typography>
               )}
@@ -142,7 +115,7 @@ export function Login() {
           </CardContent>
         </Card>
         {/* Invisible box to center Card */}
-        <Box sx={{marginTop: 'auto', marginBottom: 'auto'}}></Box>
+        <Box sx={styles.bottomBox}></Box>
       </div>
     </div>
   );

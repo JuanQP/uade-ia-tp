@@ -7,6 +7,13 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+const styles = {
+  paper: {
+    marginTop: 10,
+    padding: 12
+  },
+};
+
 export function EditCarousel() {
 
   const { id } = useParams();
@@ -36,7 +43,7 @@ export function EditCarousel() {
   async function handleCarouselSubmit(carousel) {
     setWaiting(true);
     try {
-      const newCarousel = await axios.patch(`/api/carruseles/${id}`, carousel);
+      await axios.patch(`/api/carruseles/${id}`, carousel);
       notification(enqueueSnackbar, `El carrusel ${carousel.title} se guardó correctamente 👌`, "success");
       navigate('/carousels');
     } catch (error) {
@@ -50,11 +57,10 @@ export function EditCarousel() {
   return (
     <Layout>
       <Box>
-        <Typography sx={{fontSize: 24}}>Editando carrusel {carousel?.title ?? 'carrusel'}</Typography>
-        <Paper style={{
-          marginTop: 10,
-          padding: 12
-        }}>
+        <Typography sx={{fontSize: 24}}>
+          Editando carrusel {carousel?.title ?? 'carrusel'}
+        </Typography>
+        <Paper style={styles.paper}>
           {fetching ? (
             <CircularProgress />
           ) : (

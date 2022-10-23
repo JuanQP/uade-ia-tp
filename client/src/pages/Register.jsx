@@ -7,6 +7,16 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const styles = {
+  paper: {
+    marginTop: 10,
+    padding: 12
+  },
+  typography: {
+    fontSize: 24
+  },
+}
+
 export function Register() {
 
   const navigate = useNavigate();
@@ -36,11 +46,8 @@ export function Register() {
 
   return (
     <Layout>
-      <Typography sx={{fontSize: 24}}>Agregar nuevo curador</Typography>
-      <Paper style={{
-        marginTop: 10,
-        padding: 12
-      }}>
+      <Typography sx={styles.typography}>Agregar nuevo curador</Typography>
+      <Paper style={styles.paper}>
         <UserForm
           loading={waiting}
           errors={errors}

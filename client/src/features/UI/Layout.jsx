@@ -5,12 +5,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
+import { ListItemLink } from './ListItemLink';
 
 const links = [
   {
@@ -41,6 +42,17 @@ const links = [
 ];
 
 const drawerWidth = 240;
+
+const styles = {
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    '& .MuiDrawer-paper': {
+      width: drawerWidth,
+      boxSizing: 'border-box',
+    },
+  },
+};
 
 export function Layout({ children }) {
   const theme = useTheme();
@@ -86,14 +98,7 @@ export function Layout({ children }) {
         anchor="left"
         className="side-panel"
         onClose={() => setDrawerOpen(false)}
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
+        sx={styles.drawer}
       >
         <List>
           <ListItem>
@@ -108,24 +113,13 @@ export function Layout({ children }) {
               }}
             />
           </ListItem>
-          {links.map(item => {
-            // It checks if current location starts with this element URL
-            const regexp = new RegExp(`^${item.to}`, 'i');
-            const match = regexp.test(location.pathname);
-            return (
-              <ListItem key={item.label} disablePadding>
-                <ListItemButton
-                  selected={match}
-                  component={Link}
-                  to={item.to}
-                  className={!match ? undefined : "side-panel-color-selected"}
-                >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText className="side-panel-color" primary={item.label} />
-                </ListItemButton>
-              </ListItem>
-            )
-          })}
+          {links.map(item => (
+            <ListItemLink
+              key={item.label}
+              linkItem={item}
+              pathname={location.pathname}
+            />
+          ))}
         </List>
       </Drawer>
       <Box

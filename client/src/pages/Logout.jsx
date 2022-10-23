@@ -5,6 +5,14 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+const styles = {
+  box: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1em',
+  },
+}
+
 export function Logout() {
 
   const navigate = useNavigate();
@@ -31,7 +39,7 @@ export function Logout() {
 
   return (
     <Layout>
-      <Box style={{display: 'flex', alignItems: 'center', gap: '1em'}}>
+      <Box style={styles.box}>
         <CircularProgress />
         <Typography>Saliendo...</Typography>
       </Box>

@@ -7,6 +7,13 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const styles = {
+  paper: {
+    marginTop: 10,
+    padding: 12
+  },
+}
+
 export function CreateContent() {
 
   const navigate = useNavigate();
@@ -16,7 +23,7 @@ export function CreateContent() {
   async function handleContentSubmit(content) {
     setWaiting(true);
     try {
-      const newContent = await axios.post('/api/contenidos', content);
+      await axios.post('/api/contenidos', content);
       notification(enqueueSnackbar, `"${content.title}" creado 🍿`, "success");
       navigate('/contents');
     } catch (error) {
@@ -30,10 +37,7 @@ export function CreateContent() {
   return (
     <Layout>
       <Typography sx={{fontSize: 24}}>Nuevo contenido</Typography>
-      <Paper style={{
-        marginTop: 10,
-        padding: 12
-      }}>
+      <Paper style={styles.paper}>
         <ContentForm
           loading={waiting}
           onSubmit={handleContentSubmit}

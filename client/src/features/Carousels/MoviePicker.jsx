@@ -59,11 +59,6 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
     }
   }
 
-  function handleContentDelete(content) {
-    const newValues = deleteContent(values, content);
-    onChange(newValues);
-  }
-
   const multipleContents = values.length > 1;
 
   return (
@@ -83,15 +78,23 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
         </Grid>
         <Grid xs={12}>
           {values.length === 0 ? (
-            <Typography fontStyle="italic" color="neutral">No hay películas seleccionadas 🤔</Typography>
+            <Typography fontStyle="italic" color="neutral">
+              No hay películas seleccionadas 🤔
+            </Typography>
           ) : (
-            <Typography>{values.length} {multipleContents ? 'películas seleccionadas' : 'película seleccionada'}</Typography>
+            <Typography>
+              {values.length} {multipleContents ? 'películas seleccionadas' : 'película seleccionada'}
+            </Typography>
           )}
         </Grid>
         {contents.length === 0 && (
           <Box display="flex" flexDirection="column" width="100%" alignItems="center" justifyContent="center">
-            <Typography fontStyle="italic" color="neutral">No hay películas para esta búsqueda 🧐</Typography>
-            <Typography fontStyle="italic" color="neutral">Probá con otro título 👆</Typography>
+            <Typography fontStyle="italic" color="neutral">
+              No hay películas para esta búsqueda 🧐
+            </Typography>
+            <Typography fontStyle="italic" color="neutral">
+              Probá con otro título 👆
+            </Typography>
           </Box>
         )}
         {contents.map((content) => (

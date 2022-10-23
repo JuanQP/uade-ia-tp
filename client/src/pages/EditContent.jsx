@@ -7,6 +7,13 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+const styles = {
+  paper: {
+    marginTop: 10,
+    padding: 12
+  },
+};
+
 export function EditContent() {
 
   const { id } = useParams();
@@ -36,7 +43,7 @@ export function EditContent() {
   async function handleContentSubmit(content) {
     setWaiting(true);
     try {
-      const editContent = await axios.patch(`/api/contenidos/${id}`, content);
+      await axios.patch(`/api/contenidos/${id}`, content);
       notification(enqueueSnackbar, `${content.title} se guardó correctamente 👌`, "success");
       navigate('/contents');
     } catch (error) {
@@ -50,11 +57,10 @@ export function EditContent() {
   return (
     <Layout>
       <Box>
-        <Typography sx={{fontSize: 24}}>Editando contenido {content?.title ?? 'contenido'}</Typography>
-        <Paper style={{
-          marginTop: 10,
-          padding: 12
-        }}>
+        <Typography sx={{fontSize: 24}}>
+          Editando contenido {content?.title ?? 'contenido'}
+        </Typography>
+        <Paper style={styles.paper}>
           {fetching ? (
             <CircularProgress />
           ) : (

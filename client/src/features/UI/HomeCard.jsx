@@ -1,23 +1,38 @@
 import { Box, Card, CardContent, Link, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
+const styles = {
+  card: {
+    display: 'flex',
+    height: '100%'
+  },
+  cardContentLeft: (bgColor) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 1,
+    backgroundColor: bgColor,
+  }),
+  cardContentRight: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  icon: {
+    filter: "drop-shadow(1px 1px 1px black)"
+  },
+}
+
 export function HomeCard({ title, Icon, linkTo, bgColor, children }) {
   return (
-    <Card sx={{display: 'flex', height: '100%'}}>
-      <CardContent sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 1,
-        backgroundColor: bgColor,
-      }}>
+    <Card sx={styles.card}>
+      <CardContent sx={styles.cardContentLeft(bgColor)}>
         <Icon
           fontSize="large"
           htmlColor="white"
-          sx={{filter: "drop-shadow(1px 1px 1px black)"}}
+          sx={styles.icon}
         />
       </CardContent>
-      <CardContent sx={{display: 'flex', flexDirection: 'column'}}>
+      <CardContent sx={styles.cardContentRight}>
         <Typography fontWeight="bold">
           {title}
         </Typography>
