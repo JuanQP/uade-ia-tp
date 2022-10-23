@@ -1,13 +1,11 @@
-import { Box, Button, Typography } from "@mui/material";
-import { Layout } from "../Layouts/Layout";
+import { checkToken, notification } from "@/utils";
+import { CMSTable, Layout } from "@features/UI";
 import AddIcon from '@mui/icons-material/Add';
-import { useEffect } from "react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Box, Button, Typography } from "@mui/material";
 import axios from 'axios';
-import { checkToken, notification } from "../utils";
 import { useSnackbar } from 'notistack';
-import { CMSTable } from "../Components/CMSTable";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const columns = [
   {name: 'ID', key: "id", hide: true},

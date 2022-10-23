@@ -1,16 +1,16 @@
-import '../App.css';
-import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import { useUserContext } from '@hooks/UserContext';
 import HomeIcon from '@mui/icons-material/Home';
-import MovieIcon from '@mui/icons-material/Movie';
-import MenuIcon from "@mui/icons-material/Menu";
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from "@mui/icons-material/Menu";
+import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import axios from 'axios';
-import { useUserContext } from '../hooks/UserContext';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import './App.css';
 
 const links = [
   {
@@ -30,7 +30,7 @@ const links = [
   },
   {
     label: 'Curadores',
-    to: '/users',
+    to: '/register',
     icon: <PersonIcon className="side-panel-color" />,
   },
   {

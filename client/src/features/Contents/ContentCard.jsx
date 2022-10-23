@@ -1,8 +1,8 @@
-import { Box, Card, CardActionArea, CardActions, CardContent, Chip, IconButton, Typography } from "@mui/material";
-import Image from "mui-image";
 import CheckIcon from '@mui/icons-material/Check';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import "../../RotatingGradient.css";
+import { Box, Card, CardActionArea, CardActions, CardContent, Chip, IconButton, Typography } from "@mui/material";
+import Image from "mui-image";
+import "./RotatingGradient.css";
 
 export function ContentCard({ content, values, onClick }) {
   const isSelected = values.some(v => v.id === content.id);

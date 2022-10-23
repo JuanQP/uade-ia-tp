@@ -1,10 +1,9 @@
-import { CircularProgress, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Layout } from "@features/UI";
+import { useUserContext } from "@hooks/UserContext";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
-import { Layout } from "../Layouts/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useUserContext } from "../hooks/UserContext";
 
 export function Logout() {
 

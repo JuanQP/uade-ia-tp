@@ -1,13 +1,13 @@
+import { notification } from "@/utils";
+import { CarouselForm } from "@features/Carousels";
+import { Layout } from "@features/UI";
 import { Box, Paper, Typography } from "@mui/material";
-import { useState } from "react";
-import { Layout } from "../../Layouts/Layout";
-import { CarouselForm } from "./CarouselForm";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { notification } from "../../utils";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function NewCarousel() {
+export function CreateCarousel() {
 
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);

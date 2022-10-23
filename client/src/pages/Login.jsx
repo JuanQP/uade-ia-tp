@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
-import 'axios';
-import axios from 'axios';
+import { setFieldValue } from '@/utils';
+import { PasswordTextField } from '@features/Users';
+import { useUserContext } from '@hooks/UserContext';
+import LoginIcon from '@mui/icons-material/Login';
+import { LoadingButton } from '@mui/lab';
+import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import InputAdornment from '@mui/material/InputAdornment';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import LoginIcon from '@mui/icons-material/Login';
-import { InputAdornment, Stack, TextField } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { setFieldValue } from './utils';
-import { useLocation, useNavigate } from "react-router-dom";
-import { Box } from '@mui/system';
-import { useUserContext } from './hooks/UserContext';
-import { PasswordTextField } from './Pages/Login/PasswordTextField';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation, useNavigate } from "react-router-dom";
 
-function App() {
+export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
@@ -146,5 +147,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

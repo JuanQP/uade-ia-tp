@@ -1,12 +1,11 @@
+import { setFieldValue } from "@/utils";
+import { ContentCard } from "@features/Contents";
 import { Box } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import { setFieldValue } from "../utils";
+import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { SearchField } from "./SearchField";
-import { ContentCard } from "../Pages/Content/ContentCard";
-import { useEffect } from "react";
 
 function idExistsIn(oneContent, contents) {
   return contents.some(c => c.id === oneContent.id);

@@ -1,45 +1,44 @@
+import { notification } from "@/utils";
+import { CarouselForm } from "@features/Carousels";
+import { Layout } from "@features/UI";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
-import { useState } from "react";
-import { Layout } from "../../Layouts/Layout";
-import { ContentForm } from "./ContentForm";
 import axios from 'axios';
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useSnackbar } from "notistack";
-import { notification } from "../../utils";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-export function EditContent() {
+export function EditCarousel() {
 
   const { id } = useParams();
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
   const [fetching, setFetching] = useState(false);
-  const [content, setContent] = useState({});
+  const [carousel, setCarousel] = useState({});
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setFetching(true);
-        const { data } = await axios.get(`/api/contenidos/${id}`);
-        setContent(data);
+        const { data } = await axios.get(`/api/carruseles/${id}`);
+        setCarousel(data);
       } catch (error) {
         console.error(error);
-        navigate('/contents');
+        navigate('/carousels');
       } finally {
         setFetching(false);
       }
     };
-    
+
     fetchData();
   }, []);
-  
-  async function handleContentSubmit(content) {
+
+  async function handleCarouselSubmit(carousel) {
     setWaiting(true);
     try {
-      const editContent = await axios.patch(`/api/contenidos/${id}`, content);
-      notification(enqueueSnackbar, `${content.title} se guardó correctamente 👌`, "success");
-      navigate('/contents');
+      const newCarousel = await axios.patch(`/api/carruseles/${id}`, carousel);
+      notification(enqueueSnackbar, `El carrusel ${carousel.title} se guardó correctamente 👌`, "success");
+      navigate('/carousels');
     } catch (error) {
       console.error("Server error", error);
     }
@@ -51,7 +50,7 @@ export function EditContent() {
   return (
     <Layout>
       <Box>
-        <Typography sx={{fontSize: 24}}>Editando contenido {content?.title ?? 'contenido'}</Typography>
+        <Typography sx={{fontSize: 24}}>Editando carrusel {carousel?.title ?? 'carrusel'}</Typography>
         <Paper style={{
           marginTop: 10,
           padding: 12
@@ -59,11 +58,11 @@ export function EditContent() {
           {fetching ? (
             <CircularProgress />
           ) : (
-            <ContentForm
+            <CarouselForm
               editing
-              initialValues={content}
+              initialValues={carousel}
               loading={waiting}
-              onSubmit={handleContentSubmit}
+              onSubmit={handleCarouselSubmit}
             />
           )}
         </Paper>

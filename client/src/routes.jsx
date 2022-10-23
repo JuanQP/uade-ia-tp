@@ -1,17 +1,17 @@
-import App from './App';
-import { Home } from './Pages/Home';
-import { Content } from './Pages/Content';
-import { Carousel } from './Pages/Carousel';
-import { User } from './Pages/User';
-import { Logout } from './Pages/Logout';
-import { NewContent } from './Pages/Content/NewContent';
-import { EditContent } from './Pages/Content/EditContent';
-import { NewCarousel } from './Pages/Carousel/NewCarousel';
-import { EditCarousel } from './Pages/Carousel/EditCarousel';
+import { Carousel } from '@pages/Carousel';
+import { Content } from '@pages/Content';
+import { CreateCarousel } from '@pages/CreateCarousel';
+import { CreateContent } from '@pages/CreateContent';
+import { EditCarousel } from '@pages/EditCarousel';
+import { EditContent } from '@pages/EditContent';
+import { Home } from '@pages/Home';
+import { Login } from '@pages/Login';
+import { Logout } from '@pages/Logout';
+import { Register } from '@pages/Register';
 
 import {
   createBrowserRouter,
-  Navigate,
+  Navigate
 } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <App />,
+    element: <Login />,
   },
   {
     path: "/logout",
@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/contents/new",
-    element: <NewContent />,
+    element: <CreateContent />,
   },
   {
     path: "/carousels",
@@ -53,10 +53,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "/carousels/new",
-    element: <NewCarousel />,
+    element: <CreateCarousel />,
   },
   {
-    path: "/users",
-    element: <User />,
+    path: "/register",
+    element: <Register />,
   },
 ]);

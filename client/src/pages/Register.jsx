@@ -1,14 +1,13 @@
+import { checkToken, notification } from "@/utils";
+import { Layout } from "@features/UI";
+import { UserForm } from "@features/Users";
 import { Paper, Typography } from "@mui/material";
-import { useState } from "react";
-import { Layout } from "../Layouts/Layout";
-import { UserForm } from "./Users/UserForm";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { checkToken, notification } from "../utils";
 import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function User() {
+export function Register() {
 
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);

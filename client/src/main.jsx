@@ -1,15 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { router } from '@/routes';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import './App.css';
-import { RouterProvider } from "react-router-dom";
+import { UserContextProvider } from '@hooks/UserContext';
 import { SnackbarProvider } from 'notistack';
-import { UserContextProvider } from './hooks/UserContext';
-import { router } from './routes';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
+import { RouterProvider } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

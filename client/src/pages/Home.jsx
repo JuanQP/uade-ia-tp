@@ -1,14 +1,13 @@
-import { Card, CardContent, Typography } from "@mui/material";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Layout } from "../Layouts/Layout";
-import { checkToken } from "../utils";
-import Grid from "@mui/material/Unstable_Grid2";
+import { checkToken } from "@/utils";
+import { HomeCard, Layout } from "@features/UI";
+import { useUserContext } from "@hooks/UserContext";
 import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import { HomeCard } from "./Home/HomeCard";
-import { useUserContext } from "../hooks/UserContext";
+import { Card, CardContent, Typography } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Home() {
 
@@ -48,7 +47,7 @@ export function Home() {
           </HomeCard>
         </Grid>
         <Grid xs={12} md={6} lg={4}>
-          <HomeCard bgColor="#00cfde" title="Curadores" Icon={PersonIcon} linkTo="/users">
+          <HomeCard bgColor="#00cfde" title="Curadores" Icon={PersonIcon} linkTo="/register">
             <Typography>
               Los usuarios que tienen acceso a este sistema se llaman <strong>Curadores</strong>. Podemos solicitar a la gente de SSO que agregue nuevos usuarios a través de esta misma página 👍
             </Typography>

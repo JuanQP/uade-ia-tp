@@ -1,13 +1,13 @@
+import { notification } from "@/utils";
+import { ContentForm } from "@features/Contents";
+import { Layout } from "@features/UI";
 import { Paper, Typography } from "@mui/material";
-import { useState } from "react";
-import { Layout } from "../../Layouts/Layout";
-import { ContentForm } from "./ContentForm";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { notification } from "../../utils";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function NewContent() {
+export function CreateContent() {
 
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
