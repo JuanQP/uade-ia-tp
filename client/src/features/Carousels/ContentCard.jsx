@@ -1,7 +1,11 @@
-import CheckIcon from '@mui/icons-material/Check';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Box, Card, CardActionArea, CardActions, CardContent, Chip, IconButton, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardActions, CardContent, Chip, IconButton, Link, Typography } from "@mui/material";
 import Image from "mui-image";
+import { Link as RouterLink } from 'react-router-dom';
 import "./RotatingGradient.css";
 
 const styles = {
@@ -14,9 +18,20 @@ const styles = {
   }),
 }
 
-export function ContentCard({ content, values, onClick }) {
+export function ContentCard({
+  content,
+  values,
+  onClick,
+  onMoveToFirst,
+  onMoveToLeft,
+  onMoveToRight,
+  onMoveToLast,
+}) {
   const isSelected = values.some(v => v.id === content.id);
-  const orderText = isSelected ? `#${content.ContenidoCarrusel?.order}` : '-';
+  const { order } = content.ContenidoCarrusel ?? { order: 0 };
+  const isFirstContent = isSelected && order === 1;
+  const isLastContent = isSelected && order === values.length;
+  const orderText = isSelected ? `#${order}` : '-';
   return (
     <Card
       elevation={isSelected ? 8 : undefined}
@@ -32,9 +47,19 @@ export function ContentCard({ content, values, onClick }) {
         />
       </CardActionArea>
       <CardContent sx={{py: 1}}>
-        <Typography textAlign="center">
-          {content.title}
-        </Typography>
+          <Link
+            underline="hover"
+            target="_blank"
+            component={RouterLink}
+            to={`/contents/${content.id}`}
+          >
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Typography textAlign="center" justifyContent="center">
+                {content.title}
+              </Typography>
+              <OpenInNewIcon />
+            </Box>
+          </Link>
       </CardContent>
       {/* Genres, maturity ratings, and buttons will go to bottom */}
       <CardContent sx={{marginTop: 'auto', py: 0}}>
@@ -58,20 +83,38 @@ export function ContentCard({ content, values, onClick }) {
         </Box>
       </CardContent>
       {/* disableSpacing allows me to move CheckIcon to right */}
-      <CardActions disableSpacing sx={{py: 0}}>
-        <IconButton size="large" href={`/contents/${content.id}`} target="_blank" >
-          <OpenInNewIcon />
-        </IconButton>
-        {isSelected && (
-          <IconButton
-          sx={{marginLeft: 'auto'}}
-          size="large"
+      <CardActions
+        disableSpacing
+        sx={{display: "flex", justifyContent: "space-between", py: 0}}
+      >
+        <IconButton
           color={'primary'}
-          onClick={() => onClick(content)}
-          >
-            <CheckIcon />
-          </IconButton>
-        )}
+          disabled={!isSelected || isFirstContent}
+          onClick={() => onMoveToFirst(content)}
+        >
+          <KeyboardDoubleArrowLeftIcon />
+        </IconButton>
+        <IconButton
+          color={'primary'}
+          disabled={!isSelected || isFirstContent}
+          onClick={() => onMoveToLeft(content)}
+        >
+          <KeyboardArrowLeftIcon />
+        </IconButton>
+        <IconButton
+          color={'primary'}
+          disabled={!isSelected || isLastContent}
+          onClick={() => onMoveToRight(content)}
+        >
+          <KeyboardArrowRightIcon />
+        </IconButton>
+        <IconButton
+          color={'primary'}
+          disabled={!isSelected || isLastContent}
+          onClick={() => onMoveToLast(content)}
+        >
+          <KeyboardDoubleArrowRightIcon />
+        </IconButton>
       </CardActions>
     </Card>
   )

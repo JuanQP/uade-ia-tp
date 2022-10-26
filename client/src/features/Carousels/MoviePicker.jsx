@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { ContentCard } from "./ContentCard";
 import { SearchField } from "./SearchField";
+import { moveToBeginning, moveToEnd, moveToLeft, moveToRight } from "./utils";
 
 function idExistsIn(oneContent, contents) {
   return contents.some(c => c.id === oneContent.id);
@@ -65,6 +66,25 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
     onChange(newValues.map(addOrderField));
   }
 
+  function handleMoveToFirst(content) {
+    const newValues = moveToBeginning(values, content);
+    onChange(newValues.map(addOrderField));
+  }
+
+  function handleMoveToLeft(content) {
+    const newValues = moveToLeft(values, content);
+    onChange(newValues.map(addOrderField));
+  }
+  function handleMoveToRight(content) {
+    const newValues = moveToRight(values, content);
+    onChange(newValues.map(addOrderField));
+  }
+
+  function handleMoveToLast(content) {
+    const newValues = moveToEnd(values, content);
+    onChange(newValues.map(addOrderField));
+  }
+
   const multipleContents = values.length > 1;
 
   return (
@@ -105,7 +125,15 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
         )}
         {contents.map((content) => (
           <Grid key={content.id} xs={12} sm={6} md={4} lg={3}>
-            <ContentCard content={content} values={values} onClick={handleContentClick} />
+            <ContentCard
+              content={content}
+              values={values}
+              onClick={handleContentClick}
+              onMoveToFirst={handleMoveToFirst}
+              onMoveToLeft={handleMoveToLeft}
+              onMoveToRight={handleMoveToRight}
+              onMoveToLast={handleMoveToLast}
+            />
           </Grid>
         ))}
       </Grid>
