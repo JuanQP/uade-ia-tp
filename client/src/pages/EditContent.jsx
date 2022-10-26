@@ -1,6 +1,5 @@
 import { notification } from "@/utils";
 import { ContentForm } from "@features/Contents";
-import { Layout } from "@features/UI";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import axios from 'axios';
 import { useSnackbar } from "notistack";
@@ -55,24 +54,22 @@ export function EditContent() {
   }
 
   return (
-    <Layout>
-      <Box>
-        <Typography sx={{fontSize: 24}}>
-          Editando contenido {content?.title ?? 'contenido'}
-        </Typography>
-        <Paper style={styles.paper}>
-          {fetching ? (
-            <CircularProgress />
-          ) : (
-            <ContentForm
-              editing
-              initialValues={content}
-              loading={waiting}
-              onSubmit={handleContentSubmit}
-            />
-          )}
-        </Paper>
-      </Box>
-    </Layout>
+    <Box>
+      <Typography sx={{fontSize: 24}}>
+        Editando contenido {content?.title ?? 'contenido'}
+      </Typography>
+      <Paper style={styles.paper}>
+        {fetching ? (
+          <CircularProgress />
+        ) : (
+          <ContentForm
+            editing
+            initialValues={content}
+            loading={waiting}
+            onSubmit={handleContentSubmit}
+          />
+        )}
+      </Paper>
+    </Box>
   )
 }

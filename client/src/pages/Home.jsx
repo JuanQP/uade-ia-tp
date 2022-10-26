@@ -1,25 +1,17 @@
-import { checkToken } from "@/utils";
-import { HomeCard, Layout } from "@features/UI";
+import { HomeCard } from "@features/UI";
 import { useUserContext } from "@hooks/UserContext";
 import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import { Card, CardContent, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export function Home() {
 
-  const navigate = useNavigate();
   const { user } = useUserContext();
 
-  useEffect(() => {
-    checkToken(navigate);
-  }, []);
-
   return (
-    <Layout>
+    <>
       <Typography variant="h4">
         Sistema de Gestión de Contenidos
       </Typography>
@@ -54,6 +46,6 @@ export function Home() {
           </HomeCard>
         </Grid>
       </Grid>
-    </Layout>
+    </>
   );
 }

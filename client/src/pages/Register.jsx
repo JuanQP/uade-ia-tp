@@ -1,10 +1,9 @@
-import { checkToken, notification } from "@/utils";
-import { Layout } from "@features/UI";
+import { notification } from "@/utils";
 import { UserForm } from "@features/Users";
 import { Paper, Typography } from "@mui/material";
 import axios from 'axios';
 import { useSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const styles = {
@@ -24,10 +23,6 @@ export function Register() {
   const { enqueueSnackbar } = useSnackbar();
   const [errors, setErrors] = useState([])
 
-  useEffect(() => {
-    checkToken(navigate);
-  }, []);
-
   async function handleCarouselSubmit(user) {
     setWaiting(true);
     try {
@@ -45,7 +40,7 @@ export function Register() {
   }
 
   return (
-    <Layout>
+    <>
       <Typography sx={styles.typography}>Agregar nuevo curador</Typography>
       <Paper style={styles.paper}>
         <UserForm
@@ -54,6 +49,6 @@ export function Register() {
           onSubmit={handleCarouselSubmit}
         />
       </Paper>
-    </Layout>
+    </>
   )
 }

@@ -1,5 +1,5 @@
-import { checkToken, notification } from "@/utils";
-import { CMSTable, Layout } from "@features/UI";
+import { notification } from "@/utils";
+import { CMSTable } from "@features/UI";
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Typography } from "@mui/material";
 import axios from 'axios';
@@ -34,7 +34,6 @@ export function Content() {
   };
 
   useEffect(() => {
-    checkToken(navigate);
     fetchData();
   }, []);
 
@@ -48,7 +47,7 @@ export function Content() {
   }
 
   return (
-    <Layout>
+    <>
       <div style={{display: 'flex', gap: 10}}>
         <Typography sx={{fontSize: 24}}>Contenidos</Typography>
         <Button
@@ -68,6 +67,6 @@ export function Content() {
         url="/contents/"
         onDelete={handleDelete}
       />
-    </Layout>
+    </>
   );
 }

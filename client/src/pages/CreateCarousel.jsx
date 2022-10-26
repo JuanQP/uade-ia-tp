@@ -1,6 +1,5 @@
 import { notification } from "@/utils";
 import { CarouselForm } from "@features/Carousels";
-import { Layout } from "@features/UI";
 import { Box, Paper, Typography } from "@mui/material";
 import axios from 'axios';
 import { useSnackbar } from "notistack";
@@ -35,16 +34,14 @@ export function CreateCarousel() {
   }
 
   return (
-    <Layout>
-      <Box>
-        <Typography sx={{fontSize: 24}}>Nuevo carrusel</Typography>
-        <Paper style={styles.paper}>
-          <CarouselForm
-            loading={waiting}
-            onSubmit={handleCarouselSubmit}
-          />
-        </Paper>
-      </Box>
-    </Layout>
+    <Box>
+      <Typography sx={{fontSize: 24}}>Nuevo carrusel</Typography>
+      <Paper style={styles.paper}>
+        <CarouselForm
+          loading={waiting}
+          onSubmit={handleCarouselSubmit}
+        />
+      </Paper>
+    </Box>
   )
 }

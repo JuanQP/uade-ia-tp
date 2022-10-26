@@ -1,3 +1,4 @@
+import { checkToken } from '@/utils';
 import { useUserContext } from '@hooks/UserContext';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -9,7 +10,7 @@ import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemText, Toolbar,
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 import { ListItemLink } from './ListItemLink';
 
@@ -54,7 +55,7 @@ const styles = {
   },
 };
 
-export function Layout({ children }) {
+export function Layout() {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -74,7 +75,9 @@ export function Layout({ children }) {
     if(nombre) {
       setUser({ nombre });
     }
-  }, []);
+    // Always check token when route changes
+    checkToken(navigate);
+  }, [location.pathname]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -125,14 +128,12 @@ export function Layout({ children }) {
       <Box
         component="main"
         className='bg-dots'
-        sx={{ flexGrow: 1, minHeight: '100vh', p: 3 }}
+        sx={{ flexGrow: 1, minHeight: '100vh' }}
       >
         {!isMdUp && <Toolbar />}
-        <Box sx={{display: 'flex', justifyContent: 'center'}}>
-          <Box maxWidth="lg" sx={{flex: 1}}>
-            {/* Page content is placed here */}
-            {children}
-          </Box>
+        <Box p={3}>
+          {/* Page content is displayed here */}
+          <Outlet />
         </Box>
       </Box>
     </Box>

@@ -1,15 +1,14 @@
-import { Layout } from "@features/UI";
 import { useUserContext } from "@hooks/UserContext";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import axios from "axios";
-import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const styles = {
   box: {
     display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: '1em',
   },
 }
 
@@ -17,32 +16,40 @@ export function Logout() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { setUser } = useUserContext();
+  const { user, setUser } = useUserContext();
 
-  useEffect(() => {
-    const logout = async () => {
-      try {
-        await axios.post('/api/logout');
-        localStorage.removeItem('token');
-        localStorage.removeItem('nombre');
-        setUser({});
-        axios.defaults.headers.common['Authorization'] = ``;
-        const state = location.state ?? undefined;
-        navigate('/login', { state });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    logout();
-  }, []);
+  async function handleLogoutClick() {
+    try {
+      await axios.post('/api/logout');
+      localStorage.removeItem('token');
+      localStorage.removeItem('nombre');
+      setUser({});
+      axios.defaults.headers.common['Authorization'] = ``;
+      const state = location.state ?? undefined;
+      navigate('/login', { state });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
-    <Layout>
-      <Box style={styles.box}>
-        <CircularProgress />
-        <Typography>Saliendo...</Typography>
-      </Box>
-    </Layout>
+    <Box style={styles.box}>
+      <Card sx={{ minWidth: '25vw' }}>
+        <CardContent>
+          <Typography>
+            Hola, <strong>{user.nombre}</strong>. ¿Estás seguro de cerrar sesión? 🤔
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button
+            color="error"
+            startIcon={<LogoutIcon />}
+            onClick={handleLogoutClick}
+          >
+            Cerrar sesión
+          </Button>
+        </CardActions>
+      </Card>
+    </Box>
   )
 }

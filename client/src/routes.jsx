@@ -13,6 +13,7 @@ import {
   createBrowserRouter,
   Navigate
 } from "react-router-dom";
+import { Layout } from './features/UI';
 
 export const router = createBrowserRouter([
   {
@@ -23,40 +24,46 @@ export const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  // All this routes have a layout
   {
-    path: "/logout",
-    element: <Logout />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/contents",
-    element: <Content />,
-  },
-  {
-    path: "/contents/:id",
-    element: <EditContent />,
-  },
-  {
-    path: "/contents/new",
-    element: <CreateContent />,
-  },
-  {
-    path: "/carousels",
-    element: <Carousel />,
-  },
-  {
-    path: "/carousels/:id",
-    element: <EditCarousel />,
-  },
-  {
-    path: "/carousels/new",
-    element: <CreateCarousel />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
+    element: <Layout />,
+    children: [
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/contents",
+        element: <Content />,
+      },
+      {
+        path: "/contents/:id",
+        element: <EditContent />,
+      },
+      {
+        path: "/contents/new",
+        element: <CreateContent />,
+      },
+      {
+        path: "/carousels",
+        element: <Carousel />,
+      },
+      {
+        path: "/carousels/:id",
+        element: <EditCarousel />,
+      },
+      {
+        path: "/carousels/new",
+        element: <CreateCarousel />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+    ]
   },
 ]);

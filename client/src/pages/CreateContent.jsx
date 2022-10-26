@@ -1,6 +1,5 @@
 import { notification } from "@/utils";
 import { ContentForm } from "@features/Contents";
-import { Layout } from "@features/UI";
 import { Paper, Typography } from "@mui/material";
 import axios from 'axios';
 import { useSnackbar } from "notistack";
@@ -35,7 +34,7 @@ export function CreateContent() {
   }
 
   return (
-    <Layout>
+    <>
       <Typography sx={{fontSize: 24}}>Nuevo contenido</Typography>
       <Paper style={styles.paper}>
         <ContentForm
@@ -43,6 +42,6 @@ export function CreateContent() {
           onSubmit={handleContentSubmit}
         />
       </Paper>
-    </Layout>
+    </>
   )
 }

@@ -1,6 +1,5 @@
 import { notification } from "@/utils";
 import { CarouselForm } from "@features/Carousels";
-import { Layout } from "@features/UI";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import axios from 'axios';
 import { useSnackbar } from "notistack";
@@ -55,24 +54,22 @@ export function EditCarousel() {
   }
 
   return (
-    <Layout>
-      <Box>
-        <Typography sx={{fontSize: 24}}>
-          Editando carrusel {carousel?.title ?? 'carrusel'}
-        </Typography>
-        <Paper style={styles.paper}>
-          {fetching ? (
-            <CircularProgress />
-          ) : (
-            <CarouselForm
-              editing
-              initialValues={carousel}
-              loading={waiting}
-              onSubmit={handleCarouselSubmit}
-            />
-          )}
-        </Paper>
-      </Box>
-    </Layout>
+    <Box>
+      <Typography sx={{fontSize: 24}}>
+        Editando carrusel {carousel?.title ?? 'carrusel'}
+      </Typography>
+      <Paper style={styles.paper}>
+        {fetching ? (
+          <CircularProgress />
+        ) : (
+          <CarouselForm
+            editing
+            initialValues={carousel}
+            loading={waiting}
+            onSubmit={handleCarouselSubmit}
+          />
+        )}
+      </Paper>
+    </Box>
   )
 }
