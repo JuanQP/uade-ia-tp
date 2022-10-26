@@ -22,7 +22,7 @@ export function CreateCarousel() {
   async function handleCarouselSubmit(carousel) {
     setWaiting(true);
     try {
-      const newCarousel = await axios.post('/api/carruseles', carousel);
+      await axios.post('/api/carruseles', carousel);
       notification(enqueueSnackbar, `El carrusel ${carousel.title} se creó correctamente 👌`, "success");
       navigate('/carousels');
     } catch (error) {

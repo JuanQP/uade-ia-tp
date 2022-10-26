@@ -34,7 +34,10 @@ export function CarouselForm({
     }
     onSubmit({
       title,
-      contenidos: selected.map(s => s.id),
+      contenidos: selected.map(c => ({
+        id: c.id,
+        ContenidoCarrusel: c.ContenidoCarrusel,
+      })),
     });
   }
 

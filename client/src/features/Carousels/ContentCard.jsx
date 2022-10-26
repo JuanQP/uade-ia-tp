@@ -16,6 +16,7 @@ const styles = {
 
 export function ContentCard({ content, values, onClick }) {
   const isSelected = values.some(v => v.id === content.id);
+  const orderText = isSelected ? `#${content.ContenidoCarrusel?.order}` : '-';
   return (
     <Card
       elevation={isSelected ? 8 : undefined}
@@ -37,6 +38,12 @@ export function ContentCard({ content, values, onClick }) {
       </CardContent>
       {/* Genres, maturity ratings, and buttons will go to bottom */}
       <CardContent sx={{marginTop: 'auto', py: 0}}>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="body2" color="text.secondary">
+            Posición en carrusel
+          </Typography>
+          <Chip color={isSelected ? "primary" : "default"} label={orderText} />
+        </Box>
         <Box>
           <Typography variant="body2" color="text.secondary">
             Calificación
@@ -57,10 +64,10 @@ export function ContentCard({ content, values, onClick }) {
         </IconButton>
         {isSelected && (
           <IconButton
-            sx={{marginLeft: 'auto'}}
-            size="large"
-            color={'primary'}
-            onClick={() => onClick(content)}
+          sx={{marginLeft: 'auto'}}
+          size="large"
+          color={'primary'}
+          onClick={() => onClick(content)}
           >
             <CheckIcon />
           </IconButton>

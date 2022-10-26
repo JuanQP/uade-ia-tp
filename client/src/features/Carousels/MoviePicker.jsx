@@ -1,62 +1,68 @@
-import { setFieldValue } from "@/utils";
-import { ContentCard } from "@features/Contents";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
+import { ContentCard } from "./ContentCard";
 import { SearchField } from "./SearchField";
 
 function idExistsIn(oneContent, contents) {
   return contents.some(c => c.id === oneContent.id);
 }
 
+/**
+ * Adds an order field in content.ContenidoCarrusel.order
+ */
+function addOrderField(content, index) {
+  return {
+    ...content,
+    ContenidoCarrusel: {
+      order: index + 1,
+    },
+  };
+}
+
 function mergeValuesWithNewContents(values, newContents) {
-  const contentsWithoutRepeat = newContents.filter(c => !idExistsIn(c, values));
-  return [
-    ...values,
-    ...contentsWithoutRepeat,
-  ];
+  const sortedValues = values
+    .map(addOrderField)
+  const contentsWithoutRepeat = newContents
+    .filter(c => !idExistsIn(c, values))
+
+  return sortedValues.concat(contentsWithoutRepeat);
 }
 
 export function MoviePicker({ values = [], onChange = () => {} }) {
 
-  const [searchText, setSearchText] = useState('');
-  const [contents, setContents] = useState([...values]);
-
-  useEffect(() => {
-    const newContents = mergeValuesWithNewContents(values, contents);
-    setContents([
-      ...newContents,
-    ]);
-  }, [values]);
+  const [searchResults, setSearchResults] = useState([]);
+  const searchFieldRef = useRef(null);
+  const contents = mergeValuesWithNewContents(values, searchResults);
 
   async function handleSearch() {
     try {
       const response = await axios.get("/api/contenidos", {
-        params: { title: searchText, format: 'card' },
+        params: { title: searchFieldRef.current.value, format: 'card' },
       });
-      const newContents = mergeValuesWithNewContents(values, response.data.results);
-      setContents([
-        ...newContents,
-      ]);
+      setSearchResults(response.data.results);
     } catch (error) {
 
     }
   }
 
   function deleteContent(values, content) {
-    return values.filter(value => value.id !== content.id);
+    return values
+      .filter(value => value.id !== content.id)
   }
 
   function handleContentClick(content) {
     const isContentInValues = values.some(value => value.id === content.id);
-    if(isContentInValues) {
-      const newValues = deleteContent(values, content);
-      onChange(newValues);
+    let newValues = [];
+
+    if (isContentInValues) {
+      newValues = deleteContent(values, content);
     } else {
-      onChange([...values, content]);
+      newValues = [...values, content];
     }
+    onChange(newValues.map(addOrderField));
   }
 
   const multipleContents = values.length > 1;
@@ -70,10 +76,10 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
             fullWidth
             label="Buscar películas"
             variant="standard"
-            value={searchText}
             placeholder="Dejá este campo vacío para traer todos los contenidos 🎥"
+            inputRef={searchFieldRef}
+            helperText={`Se encontraron ${searchResults.length} resultados para la última búsqueda.`}
             onSearch={handleSearch}
-            onChange={setFieldValue(setSearchText)}
           />
         </Grid>
         <Grid xs={12}>

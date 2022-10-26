@@ -1,4 +1,4 @@
-const { Carrusel, Contenido, Genero, MaturityRating } = require('../models');
+const { Carrusel, Contenido, ContenidoCarrusel, Genero, MaturityRating } = require('../models');
 
 const ATTRIBUTES_FORMAT = {
   default: {
@@ -13,7 +13,18 @@ const ATTRIBUTES_FORMAT = {
         { model: Genero, as: 'genres' },
         { model: MaturityRating },
       ],
+      through: {
+        attributes: ['order'],
+      },
     }],
+    order: [
+      [
+        { model: Contenido, as: 'contenidos' },
+        ContenidoCarrusel,
+        'order',
+        'ASC',
+      ],
+    ],
   },
   table: {
     attributes: [
@@ -22,6 +33,18 @@ const ATTRIBUTES_FORMAT = {
     ],
   },
 };
+
+/**
+ * Map Contenido JSON to Sequelize Model Instance.
+ * This is necessary to update the through table attributes.
+ * https://sequelize.org/api/v6/class/src/associations/belongs-to-many.js~belongstomany
+ */
+function toSequelizeInstance(contenido) {
+  const contenidoInstance = Contenido.build({ id: contenido.id });
+  contenidoInstance.ContenidoCarrusel = contenido.ContenidoCarrusel;
+
+  return contenidoInstance;
+}
 
 module.exports = {
   list: async (req, res) => {
@@ -40,7 +63,9 @@ module.exports = {
     try {
       const { contenidos, ...fields } = req.body;
       const newCarousel = await Carrusel.create(fields);
-      await newCarousel.setContenidos(contenidos);
+      const newContenidos = contenidos.map(toSequelizeInstance);
+
+      await newCarousel.setContenidos(newContenidos);
       res.status(200).send(newCarousel);
     } catch (error) {
       res.status(400).send(error);
@@ -65,7 +90,9 @@ module.exports = {
       const { contenidos, ...fields } = req.body;
       const carousel = await Carrusel.findByPk(id);
       const savedCarousel = await carousel.update(fields);
-      await savedCarousel.setContenidos(contenidos);
+      const newContenidos = contenidos.map(toSequelizeInstance);
+
+      await savedCarousel.setContenidos(newContenidos);
       res.status(200).send(savedCarousel);
     } catch (error) {
       res.status(400).send(error);
