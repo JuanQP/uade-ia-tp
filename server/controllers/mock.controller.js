@@ -59,8 +59,9 @@ const contenidoIndividual = {
     id: 1,
     description: "NC-17 - Adults Only"
   },
-  urlImage: "https://i.pinimg.com/236x/ce/3d/68/ce3d6811da999a716a4f76ed795fa832.jpg",
-  urlVideo: "https://www.youtube.com/watch?v=eqVjGwYFVqQ&ab_channel=WarnerBros.PicturesLatinoam%C3%A9rica"
+  urlImage: "https://i.ibb.co/HH0W4t7/la-monja-horizontal.png",
+  verticalUrlImage: "https://i.ibb.co/xGnG5y2/la-monja-vertical.png",
+  urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 };
 
 const contenidosTerror = [
@@ -84,43 +85,23 @@ const contenidosTerror = [
       id: 1,
       description: "R - Restricted"
     },
-    urlImage: "https://i.pinimg.com/550x/7c/35/df/7c35dfe2a932a5dd558ade30986a28ff.jpg",
-    urlVideo: "https://www.youtube.com/watch?v=_zU1gLWGnpg&ab_channel=WarnerBros.PicturesLatinoam%C3%A9rica"
+    urlImage: "https://i.ibb.co/brDkXPM/el-conjuro-horizontal.png",
+    verticalUrlImage: "https://i.ibb.co/kM3CqnZ/el-conjuro-vertical.png",
+    urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   },
-  {
-    id: 2,
-    title: "La monja",
-    description: "Descripción de ejemplo 2",
-    year: 2018,
-    duration: 96,
-    director: "Corin Hardy",
-    cast: "Taissa Farmiga y Bonnie Aarons",
-    writer: "Gary Dauberman",
-    genres: [
-      {
-        id: 1,
-        description: "Terror"
-      }
-    ],
-    MaturityRating:
-    {
-      id: 1,
-      description: "NC-17 - Adults Only"
-    },
-    urlImage: "https://i.pinimg.com/236x/ce/3d/68/ce3d6811da999a716a4f76ed795fa832.jpg",
-    urlVideo: "https://www.youtube.com/watch?v=eqVjGwYFVqQ&ab_channel=WarnerBros.PicturesLatinoam%C3%A9rica"
-  }
+  contenidoIndividual,
 ];
+
 const contenidosSuspenso = [
   {
     id: 3,
-    title: "El colleccionista de huesos",
-    description: "Descripción de ejemplo 3",
-    year: 2000,
-    duration: 7080,
-    director: "Phillip Noyce",
-    cast: "Denzel Washington y Angelina Jolie",
-    writer: "Jeffery Deaver",
+    title: "Asesino sin memoria",
+    description: "Alex, un sicario, se convierte en el objetivo de su organización por negarse a cumplir un trabajo. Mientras huye de ellos, el FBI y el servicio de inteligencia mexicano siguen sus pasos, alertados por el reguero de cadáveres que deja por donde va.",
+    year: 2022,
+    duration: 60,
+    director: "Martin Campbell",
+    cast: "Juan Cruz",
+    writer: "Martin Campbell",
     genres:
       [
         {
@@ -133,18 +114,19 @@ const contenidosSuspenso = [
       id: 1,
       description: "G - General Audiences"
     },
-    urlImage: "https://i.pinimg.com/originals/72/7d/ec/727decb796307b9404ba2bb4b86cb4ed.jpg",
-    urlVideo: "https://www.youtube.com/watch?v=uVTbS1wg_wQ&ab_channel=Arkham1888"
+    urlImage: "https://i.ibb.co/gTwK2Wg/asesino-sin-memoria-horizontal.png",
+    verticalUrlImage: "https://i.ibb.co/7V3tRrk/asesino-sin-memoria-vertical.png",
+    urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   },
   {
     id: 4,
-    title: "La sospecha",
-    description: "Descripción de ejemplo 4",
-    year: 2013,
-    duration: 9180,
-    director: "Denis Villeneuve",
-    cast: "Jake Gyllenhaal y Huge Jackman",
-    writer: "Aaron Guzikowski",
+    title: "Argentina, 1985",
+    description: "Durante la década de 1980, un grupo de abogados investiga y lleva a juicio a los responsables de la dictadura cívico-militar argentina.",
+    year: 2022,
+    duration: 60,
+    director: "Santiago Mitre",
+    cast: "Ricardo Darin y Pedro Lanzani",
+    writer: "Santiago Mitre",
     genres:
       [
         {
@@ -157,20 +139,21 @@ const contenidosSuspenso = [
       id: 1,
       description: "G - General Audiences"
     },
-    urlImage: "https://i.pinimg.com/736x/c4/54/8f/c4548f1c58860c6ca97542a0614dc1b3.jpg",
-    urlVideo: "https://www.youtube.com/watch?v=v35O1w575UI&ab_channel=AlfaFilmsArgentina"
+    urlImage: "https://i.ibb.co/BcS6xj5/Argentina-1985.png",
+    verticalUrlImage: "https://i.ibb.co/VQxTPfj/argentina-1985-vertical.png",
+    urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   }
 ];
 const contenidosComedia = [
   {
     id: 5,
-    title: "Pinneaple Express",
-    description: "Descripción de ejemplo 5",
-    year: 2008,
-    duration: 7020,
-    director: "David Gordon Green",
-    cast: "Set Rogen y James Franco",
-    writer: "Set Rogen",
+    title: "Happy Gilmore",
+    description: "Todo lo que Happy Gilmore (Adam Sandler) siempre ha querido es ser un jugador de hockey profesional. Pero pronto descubre que en realidad puede tener talento para jugar un deporte completamente diferente: el golf. Cuando su abuela (Frances Bay) se entera de que está a punto de perder su casa, Happy se une a un torneo de golf para tratar de ganar suficiente dinero para comprársela. Con sus poderosas habilidades de conducción y su actitud malhablada, Happy se convierte en un improbable héroe del golf, para gran disgusto de los educados profesionales del golf.",
+    year: 1996,
+    duration: 93,
+    director: "Robert Simonds",
+    cast: "Adam Sandler, Richard Kiel, Julie Bowen",
+    writer: "Tim Herlihy",
     genres:
       [
         {
@@ -183,29 +166,8 @@ const contenidosComedia = [
       id: 1,
       description: "G - General Audiences"
     },
-    urlImage: "https://i.pinimg.com/originals/18/66/47/186647e3d2c91b3438811b6f9f0f0636.jpg",
-    urlVideo: "https://www.youtube.com/watch?v=UksH0NGHdns&ab_channel=SonyPicturesM%C3%A9xico"
+    urlImage: "https://i.ibb.co/xMbRSRV/happy-gilmore-60b312494b3e8.png",
+    verticalUrlImage: "https://i.ibb.co/MZzFqTp/565620-Product-0-I.png",
+    urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   },
-  {
-    id: 6,
-    title: "Mentiroso mentiroso",
-    description: "Descripción de ejemplo 6",
-    year: 1997,
-    duration: 5220,
-    director: "Tom Shadyac",
-    cast: "Jim Carrey y Jennifer Tilly",
-    writer: "Stephen Mazur",
-    genres:
-      [
-        {
-          id: 3, description: "Comedia"
-        }
-      ],
-    MaturityRating:
-    {
-      id: 1, description: "G - General Audiences"
-    },
-    urlImage: "https://i.pinimg.com/736x/a7/5d/8a/a75d8a605519d4e0e460c01a22e66518.jpg",
-    urlVideo: "https://www.youtube.com/watch?v=cCXzjto5LtI&ab_channel=ElDespotricadorCin%C3%A9filo"
-  }
 ];
