@@ -14,7 +14,9 @@ export async function checkToken(navigate) {
   try {
     return await axios.get('/api/verify');
   } catch (error) {
-    navigate('/logout', {
+    localStorage.removeItem('token');
+    localStorage.removeItem('nombre');
+    navigate('/', {
       state: { message: error.response?.data?.message ?? error.message },
     });
   }
