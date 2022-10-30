@@ -10,7 +10,7 @@ const DEFAULT_VALUES = {
   password: '',
 };
 
-export function LoginForm({ disabled = false, errors = [], onSubmit }) {
+export function LoginForm({ disabled = false, errors = {}, onSubmit }) {
 
   const { register, handleSubmit } = useForm({
     defaultValues: DEFAULT_VALUES,
@@ -33,8 +33,8 @@ export function LoginForm({ disabled = false, errors = [], onSubmit }) {
           autoFocus
           label="Usuario"
           variant="outlined"
-          error={errors.find(e => e.param === 'email')}
-          helperText={errors.find(e => e.param === 'email')?.msg}
+          error={!!errors.email}
+          helperText={errors.email?.message}
           {...register('email')}
         />
         <PasswordTextField
@@ -42,8 +42,8 @@ export function LoginForm({ disabled = false, errors = [], onSubmit }) {
           label="Contraseña"
           variant="outlined"
           InputProps={{ maxLength: 255 }}
-          error={errors.find(e => e.param === 'password')}
-          helperText={errors.find(e => e.param === 'password')?.msg}
+          error={!!errors.password}
+          helperText={errors.password?.message}
           {...register("password")}
         />
         <LoadingButton

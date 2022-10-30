@@ -1,3 +1,4 @@
+import { errorToObject } from '@/utils';
 import { LoginForm } from '@features/Users';
 import { useUserContext } from '@hooks/UserContext';
 import { Box } from '@mui/material';
@@ -53,10 +54,6 @@ export function Login() {
   }, []);
 
   async function handleIngresar({ email, password }) {
-    if (!email || !password) {
-      setMessage('Ingrese usuario y contraseña');
-      return;
-    }
     setMessage('');
     try {
       setWaiting(true);
@@ -70,9 +67,9 @@ export function Login() {
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       navigate('/home');
     } catch (error) {
-      const { data } = error.response;
-      setMessage(data?.message);
-      setErrors(data?.errors ?? []);
+      const errors = errorToObject(error);
+      setMessage(errors.message);
+      setErrors(errors.fields);
     } finally {
       setWaiting(false);
     }

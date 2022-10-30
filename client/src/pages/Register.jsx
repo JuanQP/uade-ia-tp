@@ -1,4 +1,5 @@
-import { notification } from "@/utils";
+import { FieldErrorList } from "@/features/UI/FieldErrorList";
+import { errorToObject, notification } from "@/utils";
 import { UserForm } from "@features/Users";
 import { Paper, Typography } from "@mui/material";
 import axios from 'axios';
@@ -21,17 +22,19 @@ export function Register() {
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({})
 
   async function handleCarouselSubmit(user) {
     setWaiting(true);
+    setErrors({});
     try {
       await axios.post('/api/register', user);
       notification(enqueueSnackbar, `Usuario ${user.email} creado correctamente`, "success");
       navigate('/home');
     } catch (error) {
       console.error("Server error", error);
-      setErrors(error.response?.data?.errors ?? []);
+      const errors = errorToObject(error);
+      setErrors(errors.fields);
       notification(enqueueSnackbar, `Error al intentar crear usuario`, "error");
     }
     finally {
@@ -48,6 +51,7 @@ export function Register() {
           errors={errors}
           onSubmit={handleCarouselSubmit}
         />
+        <FieldErrorList errors={errors} />
       </Paper>
     </>
   )

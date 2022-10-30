@@ -11,7 +11,7 @@ const schema = z.object({
   nombre: z.string().min(1).max(255),
   apellido: z.string().min(1).max(255),
   email: z.string().email().min(1).max(255),
-  password: z.string().min(1).max(255),
+  password: z.string().min(8).max(255),
 });
 
 const DEFAULT_VALUES = {
@@ -45,7 +45,6 @@ export function UserForm({
       <Grid container spacing={2}>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -58,7 +57,6 @@ export function UserForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -71,7 +69,6 @@ export function UserForm({
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
@@ -86,7 +83,6 @@ export function UserForm({
           <PasswordTextField
             fullWidth
             required
-            inputProps={{maxLength: 255}}
             autoComplete="new-password"
             type="password"
             variant="outlined"
