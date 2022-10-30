@@ -1,41 +1,46 @@
-import { notification, setFieldValue } from "@/utils";
+import { zodResolver } from '@hookform/resolvers/zod';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { LoadingButton } from "@mui/lab";
 import { Box, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import { useSnackbar } from "notistack";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { PasswordTextField } from './PasswordTextField';
+
+const schema = z.object({
+  nombre: z.string().min(1).max(255),
+  apellido: z.string().min(1).max(255),
+  email: z.string().email().min(1).max(255),
+  password: z.string().min(1).max(255),
+});
+
+const DEFAULT_VALUES = {
+  nombre: '',
+  apellido: '',
+  email: '',
+  password: '',
+};
 
 export function UserForm({
   loading = false,
-  errors = [],
   onSubmit = (user) => {},
 }) {
 
-  const { enqueueSnackbar } = useSnackbar();
+  const { formState, register, handleSubmit } = useForm({
+    defaultValues: DEFAULT_VALUES,
+    resolver: zodResolver(schema),
+  });
+  const { errors } = formState;
 
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleSubmit() {
-    if (!nombre || !apellido || !email || !password) {
-      notification(enqueueSnackbar, "Complete los campos obligatorios", "warning");
-      return;
-    }
-    onSubmit({
-      nombre,
-      apellido,
-      email,
-      password,
-    });
+  function handleUserSubmit(formValues) {
+    onSubmit({ ...formValues });
   }
 
   return (
     <Box
       component="form"
       autoComplete="off"
+      onSubmit={handleSubmit(handleUserSubmit)}
     >
       <Grid container spacing={2}>
         <Grid xs={12} md={6}>
@@ -45,11 +50,10 @@ export function UserForm({
             required
             variant="outlined"
             label="Nombre"
-            value={nombre}
             placeholder="Linus"
-            error={errors.find(e => e.param === 'nombre')}
-            helperText={errors.find(e => e.param === 'nombre')?.msg}
-            onChange={setFieldValue(setNombre)}
+            error={!!errors.nombre}
+            helperText={errors.nombre?.message}
+            {...register('nombre')}
           />
         </Grid>
         <Grid xs={12} md={6}>
@@ -59,11 +63,10 @@ export function UserForm({
             required
             variant="outlined"
             label="Apellido"
-            value={apellido}
             placeholder="Torvalds"
-            error={errors.find(e => e.param === 'apellido')}
-            helperText={errors.find(e => e.param === 'apellido')?.msg}
-            onChange={setFieldValue(setApellido)}
+            error={!!errors.apellido}
+            helperText={errors.apellido?.message}
+            {...register('apellido')}
           />
         </Grid>
         <Grid xs={12} md={6}>
@@ -73,37 +76,35 @@ export function UserForm({
             required
             variant="outlined"
             label="E-Mail"
-            value={email}
             placeholder="tu@email.com"
-            error={errors.find(e => e.param === 'email')}
-            helperText={errors.find(e => e.param === 'email')?.msg}
-            onChange={setFieldValue(setEmail)}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            {...register('email')}
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TextField
-            inputProps={{maxLength: 255}}
+          <PasswordTextField
             fullWidth
-            autoComplete="new-password"
             required
+            inputProps={{maxLength: 255}}
+            autoComplete="new-password"
             type="password"
             variant="outlined"
             label="Password"
-            value={password}
             placeholder="No se lo digas a nadie 🤫"
-            error={errors.find(e => e.param === 'password')}
-            helperText={errors.find(e => e.param === 'password')?.msg}
-            onChange={setFieldValue(setPassword)}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            {...register('password')}
           />
         </Grid>
         <Grid xs={12}>
           <Box display="flex" justifyContent="end">
             <LoadingButton
+              type="submit"
               loading={loading}
               className={loading ? "" : "create-button"}
               variant="contained"
               startIcon={<PersonAddIcon />}
-              onClick={handleSubmit}
             >
               Agregar
             </LoadingButton>

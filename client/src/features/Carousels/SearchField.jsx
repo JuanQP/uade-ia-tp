@@ -1,12 +1,22 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { forwardRef } from "react";
 
-export function SearchField({ onSearch,...props}) {
+export const SearchField = forwardRef(({ onSearch, ...props }, ref) => {
+
+  function handleKeyDown(event) {
+    if(event.key === 'Enter') {
+      event.preventDefault();
+      onSearch();
+    }
+  }
+
   return (
     <TextField
       {...props}
+      inputRef={ref}
       type="search"
-      onKeyDown={(e) => e.key === 'Enter' && onSearch()}
+      onKeyDown={handleKeyDown}
       InputProps={{
         inputMode: 'search',
         endAdornment: (
@@ -22,4 +32,4 @@ export function SearchField({ onSearch,...props}) {
       }}
     />
   )
-}
+})

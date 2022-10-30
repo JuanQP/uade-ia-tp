@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import AsyncSelect from 'react-select/async';
 
-export function DelayedAsyncSelect({delay, fetchCallback, ...props}) {
+export const DelayedAsyncSelect = forwardRef(
+  ({ delay, fetchCallback, ...props }, ref) => {
 
   const timeout = useRef(null);
 
@@ -20,6 +21,7 @@ export function DelayedAsyncSelect({delay, fetchCallback, ...props}) {
   return (
     <AsyncSelect
       {...props}
+      ref={ref}
       styles={{
         control: base => ({
           ...base,
@@ -33,4 +35,4 @@ export function DelayedAsyncSelect({delay, fetchCallback, ...props}) {
       loadOptions={(text, callback) => loadContents(text, callback, fetchCallback, delay)}
     />
   )
-}
+})

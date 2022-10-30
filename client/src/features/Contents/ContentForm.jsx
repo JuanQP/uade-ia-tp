@@ -1,5 +1,5 @@
-import { notification, setFieldValue } from "@/utils";
 import { DelayedAsyncSelect } from "@features/UI";
+import { zodResolver } from '@hookform/resolvers/zod';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
@@ -7,8 +7,9 @@ import { Box, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
 import Image from "mui-image";
-import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
 const DEFAULT_HORIZONTAL_IMAGE = 'http://cdn.bongobd.com/upload/content/landscape/hd/O1rJFgE8KTD.jpg';
 const DEFAULT_VERTICAL_IMAGE = 'https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg';
@@ -36,101 +37,100 @@ function loadMaturityRatingsDelayed(searchText, callback) {
   });
 }
 
+const mp4URLRegex = /^(https?):.+\.(mp4)$/i;
+const imageURLRegex = /^(https?):.+\.(jpg|jpeg|png)$/i;
+
 function isImageURL(url) {
-  return /^(https?):.+\.(jpg|jpeg|png)$/i.test(url);
+  return imageURLRegex.test(url);
 }
 
-function isVideoURL(url) {
-  return /^(https?):.+\.(mp4)$/i.test(url);
-}
+const schema = z.object({
+  title: z.string().min(1).max(255),
+  description: z.string().min(1).max(800),
+  year: z.number().gt(1900).lt(2023),
+  duration: z.number().gt(0),
+  director: z.string().min(1).max(255),
+  writer: z.string().min(1).max(255),
+  cast: z.string().min(1).max(255),
+  urlImage: z.string().min(1).max(255).regex(imageURLRegex, "No es una URL de una imagen"),
+  verticalUrlImage: z.string().min(1).max(255).regex(imageURLRegex, "No es una URL de una imagen"),
+  urlVideo: z.string().min(1).max(255).regex(mp4URLRegex, "No es una URL de un video mp4"),
+  genres: z.object({ id: z.number() }).array().nonempty(),
+  maturity_rating: z.object({ id: z.number() }).nullable(),
+});
+
+const DEFAULT_VALUES = {
+  title: '',
+  description: '',
+  year: 2022,
+  duration: 60,
+  director: '',
+  writer: '',
+  cast: '',
+  urlImage: DEFAULT_HORIZONTAL_IMAGE,
+  verticalUrlImage: DEFAULT_VERTICAL_IMAGE,
+  urlVideo: DEFAULT_VIDEO,
+  genres: [],
+  maturity_rating: null,
+  MaturityRating: undefined,
+};
 
 export function ContentForm({
   editing = false,
-  initialValues,
+  initialValues = DEFAULT_VALUES,
   loading,
   onSubmit,
 }) {
 
-  const { enqueueSnackbar } = useSnackbar();
+  const { control, formState, register, watch, handleSubmit } = useForm({
+    defaultValues: {
+      ...initialValues,
+      maturity_rating: initialValues.MaturityRating ?? initialValues.maturity_rating,
+    },
+    resolver: zodResolver(schema),
+  });
+  const { errors } = formState;
+  const [loadedUrlImage, setLoadedUrlImage] = useState(initialValues.urlImage);
+  const [loadedVerticalUrlImage, setLoadedVerticalUrlImage] = useState(initialValues.verticalUrlImage);
+  const watchUrlImage = watch('urlImage', '');
+  const watchVerticalUrlImage = watch('verticalUrlImage', '');
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [year, setYear] = useState(2022);
-  const [duration, setDuration] = useState(60);
-  const [director, setDirector] = useState('');
-  const [cast, setCast] = useState('');
-  const [urlImage, setUrlImage] = useState(DEFAULT_HORIZONTAL_IMAGE);
-  const [verticalUrlImage, setVerticalUrlImage] = useState(DEFAULT_VERTICAL_IMAGE);
-  const [loadedUrlImage, setLoadedUrlImage] = useState(DEFAULT_HORIZONTAL_IMAGE);
-  const [loadedVerticalUrlImage, setLoadedVerticalUrlImage] = useState(DEFAULT_VERTICAL_IMAGE);
-  const [urlVideo, setUrlVideo] = useState(DEFAULT_VIDEO);
-  const [writer, setWriter] = useState('');
-  const [genres, setGenres] = useState([]);
-  const [maturity_rating, setMaturityRating] = useState(null);
-
-  useState(() => {
-    if(!editing) return;
-
-    setTitle(initialValues.title);
-    setDescription(initialValues.description);
-    setYear(initialValues.year);
-    setDuration(initialValues.duration);
-    setDirector(initialValues.director);
-    setCast(initialValues.cast);
-    setUrlImage(initialValues.urlImage);
-    setVerticalUrlImage(initialValues.verticalUrlImage);
-    setUrlVideo(initialValues.urlVideo);
-    setWriter(initialValues.writer);
-    setGenres(initialValues.genres);
-    setMaturityRating(initialValues.MaturityRating);
-  }, []);
-
-  function handleSubmit() {
-    if (!title || !description || !year || !duration || !director || !cast || !urlImage || !writer || !genres.length || !maturity_rating || !verticalUrlImage) {
-      notification(enqueueSnackbar, "Complete los campos obligatorios", "warning");
-      return;
-    }
+  function handleContentSubmit(formValues) {
     onSubmit({
-      title,
-      description,
-      year,
-      duration,
-      director,
-      cast,
+      ...formValues,
       urlImage: loadedUrlImage,
       verticalUrlImage: loadedVerticalUrlImage,
-      urlVideo,
-      writer,
-      genres: genres.map(g => g.id),
-      maturity_rating_id: maturity_rating.id,
+      genres: formValues.genres.map(g => g.id),
+      maturity_rating_id: formValues.maturity_rating.id,
     });
   }
 
   useEffect(() => {
-    if(isImageURL(urlImage)) {
-      setLoadedUrlImage(urlImage);
+    if(isImageURL(watchUrlImage)) {
+      setLoadedUrlImage(watchUrlImage);
     }
-    if(isImageURL(verticalUrlImage)) {
-      setLoadedVerticalUrlImage(verticalUrlImage);
+    if(isImageURL(watchVerticalUrlImage)) {
+      setLoadedVerticalUrlImage(watchVerticalUrlImage);
     }
-  }, [urlImage, verticalUrlImage]);
+  }, [watchUrlImage, watchVerticalUrlImage]);
 
   return (
     <Box
       component="form"
       autoComplete="off"
+      onSubmit={handleSubmit(handleContentSubmit)}
     >
       <Grid container spacing={2}>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
             label="Título"
-            value={title}
             placeholder="El Señor de los Anillos"
-            onChange={setFieldValue(setTitle)}
+            error={!!errors.title}
+            helperText={errors.title?.message}
+            {...register('title')}
           />
         </Grid>
         <Grid xs={12} md={3}>
@@ -139,11 +139,11 @@ export function ContentForm({
             required
             variant="outlined"
             label="Año"
-            value={year}
             type="number"
-            InputProps={{ inputProps: {min: 1900, max: 2022} }}
-            onChange={setFieldValue(setYear)}
-            />
+            error={!!errors.year}
+            helperText={errors.year?.message}
+            {...register('year', { valueAsNumber: true })}
+          />
         </Grid>
         <Grid xs={12} md={3}>
           <TextField
@@ -151,75 +151,90 @@ export function ContentForm({
             required
             variant="outlined"
             label="Duración (minutos)"
-            value={duration}
             type="number"
-            InputProps={{ inputProps: {min: 0, max: 600} }}
-            onChange={setFieldValue(setDuration)}
+            error={!!errors.duration}
+            helperText={errors.duration?.message}
+            {...register('duration', { valueAsNumber: true })}
           />
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
             label="Director"
-            value={director}
             placeholder="Peter Jackson"
-            onChange={setFieldValue(setDirector)}
+            error={!!errors.director}
+            helperText={errors.director?.message}
+            {...register('director')}
           />
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             required
             variant="outlined"
             label="Escritor"
-            value={writer}
             placeholder="John Doe"
-            onChange={setFieldValue(setWriter)}
+            error={!!errors.writer}
+            helperText={errors.writer?.message}
+            {...register('writer')}
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <DelayedAsyncSelect
-            placeholder="Géneros *"
-            cacheOptions
-            defaultOptions
-            isMulti
-            getOptionLabel={item => item.description}
-            getOptionValue={item => item.id}
-            onChange={setFieldValue(setGenres)}
-            value={genres}
-            fetchCallback={loadGenresDelayed}
-            delay={1500}
+          <Controller
+            name="genres"
+            control={control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <DelayedAsyncSelect
+                placeholder="Géneros *"
+                cacheOptions
+                defaultOptions
+                isMulti
+                getOptionLabel={item => item.description}
+                getOptionValue={item => item.id}
+                fetchCallback={loadGenresDelayed}
+                delay={1500}
+                error={!!errors.genres}
+                helperText={errors.genres?.message}
+                {...field}
+              />
+            )}
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <DelayedAsyncSelect
-            placeholder="Calificación de Madurez *"
-            cacheOptions
-            defaultOptions
-            getOptionLabel={item => item.description}
-            getOptionValue={item => item.id}
-            onChange={setFieldValue(setMaturityRating)}
-            value={maturity_rating}
-            fetchCallback={loadMaturityRatingsDelayed}
-            delay={1500}
+          <Controller
+            name="maturity_rating"
+            control={control}
+            render={({ field }) => (
+              <DelayedAsyncSelect
+                placeholder="Calificación de Madurez *"
+                cacheOptions
+                defaultOptions
+                getOptionLabel={item => item.description}
+                getOptionValue={item => item.id}
+                fetchCallback={loadMaturityRatingsDelayed}
+                delay={1500}
+                error={!!errors.maturity_rating}
+                helperText={errors.maturity_rating?.message}
+                {...field}
+              />
+            )}
           />
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             // This is to avoid getting rendered on top of react-selects
             sx={{'& label': { zIndex: 0 }}}
             required
             variant="outlined"
             label="Elenco"
-            value={cast}
             placeholder="Viggo Mortensen, Orlando Bloom, Elijah Wood..."
-            onChange={setFieldValue(setCast)}
+            error={!!errors.cast}
+            helperText={errors.cast?.message}
+            {...register('cast')}
           />
         </Grid>
         <Grid xs={12} md={6}>
@@ -231,43 +246,38 @@ export function ContentForm({
             required
             variant="outlined"
             label="URL Video"
-            value={urlVideo}
             placeholder="URL Video"
-            error={!isVideoURL(urlVideo)}
-            helperText={!isVideoURL(urlVideo) ? "No es una URL de un video" : ""}
-            onChange={setFieldValue(setUrlVideo)}
+            error={!!errors.urlVideo}
+            helperText={errors.urlVideo?.message}
+            {...register('urlVideo')}
           />
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             // This is to avoid getting rendered on top of react-selects
             sx={{'& label': { zIndex: 0 }}}
             required
             variant="outlined"
             label="URL Imagen"
-            value={urlImage}
             placeholder="URL Imagen"
-            error={!isImageURL(urlImage)}
-            helperText={!isImageURL(urlImage) ? "No es una URL de una imagen" : "Intentá que la imagen sea resolución 16:9 🙏"}
-            onChange={setFieldValue(setUrlImage)}
-            />
+            error={!!errors.urlImage}
+            helperText={errors.urlImage?.message ?? "Intentá que la imagen sea resolución 16:9 🙏"}
+            {...register('urlImage')}
+          />
         </Grid>
         <Grid xs={12} md={6}>
           <TextField
-            inputProps={{maxLength: 255}}
             fullWidth
             // This is to avoid getting rendered on top of react-selects
             sx={{'& label': { zIndex: 0 }}}
             required
             variant="outlined"
             label="URL Imagen vertical"
-            value={verticalUrlImage}
             placeholder="URL Imagen Vertical"
-            error={!isImageURL(verticalUrlImage)}
-            helperText={!isImageURL(verticalUrlImage) ? "No es una URL de una imagen" : "Intentá que la imagen sea resolución 2:3 🙏"}
-            onChange={setFieldValue(setVerticalUrlImage)}
+            error={!!errors.verticalUrlImage}
+            helperText={errors.verticalUrlImage?.message ?? "Intentá que la imagen sea resolución 2:3 🙏"}
+            {...register('verticalUrlImage')}
           />
         </Grid>
         <Grid xs={12}>
@@ -277,12 +287,12 @@ export function ContentForm({
             required
             variant="outlined"
             label="Descripción / Sinopsis"
-            value={description}
             multiline
             minRows={4}
-            inputProps={{maxLength: 800}}
             placeholder="Esta película narra la historia de Frodo Bolsón..."
-            onChange={setFieldValue(setDescription)}
+            error={!!errors.description}
+            helperText={errors.description?.message}
+            {...register('description')}
           />
         </Grid>
         <Grid xs={12}>
@@ -321,13 +331,13 @@ export function ContentForm({
         <Grid xs={12}>
           <Box display="flex" justifyContent="end">
             <LoadingButton
+              type="submit"
               loading={loading}
               className={loading ? "" : "create-button"}
               variant="contained"
               startIcon={editing ? <SaveIcon /> : <AddIcon />}
-              onClick={handleSubmit}
             >
-              {editing ? "Guardar" : "Agregar"}
+              {editing ? "Guardar" : "Crear"}
             </LoadingButton>
           </Box>
         </Grid>

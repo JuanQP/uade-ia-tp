@@ -1,48 +1,50 @@
-import { setFieldValue } from "@/utils";
 import LoginIcon from '@mui/icons-material/Login';
 import { LoadingButton } from "@mui/lab";
-import { Box, InputAdornment, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, Stack } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { LoginEmailTextField } from './LoginEmailTextField';
 import { PasswordTextField } from "./PasswordTextField";
 
+const DEFAULT_VALUES = {
+  email: '',
+  password: '',
+};
 
 export function LoginForm({ disabled = false, errors = [], onSubmit }) {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { register, handleSubmit } = useForm({
+    defaultValues: DEFAULT_VALUES,
+  });
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    onSubmit({
-      email,
-      password,
-    });
+  function handleLoginSubmit(formValues) {
+    onSubmit(formValues);
   }
 
   return (
-    <Box component="form" noValidate autoComplete="off">
+    <Box
+      noValidate
+      component="form"
+      autoComplete="off"
+      onSubmit={handleSubmit(handleLoginSubmit)}
+    >
       <Stack spacing={2}>
-        <TextField
+        <LoginEmailTextField
           disabled={disabled}
           autoFocus
           label="Usuario"
           variant="outlined"
-          InputProps={{
-            maxLength: 255,
-            endAdornment: <InputAdornment position="end">@uadeflix.com</InputAdornment>,
-          }}
           error={errors.find(e => e.param === 'email')}
           helperText={errors.find(e => e.param === 'email')?.msg}
-          onChange={setFieldValue(setEmail)}
+          {...register('email')}
         />
         <PasswordTextField
-          inputProps={{maxLength: 255}}
           disabled={disabled}
           label="Contraseña"
           variant="outlined"
+          InputProps={{ maxLength: 255 }}
           error={errors.find(e => e.param === 'password')}
           helperText={errors.find(e => e.param === 'password')?.msg}
-          onChange={setFieldValue(setPassword)}
+          {...register("password")}
         />
         <LoadingButton
           loading={disabled}
@@ -50,7 +52,6 @@ export function LoginForm({ disabled = false, errors = [], onSubmit }) {
           size='large'
           variant='contained'
           type="submit"
-          onClick={handleSubmit}
         >
           Ingresar
         </LoadingButton>

@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
-import { useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { ContentCard } from "./ContentCard";
 import { SearchField } from "./SearchField";
 import { moveToBeginning, moveToEnd, moveToLeft, moveToRight } from "./utils";
@@ -32,11 +32,17 @@ function mergeValuesWithNewContents(values, newContents) {
   return sortedValues.concat(contentsWithoutRepeat);
 }
 
-export function MoviePicker({ values = [], onChange = () => {} }) {
+export const MoviePicker = forwardRef(({
+  values = [],
+  onBlur = () => {},
+  onChange = () => {},
+  ...props
+}, forwardRef) => {
 
   const [searchResults, setSearchResults] = useState([]);
   const searchFieldRef = useRef(null);
   const contents = mergeValuesWithNewContents(values, searchResults);
+  useImperativeHandle(forwardRef, () => searchFieldRef.current);
 
   async function handleSearch() {
     try {
@@ -86,6 +92,7 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
   }
 
   const multipleContents = values.length > 1;
+  const helperText = props.helperText ?? `Se encontraron ${searchResults.length} resultados para la última búsqueda.`;
 
   return (
     <Box>
@@ -93,12 +100,14 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
       <Grid container spacing={2}>
         <Grid xs={12}>
           <SearchField
+            ref={searchFieldRef}
             fullWidth
             label="Buscar películas"
             variant="standard"
             placeholder="Dejá este campo vacío para traer todos los contenidos 🎥"
-            inputRef={searchFieldRef}
-            helperText={`Se encontraron ${searchResults.length} resultados para la última búsqueda.`}
+            error={props.error}
+            helperText={helperText}
+            onBlur={onBlur}
             onSearch={handleSearch}
           />
         </Grid>
@@ -139,4 +148,4 @@ export function MoviePicker({ values = [], onChange = () => {} }) {
       </Grid>
     </Box>
   );
-}
+});
