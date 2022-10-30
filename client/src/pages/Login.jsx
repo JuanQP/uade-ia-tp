@@ -1,12 +1,11 @@
 import { errorToObject } from '@/utils';
-import { LoginForm } from '@features/Users';
+import { LoginForm, userAPI } from '@features/Users';
 import { useUserContext } from '@hooks/UserContext';
 import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -43,28 +42,26 @@ export function Login() {
   const { setUser } = useUserContext();
 
   useEffect(() => {
+    const awaitVerifyToken = async () => {
+      try {
+        await userAPI.verifyToken();
+        navigate('/home');
+      } catch (error) {
+        // Stays in this page for logging in
+      }
+    }
     if(state?.message) {
       setMessage(state.message);
     }
-    const existingToken = localStorage.getItem('token');
-    if(!existingToken) return;
-
-    axios.defaults.headers.common['Authorization'] = `Bearer ${existingToken}`;
-    navigate('/home');
+    awaitVerifyToken();
   }, []);
 
   async function handleIngresar({ email, password }) {
     setMessage('');
     try {
       setWaiting(true);
-      const { data } = await axios.post('/api/login', {
-        email,
-        password,
-      });
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('nombre', data.nombre);
+      const data = await userAPI.login({ email, password });
       setUser(data);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       navigate('/home');
     } catch (error) {
       const errors = errorToObject(error);

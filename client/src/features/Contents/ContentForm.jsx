@@ -5,11 +5,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
 import { Box, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import axios from "axios";
 import Image from "mui-image";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { contentAPI } from ".";
 
 const DEFAULT_HORIZONTAL_IMAGE = 'http://cdn.bongobd.com/upload/content/landscape/hd/O1rJFgE8KTD.jpg';
 const DEFAULT_VERTICAL_IMAGE = 'https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg';
@@ -22,18 +22,14 @@ const styles = {
 };
 
 function loadGenresDelayed(searchText, callback) {
-  axios.get('/api/generos', {
-    params: { description: searchText },
-  }).then((response) => {
-    callback(response.data.generos);
+  contentAPI.fetchGenres(searchText).then((genres) => {
+    callback(genres);
   });
 }
 
 function loadMaturityRatingsDelayed(searchText, callback) {
-  axios.get('/api/maturity-ratings', {
-    params: { description: searchText },
-  }).then((response) => {
-    callback(response.data.maturity_ratings);
+  contentAPI.fetchMaturityRatings(searchText).then((maturityRatings) => {
+    callback(maturityRatings);
   });
 }
 

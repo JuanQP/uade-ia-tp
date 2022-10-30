@@ -1,7 +1,6 @@
 import { notification } from "@/utils";
-import { ContentForm } from "@features/Contents";
+import { contentAPI, ContentForm } from "@features/Contents";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
-import axios from 'axios';
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -26,7 +25,7 @@ export function EditContent() {
     const fetchData = async () => {
       try {
         setFetching(true);
-        const { data } = await axios.get(`/api/contenidos/${id}`);
+        const data = await contentAPI.fetchContent(id);
         setContent(data);
       } catch (error) {
         console.error(error);
@@ -42,7 +41,7 @@ export function EditContent() {
   async function handleContentSubmit(content) {
     setWaiting(true);
     try {
-      await axios.patch(`/api/contenidos/${id}`, content);
+      await contentAPI.patchContent(id, content);
       notification(enqueueSnackbar, `${content.title} se guardó correctamente 👌`, "success");
       navigate('/contents');
     } catch (error) {

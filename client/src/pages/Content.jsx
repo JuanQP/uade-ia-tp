@@ -1,11 +1,11 @@
 import { notification } from "@/utils";
+import { contentAPI } from "@features/Contents";
 import { CMSTable } from "@features/UI";
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Typography } from "@mui/material";
-import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const columns = [
   {name: 'ID', key: "id", hide: true},
@@ -15,21 +15,13 @@ const columns = [
   {name: 'Director', key: "director", hide: true},
 ];
 
-async function fetchContents() {
-  const response = await axios.get(`/api/contenidos`, {
-    params: { format: 'table' },
-  });
-  return response.data.results;
-}
-
 export function Content() {
 
   const [contents, setContents] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
 
   async function fetchData () {
-    const contents = await fetchContents();
+    const contents = await contentAPI.fetchContents({ format: 'table' });
     setContents(contents);
   };
 
@@ -40,7 +32,7 @@ export function Content() {
   async function handleDelete(content) {
     const response = confirm("¿Estás seguro?");
     if(response === true) {
-      await axios.delete(`/api/contenidos/${content.id}`);
+      await contentAPI.deleteContent(content);
       notification(enqueueSnackbar, `Se eliminó ${content.title}`);
       fetchData();
     }

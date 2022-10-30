@@ -1,18 +1,11 @@
 import { notification } from "@/utils";
+import { carouselAPI } from "@features/Carousels";
 import { CMSTable } from "@features/UI";
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Typography } from "@mui/material";
-import axios from 'axios';
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-async function fetchCarousels() {
-  const response = await axios.get(`/api/carruseles`, {
-    params: { format: 'table' },
-  });
-  return response.data.results;
-}
+import { Link } from "react-router-dom";
 
 const columns = [
   {name: 'ID', key: "id", hide: true},
@@ -23,10 +16,9 @@ export function Carousel() {
 
   const [carousels, setCarousels] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
 
   async function fetchData () {
-    const carousels = await fetchCarousels();
+    const carousels = await carouselAPI.fetchCarousels({ format: 'table' });
     setCarousels(carousels);
   };
 
@@ -37,7 +29,7 @@ export function Carousel() {
   async function handleDelete(carousel) {
     const response = confirm("¿Estás seguro?");
     if(response === true) {
-      await axios.delete(`/api/carruseles/${carousel.id}`);
+      await carouselAPI.deleteCarousel(carousel);
       notification(enqueueSnackbar, `Se eliminó el carrusel ${carousel.title}`);
       fetchData();
     }

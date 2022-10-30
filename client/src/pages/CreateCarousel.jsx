@@ -1,7 +1,6 @@
 import { notification } from "@/utils";
-import { CarouselForm } from "@features/Carousels";
+import { carouselAPI, CarouselForm } from "@features/Carousels";
 import { Box, Paper, Typography } from "@mui/material";
-import axios from 'axios';
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +21,7 @@ export function CreateCarousel() {
   async function handleCarouselSubmit(carousel) {
     setWaiting(true);
     try {
-      await axios.post('/api/carruseles', carousel);
+      await carouselAPI.createCarousel(carousel);
       notification(enqueueSnackbar, `El carrusel ${carousel.title} se creó correctamente 👌`, "success");
       navigate('/carousels');
     } catch (error) {

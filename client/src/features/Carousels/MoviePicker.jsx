@@ -1,7 +1,7 @@
+import { contentAPI } from '@features/Contents';
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
-import axios from "axios";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { ContentCard } from "./ContentCard";
 import { SearchField } from "./SearchField";
@@ -46,10 +46,11 @@ export const MoviePicker = forwardRef(({
 
   async function handleSearch() {
     try {
-      const response = await axios.get("/api/contenidos", {
-        params: { title: searchFieldRef.current.value, format: 'card' },
+      const results = await contentAPI.fetchContents({
+        title: searchFieldRef.current.value,
+        format: 'card',
       });
-      setSearchResults(response.data.results);
+      setSearchResults(results);
     } catch (error) {
 
     }

@@ -1,4 +1,3 @@
-import { checkToken } from '@/utils';
 import { useUserContext } from '@hooks/UserContext';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -7,10 +6,10 @@ import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { userAPI } from '../Users';
 import './App.css';
 import { ListItemLink } from './ListItemLink';
 
@@ -64,19 +63,21 @@ export function Layout() {
   const { user, setUser } = useUserContext();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const nombre = localStorage.getItem('nombre');
-    if(!token) {
-      navigate('/');
-      return;
-    } else {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const awaitVerifyToken = async () => {
+      try {
+        await userAPI.verifyToken();
+      } catch (error) {
+        navigate('/', {
+          state: { message: error.response?.data?.message ?? error.message },
+        });
+      }
     }
+    const nombre = localStorage.getItem('nombre');
     if(nombre) {
       setUser({ nombre });
     }
     // Always check token when route changes
-    checkToken(navigate);
+    awaitVerifyToken();
   }, [location.pathname]);
 
   return (

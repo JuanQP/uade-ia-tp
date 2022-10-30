@@ -1,7 +1,6 @@
 import { notification } from "@/utils";
-import { ContentForm } from "@features/Contents";
+import { contentAPI, ContentForm } from "@features/Contents";
 import { Paper, Typography } from "@mui/material";
-import axios from 'axios';
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +21,7 @@ export function CreateContent() {
   async function handleContentSubmit(content) {
     setWaiting(true);
     try {
-      await axios.post('/api/contenidos', content);
+      await contentAPI.createContent(content);
       notification(enqueueSnackbar, `"${content.title}" creado 🍿`, "success");
       navigate('/contents');
     } catch (error) {
