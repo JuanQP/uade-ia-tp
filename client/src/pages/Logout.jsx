@@ -1,7 +1,7 @@
 import { userAPI } from "@/features/Users";
 import { useUserContext } from "@hooks/UserContext";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Container, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const styles = {
@@ -30,8 +30,8 @@ export function Logout() {
   }
 
   return (
-    <Box style={styles.box}>
-      <Card sx={{ minWidth: '25vw' }}>
+    <Container maxWidth="md">
+      <Card>
         <CardContent>
           <Typography>
             Hola, <strong>{user.nombre}</strong>. ¿Estás seguro de cerrar sesión? 🤔
@@ -47,6 +47,6 @@ export function Logout() {
           </Button>
         </CardActions>
       </Card>
-    </Box>
+    </Container>
   )
 }

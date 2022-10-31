@@ -2,7 +2,7 @@ import { notification } from "@/utils";
 import { carouselAPI } from "@features/Carousels";
 import { CMSTable } from "@features/UI";
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -36,9 +36,9 @@ export function Carousel() {
   }
 
   return (
-    <>
+    <Container maxWidth="lg">
       <div style={{display: 'flex', gap: 10}}>
-        <Typography sx={{fontSize: 24}}>Carruseles</Typography>
+        <Typography variant="h4" fontWeight={100}>Carruseles</Typography>
         <Button
           startIcon={<AddIcon />}
           variant="contained"
@@ -56,6 +56,6 @@ export function Carousel() {
         url="/carousels/"
         onDelete={handleDelete}
       />
-    </>
+    </Container>
   );
 }

@@ -1,2 +1,7 @@
 export * as contentAPI from './ContentAPI';
-export { ContentForm } from './ContentForm';
+export {
+  ContentForm,
+  DEFAULT_VALUES as CONTENT_DEFAULT_VALUES,
+  isImageURL,
+  schemaShape
+} from './ContentForm';

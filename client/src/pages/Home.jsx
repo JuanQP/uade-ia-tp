@@ -3,7 +3,7 @@ import { useUserContext } from "@hooks/UserContext";
 import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
 export function Home() {
@@ -11,8 +11,8 @@ export function Home() {
   const { user } = useUserContext();
 
   return (
-    <>
-      <Typography variant="h4">
+    <Container maxWidth="lg">
+      <Typography variant="h4" fontWeight={100}>
         Sistema de Gestión de Contenidos
       </Typography>
       <Grid container spacing={3} mt={1}>
@@ -46,6 +46,6 @@ export function Home() {
           </HomeCard>
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 }

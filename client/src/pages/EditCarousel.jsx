@@ -1,7 +1,7 @@
 import { carouselAPI } from "@/features/Carousels";
 import { notification } from "@/utils";
 import { CarouselForm } from "@features/Carousels";
-import { Box, CircularProgress, Paper, Typography } from "@mui/material";
+import { CircularProgress, Container, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +18,7 @@ export function EditCarousel() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [carousel, setCarousel] = useState({});
   const { enqueueSnackbar } = useSnackbar();
 
@@ -54,8 +54,8 @@ export function EditCarousel() {
   }
 
   return (
-    <Box>
-      <Typography sx={{fontSize: 24}}>
+    <Container maxWidth="lg">
+      <Typography variant="h4" fontWeight={100}>
         Editando carrusel {carousel?.title ?? 'carrusel'}
       </Typography>
       <Paper style={styles.paper}>
@@ -70,6 +70,6 @@ export function EditCarousel() {
           />
         )}
       </Paper>
-    </Box>
+    </Container>
   )
 }

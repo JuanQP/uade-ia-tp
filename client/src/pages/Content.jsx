@@ -2,7 +2,7 @@ import { notification } from "@/utils";
 import { contentAPI } from "@features/Contents";
 import { CMSTable } from "@features/UI";
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -39,9 +39,9 @@ export function Content() {
   }
 
   return (
-    <>
+    <Container maxWidth="lg">
       <div style={{display: 'flex', gap: 10}}>
-        <Typography sx={{fontSize: 24}}>Contenidos</Typography>
+        <Typography variant="h4" fontWeight={100}>Contenidos</Typography>
         <Button
           startIcon={<AddIcon />}
           variant="contained"
@@ -59,6 +59,6 @@ export function Content() {
         url="/contents/"
         onDelete={handleDelete}
       />
-    </>
+    </Container>
   );
 }

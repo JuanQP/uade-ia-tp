@@ -1,6 +1,6 @@
 import { notification } from "@/utils";
 import { carouselAPI, CarouselForm } from "@features/Carousels";
-import { Box, Paper, Typography } from "@mui/material";
+import { Container, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,14 +33,14 @@ export function CreateCarousel() {
   }
 
   return (
-    <Box>
-      <Typography sx={{fontSize: 24}}>Nuevo carrusel</Typography>
+    <Container maxWidth="lg">
+      <Typography variant="h4" fontWeight={100}>Nuevo carrusel</Typography>
       <Paper style={styles.paper}>
         <CarouselForm
           loading={waiting}
           onSubmit={handleCarouselSubmit}
         />
       </Paper>
-    </Box>
+    </Container>
   )
 }

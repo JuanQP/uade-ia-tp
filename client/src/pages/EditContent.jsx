@@ -1,6 +1,6 @@
 import { notification } from "@/utils";
 import { contentAPI, ContentForm } from "@features/Contents";
-import { Box, CircularProgress, Paper, Typography } from "@mui/material";
+import { CircularProgress, Container, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,7 +17,7 @@ export function EditContent() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [content, setContent] = useState({});
   const { enqueueSnackbar } = useSnackbar();
 
@@ -53,8 +53,8 @@ export function EditContent() {
   }
 
   return (
-    <Box>
-      <Typography sx={{fontSize: 24}}>
+    <Container maxWidth="lg">
+      <Typography variant="h4" fontWeight={100}>
         Editando contenido {content?.title ?? 'contenido'}
       </Typography>
       <Paper style={styles.paper}>
@@ -69,6 +69,6 @@ export function EditContent() {
           />
         )}
       </Paper>
-    </Box>
+    </Container>
   )
 }

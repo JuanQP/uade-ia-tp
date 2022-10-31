@@ -1,6 +1,7 @@
+import { ContentStepperForm } from "@/features/Contents/StepperForm";
 import { notification } from "@/utils";
-import { contentAPI, ContentForm } from "@features/Contents";
-import { Paper, Typography } from "@mui/material";
+import { contentAPI } from "@features/Contents";
+import { Container, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,14 +34,14 @@ export function CreateContent() {
   }
 
   return (
-    <>
-      <Typography sx={{fontSize: 24}}>Nuevo contenido</Typography>
+    <Container maxWidth="lg">
+      <Typography variant="h4" fontWeight={100}>Nuevo contenido</Typography>
       <Paper style={styles.paper}>
-        <ContentForm
+        <ContentStepperForm
           loading={waiting}
           onSubmit={handleContentSubmit}
         />
       </Paper>
-    </>
+    </Container>
   )
 }

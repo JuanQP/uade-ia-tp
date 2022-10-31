@@ -36,11 +36,11 @@ function loadMaturityRatingsDelayed(searchText, callback) {
 const mp4URLRegex = /^(https?):.+\.(mp4)$/i;
 const imageURLRegex = /^(https?):.+\.(jpg|jpeg|png)$/i;
 
-function isImageURL(url) {
+export function isImageURL(url) {
   return imageURLRegex.test(url);
 }
 
-const schema = z.object({
+export const schemaShape = {
   title: z.string().min(1).max(255),
   description: z.string().min(1).max(800),
   year: z.number().gt(1900).lt(2023),
@@ -51,11 +51,19 @@ const schema = z.object({
   urlImage: z.string().min(1).max(255).regex(imageURLRegex, "No es una URL de una imagen"),
   verticalUrlImage: z.string().min(1).max(255).regex(imageURLRegex, "No es una URL de una imagen"),
   urlVideo: z.string().min(1).max(255).regex(mp4URLRegex, "No es una URL de un video mp4"),
-  genres: z.object({ id: z.number() }).array().nonempty(),
-  maturity_rating: z.object({ id: z.number() }).nullable(),
-});
+  genres: z.object({
+    id: z.number(),
+    description: z.string().optional(),
+  }).array().nonempty(),
+  maturity_rating: z.object({
+    id: z.number(),
+    description: z.string().optional(),
+  }).nullable(),
+};
 
-const DEFAULT_VALUES = {
+const schema = z.object(schemaShape);
+
+export const DEFAULT_VALUES = {
   title: '',
   description: '',
   year: 2022,
@@ -284,7 +292,7 @@ export function ContentForm({
             variant="outlined"
             label="Descripción / Sinopsis"
             multiline
-            minRows={4}
+            rows={6}
             placeholder="Esta película narra la historia de Frodo Bolsón..."
             error={!!errors.description}
             helperText={errors.description?.message}
@@ -303,7 +311,6 @@ export function ContentForm({
                   alt="Imagen horizontal"
                   width="100%"
                   height="auto"
-                  style={styles.image}
                   showLoading
                 />
               </Box>
@@ -317,7 +324,6 @@ export function ContentForm({
                   src={loadedVerticalUrlImage}
                   alt="Imagen vertical"
                   width="50%"
-                  style={styles.image}
                   showLoading
                 />
               </Box>

@@ -132,7 +132,7 @@ export function Layout() {
         sx={{ flexGrow: 1, minHeight: '100vh' }}
       >
         {!isMdUp && <Toolbar />}
-        <Box p={3}>
+        <Box py={2}>
           {/* Page content is displayed here */}
           <Outlet />
         </Box>

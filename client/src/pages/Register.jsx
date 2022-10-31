@@ -1,7 +1,7 @@
 import { FieldErrorList } from "@/features/UI/FieldErrorList";
 import { errorToObject, notification } from "@/utils";
 import { userAPI, UserForm } from "@features/Users";
-import { Paper, Typography } from "@mui/material";
+import { Container, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -42,8 +42,8 @@ export function Register() {
   }
 
   return (
-    <>
-      <Typography sx={styles.typography}>Agregar nuevo curador</Typography>
+    <Container maxWidth="lg">
+      <Typography variant="h4" fontWeight={100}>Nuevo curador</Typography>
       <Paper style={styles.paper}>
         <UserForm
           loading={waiting}
@@ -52,6 +52,6 @@ export function Register() {
         />
         <FieldErrorList errors={errors} />
       </Paper>
-    </>
+    </Container>
   )
 }
