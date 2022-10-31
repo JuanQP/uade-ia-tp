@@ -19,8 +19,12 @@ export function Home() {
         <Grid xs={12}>
           <Card>
             <CardContent>
-              <Typography>Hola, <Typography color="primary" fontWeight="bold" component="span"> {user.nombre} </Typography> 👋</Typography>
-              <Typography>Para empezar a gestionar el contenido de la plataforma acá tenés un resumen 👇</Typography>
+              <Typography variant="h5" fontWeight={100} component="span">
+                Hola, <Typography color="primary" variant="inherit" fontWeight={400} component="span"> {user.nombre}</Typography>
+              </Typography>
+              <Typography>
+                Para empezar a gestionar el contenido de la plataforma acá tenés un resumen 👇
+              </Typography>
             </CardContent>
           </Card>
         </Grid>

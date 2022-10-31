@@ -50,6 +50,7 @@ const styles = {
     '& .MuiDrawer-paper': {
       width: drawerWidth,
       boxSizing: 'border-box',
+      borderRight: 0,
     },
   },
 };
@@ -81,7 +82,7 @@ export function Layout() {
   }, [location.pathname]);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', background: '#e0e0e0' }}>
       <Helmet>
         <meta name="theme-color" content={theme.palette.primary.main} />
       </Helmet>
@@ -128,7 +129,6 @@ export function Layout() {
       </Drawer>
       <Box
         component="main"
-        className='bg-dots'
         sx={{ flexGrow: 1, minHeight: '100vh' }}
       >
         {!isMdUp && <Toolbar />}
