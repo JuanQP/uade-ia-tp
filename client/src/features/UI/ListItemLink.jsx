@@ -7,6 +7,30 @@ const styles = {
     borderBottomLeftRadius: '40px',
     backgroundColor: '#e0e0e0 !important',
     color: '#0F2027',
+    // Remove button transition effects
+    transition: 'none',
+    // "Before" and "after" pseudo elements to make
+    // active links rounded in the outside
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: '-30px',
+      right: 0,
+      width: '30px',
+      height: '30px',
+      borderRadius: '50%',
+      boxShadow: '15px 15px 0 #e0e0e0',
+    },
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      bottom: '-30px',
+      right: 0,
+      width: '30px',
+      height: '30px',
+      borderRadius: '50%',
+      boxShadow: '15px -15px 0 #e0e0e0',
+    },
   },
   notSelected: {
     color: 'white',
@@ -24,14 +48,13 @@ export function ListItemLink({ pathname, linkItem }) {
   return (
     <ListItem disablePadding sx={{ paddingLeft: 1 }}>
       <ListItemButton
+        disableRipple
         sx={listItemButtonStyle}
         selected={match}
         component={Link}
         to={linkItem.to}
       >
-        <ListItemIcon
-          sx={iconStyle}
-        >
+        <ListItemIcon sx={iconStyle}>
           {linkItem.icon}
         </ListItemIcon>
         <ListItemText primary={linkItem.label}/>
