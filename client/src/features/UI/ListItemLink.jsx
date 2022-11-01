@@ -1,12 +1,18 @@
-import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { ListItem, ListItemButton, ListItemIcon, ListItemText, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const styles = {
-  selected: {
+const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
+  // If not selected: text white
+  '&:not(.Mui-selected)': {
+    color: 'white',
+    transition: 'none',
+  },
+  // If selected, then, make round the nav button
+  '&.Mui-selected': {
     borderTopLeftRadius: '40px',
     borderBottomLeftRadius: '40px',
-    backgroundColor: '#e0e0e0 !important',
-    color: '#0F2027',
+    backgroundColor: `${theme.palette.background.default} !important`,
+    color: 'background.drawer',
     // Remove button transition effects
     transition: 'none',
     // "Before" and "after" pseudo elements to make
@@ -19,7 +25,7 @@ const styles = {
       width: '30px',
       height: '30px',
       borderRadius: '50%',
-      boxShadow: '15px 15px 0 #e0e0e0',
+      boxShadow: `15px 15px 0 ${theme.palette.background.default}`,
     },
     '&::after': {
       content: '""',
@@ -29,27 +35,21 @@ const styles = {
       width: '30px',
       height: '30px',
       borderRadius: '50%',
-      boxShadow: '15px -15px 0 #e0e0e0',
+      boxShadow: `15px -15px 0 ${theme.palette.background.default}`,
     },
   },
-  notSelected: {
-    color: 'white',
-  }
-}
+}));
 
 export function ListItemLink({ pathname, linkItem }) {
   // It checks if current location starts with this element URL
   const regexp = new RegExp(`^${linkItem.to}`, 'i');
   const match = regexp.test(pathname);
-
-  const listItemButtonStyle = match ? styles.selected : styles.notSelected;
-  const iconStyle = { color: listItemButtonStyle.color };
+  const iconStyle = { color: match ? 'background.drawer' : 'common.white' };
 
   return (
     <ListItem disablePadding sx={{ paddingLeft: 1 }}>
-      <ListItemButton
+      <StyledListItemButton
         disableRipple
-        sx={listItemButtonStyle}
         selected={match}
         component={Link}
         to={linkItem.to}
@@ -57,8 +57,8 @@ export function ListItemLink({ pathname, linkItem }) {
         <ListItemIcon sx={iconStyle}>
           {linkItem.icon}
         </ListItemIcon>
-        <ListItemText primary={linkItem.label}/>
-      </ListItemButton>
+        <ListItemText primary={linkItem.label} />
+      </StyledListItemButton>
     </ListItem>
   )
 }

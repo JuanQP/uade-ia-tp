@@ -17,27 +17,27 @@ const links = [
   {
     label: 'Home',
     to: '/home',
-    icon: <HomeIcon className="side-panel-color" />,
+    icon: <HomeIcon />,
   },
   {
     label: 'Contenido',
     to: '/contents',
-    icon: <MovieIcon className="side-panel-color" />,
+    icon: <MovieIcon />,
   },
   {
     label: 'Carruseles',
     to: '/carousels',
-    icon: <ViewCarouselIcon className="side-panel-color" />,
+    icon: <ViewCarouselIcon />,
   },
   {
     label: 'Curadores',
     to: '/register',
-    icon: <PersonIcon className="side-panel-color" />,
+    icon: <PersonIcon />,
   },
   {
     label: 'Log out',
     to: '/logout',
-    icon: <LogoutIcon className="side-panel-color" />,
+    icon: <LogoutIcon />,
   },
 ];
 
@@ -48,9 +48,10 @@ const styles = {
     width: drawerWidth,
     flexShrink: 0,
     '& .MuiDrawer-paper': {
-      width: drawerWidth,
-      boxSizing: 'border-box',
+      backgroundColor: 'background.drawer',
       borderRight: 0,
+      boxSizing: 'border-box',
+      width: drawerWidth,
     },
   },
 };
@@ -82,7 +83,7 @@ export function Layout() {
   }, [location.pathname]);
 
   return (
-    <Box sx={{ display: 'flex', background: '#e0e0e0' }}>
+    <Box sx={{ display: 'flex' }}>
       <Helmet>
         <meta name="theme-color" content={theme.palette.primary.main} />
       </Helmet>
@@ -101,7 +102,6 @@ export function Layout() {
         open={isMdUp || drawerOpen}
         variant={isMdUp ? "permanent" : "temporary"}
         anchor="left"
-        className="side-panel"
         onClose={() => setDrawerOpen(false)}
         sx={styles.drawer}
       >

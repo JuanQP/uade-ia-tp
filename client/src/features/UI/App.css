@@ -2,10 +2,6 @@ body {
   margin: 0;
 }
 
-.side-panel .MuiDrawer-paper {
-  background: #0F2027;  /* fallback for old browsers */
-}
-
 .create-button {
   background: #11998e;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #38ef7d, #11998e);  /* Chrome 10-25, Safari 5.1-6 */
