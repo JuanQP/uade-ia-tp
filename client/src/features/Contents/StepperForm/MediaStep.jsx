@@ -1,13 +1,11 @@
 import {
   CONTENT_DEFAULT_VALUES,
-  isImageURL,
   schemaShape
 } from "@features/Contents";
+import { URLImageField } from "@features/UI";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, TextField, Typography, Unstable_Grid2 as Grid } from "@mui/material";
-import Image from "mui-image";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Box, Button, TextField, Unstable_Grid2 as Grid } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const {
@@ -30,39 +28,22 @@ const DEFAULT_VALUES = {
 
 export function MediaStep({ active, onNextStep, onPreviousStep }) {
 
-  const { formState, getValues, register, watch, handleSubmit } = useForm({
+  const { control, formState, getValues, register, handleSubmit } = useForm({
     defaultValues: DEFAULT_VALUES,
     resolver: zodResolver(schema),
   });
   const { errors } = formState;
-  const [loadedUrlImage, setLoadedUrlImage] = useState(DEFAULT_VALUES.urlImage);
-  const [loadedVerticalUrlImage, setLoadedVerticalUrlImage] = useState(DEFAULT_VALUES.verticalUrlImage);
-  const watchUrlImage = watch('urlImage', '');
-  const watchVerticalUrlImage = watch('verticalUrlImage', '');
-
-  useEffect(() => {
-    if(isImageURL(watchUrlImage)) {
-      setLoadedUrlImage(watchUrlImage);
-    }
-    if(isImageURL(watchVerticalUrlImage)) {
-      setLoadedVerticalUrlImage(watchVerticalUrlImage);
-    }
-  }, [watchUrlImage, watchVerticalUrlImage]);
 
   function handlePreviousStep() {
     const formValues = getValues();
     onPreviousStep({
       ...formValues,
-      urlImage: loadedUrlImage,
-      verticalUrlImage: loadedVerticalUrlImage,
     });
   }
 
   function handleStepOneSubmit(formValues) {
     onNextStep({
       ...formValues,
-      urlImage: loadedUrlImage,
-      verticalUrlImage: loadedVerticalUrlImage,
     });
   }
 
@@ -89,64 +70,44 @@ export function MediaStep({ active, onNextStep, onPreviousStep }) {
             {...register('urlVideo')}
           />
         </Grid>
-        <Grid xs={12}>
-          <TextField
-            fullWidth
-            // This is to avoid getting rendered on top of react-selects
-            sx={{'& label': { zIndex: 0 }}}
-            required
-            variant="outlined"
-            label="URL Imagen horizontal"
-            placeholder="URL Imagen"
-            error={!!errors.urlImage}
-            helperText={errors.urlImage?.message ?? "Intentá que la imagen sea resolución 16:9 🙏"}
-            {...register('urlImage')}
+        <Grid xs={12} md={6}>
+          <Controller
+            name="urlImage"
+            control={control}
+            render={({ field }) => (
+              <URLImageField
+                type="horizontal"
+                fullWidth
+                required
+                variant="outlined"
+                label="URL Imagen"
+                placeholder="URL Imagen"
+                error={!!errors.urlImage}
+                helperText={errors.urlImage?.message ?? "Mucho mejor si la imagen está en resolución 16:9 👌"}
+                {...field}
+              />
+            )}
           />
         </Grid>
-        <Grid xs={12}>
-          <TextField
-            fullWidth
-            // This is to avoid getting rendered on top of react-selects
-            sx={{'& label': { zIndex: 0 }}}
-            required
-            variant="outlined"
-            label="URL Imagen vertical"
-            placeholder="URL Imagen Vertical"
-            error={!!errors.verticalUrlImage}
-            helperText={errors.verticalUrlImage?.message ?? "Intentá que la imagen sea resolución 2:3 🙏"}
-            {...register('verticalUrlImage')}
+        <Grid xs={12} md={6}>
+          <Controller
+            name="verticalUrlImage"
+            control={control}
+            render={({ field }) => (
+              <URLImageField
+                type="vertical"
+                fullWidth
+                sx={{'& label': { zIndex: 0 }}}
+                required
+                variant="outlined"
+                label="URL Imagen vertical"
+                placeholder="URL Imagen Vertical"
+                error={!!errors.verticalUrlImage}
+                helperText={errors.verticalUrlImage?.message ?? "Mucho mejor si la imagen está en resolución 2:3 👌"}
+                {...field}
+              />
+            )}
           />
-        </Grid>
-        <Grid xs={12}>
-          <Grid container>
-            <Grid display="flex" flexDirection="column" xs={12} md={6}>
-              <Typography textAlign="center">
-                Portada horizontal (Web)
-              </Typography>
-              <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="center" alignItems="center">
-                <Image
-                  src={loadedUrlImage}
-                  alt="Imagen horizontal"
-                  width="100%"
-                  height="auto"
-                  showLoading
-                />
-              </Box>
-            </Grid>
-            <Grid xs={12} md={6}>
-              <Typography textAlign="center">
-                Portada vertical (Mobile)
-              </Typography>
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <Image
-                  src={loadedVerticalUrlImage}
-                  alt="Imagen vertical"
-                  width="50%"
-                  showLoading
-                />
-              </Box>
-            </Grid>
-          </Grid>
         </Grid>
         <Grid xs={12} display="flex" justifyContent="space-between">
           <Button onClick={handlePreviousStep}>

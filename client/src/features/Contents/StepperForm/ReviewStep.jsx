@@ -1,6 +1,6 @@
+import { ContentImage } from "@features/UI";
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Chip, Typography, Unstable_Grid2 as Grid } from "@mui/material";
-import Image from "mui-image";
 
 const valueTypographyProps = {
   align: 'center',
@@ -81,36 +81,17 @@ export function ReviewStep({
         <FormValue label="Escritor" value={formValues.writer} />
         <FormValue label="Cast" value={formValues.cast} />
         <FormValue label="Sinopsis" value={formValues.description} />
-        <Grid xs={12}>
-          <Grid container>
-            <Grid display="flex" flexDirection="column" xs={12} md={6}>
-              <Typography textAlign="center">
-                Portada horizontal (Web)
-              </Typography>
-              <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="center" alignItems="center">
-                <Image
-                  src={formValues.urlImage}
-                  alt="Imagen horizontal"
-                  width="100%"
-                  height="auto"
-                  showLoading
-                />
-              </Box>
-            </Grid>
-            <Grid xs={12} md={6}>
-              <Typography textAlign="center">
-                Portada vertical (Mobile)
-              </Typography>
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <Image
-                  src={formValues.verticalUrlImage}
-                  alt="Imagen vertical"
-                  width="50%"
-                  showLoading
-                />
-              </Box>
-            </Grid>
-          </Grid>
+        <Grid xs={12} md={6} display="flex" sx={{flexDirection: 'column'}}>
+          <ContentImage type="horizontal" src={formValues.urlImage} />
+          <Typography {...propertyTypographyProps}>
+            Portada horizontal
+          </Typography>
+        </Grid>
+        <Grid xs={12} md={6} display="flex" sx={{flexDirection: 'column'}} alignItems="center">
+          <ContentImage type="vertical" src={formValues.verticalUrlImage} />
+          <Typography {...propertyTypographyProps}>
+            Portada vertical
+          </Typography>
         </Grid>
         <Grid xs={12} display="flex" justifyContent="space-between">
           <Button onClick={handlePreviousStep}>

@@ -1,12 +1,10 @@
-import { DelayedAsyncSelect } from "@features/UI";
+import { DelayedAsyncSelect, URLImageField } from "@features/UI";
 import { zodResolver } from '@hookform/resolvers/zod';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from "@mui/lab";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import Image from "mui-image";
-import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { contentAPI } from ".";
@@ -14,12 +12,6 @@ import { contentAPI } from ".";
 const DEFAULT_HORIZONTAL_IMAGE = 'http://cdn.bongobd.com/upload/content/landscape/hd/O1rJFgE8KTD.jpg';
 const DEFAULT_VERTICAL_IMAGE = 'https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg';
 const DEFAULT_VIDEO = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-
-const styles = {
-  image: {
-    boxShadow: '2px 2px 8px dimgray'
-  },
-};
 
 function loadGenresDelayed(searchText, callback) {
   contentAPI.fetchGenres(searchText).then((genres) => {
@@ -35,10 +27,6 @@ function loadMaturityRatingsDelayed(searchText, callback) {
 
 const mp4URLRegex = /^(https?):.+\.(mp4)$/i;
 const imageURLRegex = /^(https?):.+\.(jpg|jpeg|png)$/i;
-
-export function isImageURL(url) {
-  return imageURLRegex.test(url);
-}
 
 export const schemaShape = {
   title: z.string().min(1).max(255),
@@ -86,7 +74,7 @@ export function ContentForm({
   onSubmit,
 }) {
 
-  const { control, formState, register, watch, handleSubmit } = useForm({
+  const { control, formState, register, handleSubmit } = useForm({
     defaultValues: {
       ...initialValues,
       maturity_rating: initialValues.MaturityRating ?? initialValues.maturity_rating,
@@ -94,29 +82,14 @@ export function ContentForm({
     resolver: zodResolver(schema),
   });
   const { errors } = formState;
-  const [loadedUrlImage, setLoadedUrlImage] = useState(initialValues.urlImage);
-  const [loadedVerticalUrlImage, setLoadedVerticalUrlImage] = useState(initialValues.verticalUrlImage);
-  const watchUrlImage = watch('urlImage', '');
-  const watchVerticalUrlImage = watch('verticalUrlImage', '');
 
   function handleContentSubmit(formValues) {
     onSubmit({
       ...formValues,
-      urlImage: loadedUrlImage,
-      verticalUrlImage: loadedVerticalUrlImage,
       genres: formValues.genres.map(g => g.id),
       maturity_rating_id: formValues.maturity_rating.id,
     });
   }
-
-  useEffect(() => {
-    if(isImageURL(watchUrlImage)) {
-      setLoadedUrlImage(watchUrlImage);
-    }
-    if(isImageURL(watchVerticalUrlImage)) {
-      setLoadedVerticalUrlImage(watchVerticalUrlImage);
-    }
-  }, [watchUrlImage, watchVerticalUrlImage]);
 
   return (
     <Box
@@ -257,31 +230,42 @@ export function ContentForm({
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TextField
-            fullWidth
-            // This is to avoid getting rendered on top of react-selects
-            sx={{'& label': { zIndex: 0 }}}
-            required
-            variant="outlined"
-            label="URL Imagen"
-            placeholder="URL Imagen"
-            error={!!errors.urlImage}
-            helperText={errors.urlImage?.message ?? "Intentá que la imagen sea resolución 16:9 🙏"}
-            {...register('urlImage')}
+          <Controller
+            name="urlImage"
+            control={control}
+            render={({ field }) => (
+              <URLImageField
+                type="horizontal"
+                fullWidth
+                required
+                variant="outlined"
+                label="URL Imagen"
+                placeholder="URL Imagen"
+                error={!!errors.urlImage}
+                helperText={errors.urlImage?.message ?? "Mucho mejor si la imagen está en resolución 16:9 👌"}
+                {...field}
+              />
+            )}
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TextField
-            fullWidth
-            // This is to avoid getting rendered on top of react-selects
-            sx={{'& label': { zIndex: 0 }}}
-            required
-            variant="outlined"
-            label="URL Imagen vertical"
-            placeholder="URL Imagen Vertical"
-            error={!!errors.verticalUrlImage}
-            helperText={errors.verticalUrlImage?.message ?? "Intentá que la imagen sea resolución 2:3 🙏"}
-            {...register('verticalUrlImage')}
+          <Controller
+            name="verticalUrlImage"
+            control={control}
+            render={({ field }) => (
+              <URLImageField
+                type="vertical"
+                fullWidth
+                sx={{'& label': { zIndex: 0 }}}
+                required
+                variant="outlined"
+                label="URL Imagen vertical"
+                placeholder="URL Imagen Vertical"
+                error={!!errors.verticalUrlImage}
+                helperText={errors.verticalUrlImage?.message ?? "Mucho mejor si la imagen está en resolución 2:3 👌"}
+                {...field}
+              />
+            )}
           />
         </Grid>
         <Grid xs={12}>
@@ -298,37 +282,6 @@ export function ContentForm({
             helperText={errors.description?.message}
             {...register('description')}
           />
-        </Grid>
-        <Grid xs={12}>
-          <Grid container>
-            <Grid display="flex" flexDirection="column" xs={12} md={6}>
-              <Typography textAlign="center">
-                Portada horizontal (Web)
-              </Typography>
-              <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="center" alignItems="center">
-                <Image
-                  src={loadedUrlImage}
-                  alt="Imagen horizontal"
-                  width="100%"
-                  height="auto"
-                  showLoading
-                />
-              </Box>
-            </Grid>
-            <Grid xs={12} md={6}>
-              <Typography textAlign="center">
-                Portada vertical (Mobile)
-              </Typography>
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <Image
-                  src={loadedVerticalUrlImage}
-                  alt="Imagen vertical"
-                  width="50%"
-                  showLoading
-                />
-              </Box>
-            </Grid>
-          </Grid>
         </Grid>
         <Grid xs={12}>
           <Box display="flex" justifyContent="end">
