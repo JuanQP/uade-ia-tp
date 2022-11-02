@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 
-const DEFAULT_HORIZONTAL_IMAGE = 'http://cdn.bongobd.com/upload/content/landscape/hd/O1rJFgE8KTD.jpg';
+const DEFAULT_HORIZONTAL_IMAGE = '';
 
 const imageURLRegex = /^(https?):.+\.(jpg|jpeg|png)$/i;
 

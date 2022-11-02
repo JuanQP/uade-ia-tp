@@ -9,8 +9,8 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { contentAPI } from ".";
 
-const DEFAULT_HORIZONTAL_IMAGE = 'http://cdn.bongobd.com/upload/content/landscape/hd/O1rJFgE8KTD.jpg';
-const DEFAULT_VERTICAL_IMAGE = 'https://peach.blender.org/wp-content/uploads/poster_bunny_small.jpg';
+const DEFAULT_HORIZONTAL_IMAGE = '';
+const DEFAULT_VERTICAL_IMAGE = '';
 const DEFAULT_VIDEO = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
 function loadGenresDelayed(searchText, callback) {
@@ -239,7 +239,7 @@ export function ContentForm({
                 fullWidth
                 required
                 variant="outlined"
-                label="URL Imagen"
+                label="URL Imagen horizontal"
                 placeholder="URL Imagen"
                 error={!!errors.urlImage}
                 helperText={errors.urlImage?.message ?? "Mucho mejor si la imagen está en resolución 16:9 👌"}

@@ -80,7 +80,7 @@ export function MediaStep({ active, onNextStep, onPreviousStep }) {
                 fullWidth
                 required
                 variant="outlined"
-                label="URL Imagen"
+                label="URL Imagen horizontal"
                 placeholder="URL Imagen"
                 error={!!errors.urlImage}
                 helperText={errors.urlImage?.message ?? "Mucho mejor si la imagen está en resolución 16:9 👌"}
