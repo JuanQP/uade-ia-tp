@@ -2,20 +2,29 @@ import { Box, Card, CardContent, Link, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 const styles = {
-  card: {
+  card: (bgColor) => ({
     display: 'flex',
-    height: '100%'
-  },
-  cardContentLeft: (bgColor) => ({
+    flexDirection: 'row',
+    height: '100%',
+    minHeight: '200px',
+    backgroundColor: bgColor,
+    borderTopLeftRadius: '20px',
+    borderBottomLeftRadius: '20px',
+  }),
+  cardContentTop: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 1,
-    backgroundColor: bgColor,
-  }),
-  cardContentRight: {
+  },
+  cardContentBottom: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    height: '100%',
+    borderTopLeftRadius: '20px',
+    borderBottomLeftRadius: '20px',
   },
   icon: {
     filter: "drop-shadow(1px 1px 1px black)"
@@ -24,16 +33,19 @@ const styles = {
 
 export function HomeCard({ title, Icon, linkTo, bgColor, children }) {
   return (
-    <Card sx={styles.card}>
-      <CardContent sx={styles.cardContentLeft(bgColor)}>
+    <Card sx={styles.card(bgColor)}>
+      <CardContent sx={styles.cardContentTop}>
         <Icon
           fontSize="large"
           htmlColor="white"
           sx={styles.icon}
         />
       </CardContent>
-      <CardContent sx={styles.cardContentRight}>
-        <Typography fontWeight="bold">
+      <CardContent sx={styles.cardContentBottom}>
+        <Typography
+          variant="h6"
+          fontWeight={200}
+        >
           {title}
         </Typography>
         {/* Here goes the content */}
