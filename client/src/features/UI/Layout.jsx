@@ -123,6 +123,7 @@ export function Layout() {
               key={item.label}
               linkItem={item}
               pathname={location.pathname}
+              onClick={() => setDrawerOpen(false)}
             />
           ))}
         </List>

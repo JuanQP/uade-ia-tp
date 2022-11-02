@@ -40,7 +40,7 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   },
 }));
 
-export function ListItemLink({ pathname, linkItem }) {
+export function ListItemLink({ pathname, linkItem, onClick }) {
   // It checks if current location starts with this element URL
   const regexp = new RegExp(`^${linkItem.to}`, 'i');
   const match = regexp.test(pathname);
@@ -53,6 +53,7 @@ export function ListItemLink({ pathname, linkItem }) {
         selected={match}
         component={Link}
         to={linkItem.to}
+        onClick={onClick}
       >
         <ListItemIcon sx={iconStyle}>
           {linkItem.icon}
