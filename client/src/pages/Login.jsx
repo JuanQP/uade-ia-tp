@@ -79,7 +79,7 @@ export function Login() {
       </Helmet>
       <div style={styles.containerDiv}>
         <div style={styles.firstRowDiv}>
-          <Typography sx={{ fontSize: 14, color: 'white' }}>
+          <Typography sx={{ fontSize: 14, color: 'common.white' }}>
             UADE - Integración de Aplicaciones - Grupo 4
           </Typography>
         </div>
@@ -89,7 +89,7 @@ export function Login() {
               <Typography sx={{ fontSize: 14 }}>
                 Sistema de Administración de Contenido
               </Typography>
-              <Typography sx={{ fontSize: 22 }}>
+              <Typography variant="h5" fontWeight={300}>
                 Ingresar
               </Typography>
               <LoginForm
