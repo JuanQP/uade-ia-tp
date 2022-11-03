@@ -10,7 +10,7 @@ const DEFAULT_VALUES = {
   password: '',
 };
 
-export function LoginForm({ disabled = false, errors = {}, onSubmit }) {
+export function LoginForm({ disabled = false, errors = {}, loading, onSubmit }) {
 
   const { register, handleSubmit } = useForm({
     defaultValues: DEFAULT_VALUES,
@@ -47,10 +47,11 @@ export function LoginForm({ disabled = false, errors = {}, onSubmit }) {
           {...register("password")}
         />
         <LoadingButton
-          loading={disabled}
+          variant='gradient-success'
+          disabled={disabled}
+          loading={loading}
           startIcon={<LoginIcon />}
           size='large'
-          variant='contained'
           type="submit"
         >
           Ingresar

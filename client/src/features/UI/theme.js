@@ -7,6 +7,7 @@ export const theme = createTheme({
     background: {
       default: '#e0e0e0',
       drawer: '#0F2027',
+      loginOk: '#03B1A6',
     },
   },
   components: {

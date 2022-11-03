@@ -1,6 +1,10 @@
 import { errorToObject } from '@/utils';
 import { LoginForm, userAPI } from '@features/Users';
 import { useUserContext } from '@hooks/UserContext';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import LockIcon from '@mui/icons-material/Lock';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PersonIcon from '@mui/icons-material/Person';
 import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -30,16 +34,42 @@ const styles = {
     marginTop: 'auto',
     marginBottom: 'auto'
   },
+  upperCardContent: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 1,
+  },
+  bottomCardContent: {
+    backgroundColor: 'common.white',
+    borderRadius: '20px 20px 0px 0px',
+  },
+  loginIcon: {
+    fontSize: '48px',
+    color: 'common.white',
+  },
 }
 
 export function Login() {
 
   const [waiting, setWaiting] = useState(false);
+  const [loginOk, setLoginOk] = useState(false);
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
   const { state } = useLocation();
   const navigate = useNavigate();
   const { setUser } = useUserContext();
+
+  const hasErrors = message !== '' || errors.length !== 0;
+
+  const LoginIcon = waiting ? MoreHorizIcon
+    : hasErrors ? LockIcon
+      : loginOk ? HowToRegIcon
+        : PersonIcon;
+  const cardBackgroundColor = waiting ? 'grey.700'
+    : loginOk ? 'background.loginOk'
+      : hasErrors ? 'error.main'
+        : 'primary.main';
 
   useEffect(() => {
     const awaitVerifyToken = async () => {
@@ -58,11 +88,15 @@ export function Login() {
 
   async function handleIngresar({ email, password }) {
     setMessage('');
+    setErrors([]);
     try {
       setWaiting(true);
       const data = await userAPI.login({ email, password });
       setUser(data);
-      navigate('/home');
+      setLoginOk(true);
+      setTimeout(() => {
+        navigate('/home');
+      }, 2000);
     } catch (error) {
       const errors = errorToObject(error);
       setMessage(errors.message);
@@ -83,22 +117,29 @@ export function Login() {
             UADE - Integración de Aplicaciones - Grupo 4
           </Typography>
         </div>
-        <Card elevation={6} sx={{marginTop: 'auto'}}>
-          <CardContent>
+        <Card elevation={6} sx={{
+          marginTop: 'auto',
+          transition: 'background-color 0.5s ease',
+          backgroundColor: cardBackgroundColor,
+        }}>
+          <CardContent sx={styles.upperCardContent}>
+            <LoginIcon sx={styles.loginIcon}/>
+          </CardContent>
+          <CardContent sx={styles.bottomCardContent}>
             <Stack spacing={2}>
-              <Typography sx={{ fontSize: 14 }}>
-                Sistema de Administración de Contenido
-              </Typography>
               <Typography variant="h5" fontWeight={300}>
                 Ingresar
               </Typography>
               <LoginForm
-                disabled={waiting}
+                loading={waiting}
+                disabled={waiting || loginOk}
                 errors={errors}
                 onSubmit={handleIngresar}
               />
               {message !== '' && (
-                <Typography sx={{ color: 'error.main' }}>{message}</Typography>
+                <Typography sx={{ color: 'error.main' }}>
+                  {message}
+                </Typography>
               )}
             </Stack>
           </CardContent>
