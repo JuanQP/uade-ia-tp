@@ -2,14 +2,15 @@ import { Box, Card, CardContent, Link, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 const styles = {
-  card: (bgColor) => ({
+  card: (gradientFrom, gradientTo) => ({
     display: 'flex',
     flexDirection: 'row',
     height: '100%',
     minHeight: '200px',
-    backgroundColor: bgColor,
+    background: `linear-gradient(to bottom, ${gradientFrom}, ${gradientTo})`,
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
+    boxShadow: `0px 4px 8px ${gradientTo}`,
   }),
   cardContentTop: {
     display: 'flex',
@@ -21,7 +22,7 @@ const styles = {
   cardContentBottom: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
     height: '100%',
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
@@ -31,9 +32,9 @@ const styles = {
   },
 }
 
-export function HomeCard({ title, Icon, linkTo, bgColor, children }) {
+export function HomeCard({ title, Icon, linkTo, gradientFrom, gradientTo, children }) {
   return (
-    <Card sx={styles.card(bgColor)}>
+    <Card sx={styles.card(gradientFrom, gradientTo)}>
       <CardContent sx={styles.cardContentTop}>
         <Icon
           fontSize="large"
@@ -52,7 +53,7 @@ export function HomeCard({ title, Icon, linkTo, bgColor, children }) {
         {children}
         <Box sx={{marginTop: 'auto'}} />
         <Typography sx={{alignSelf: 'end'}}>
-          <Link underline="hover" component={RouterLink} to={linkTo}>
+          <Link color="primary.dark" underline="hover" component={RouterLink} to={linkTo}>
             Ir a {title.toLowerCase()}
           </Link>
         </Typography>

@@ -29,21 +29,39 @@ export function Home() {
           </Card>
         </Grid>
         <Grid xs={12} md={6} lg={4}>
-          <HomeCard bgColor="#1565c0" title="Contenidos" Icon={MovieIcon} linkTo="/contents">
+          <HomeCard
+            title="Contenidos"
+            Icon={MovieIcon}
+            linkTo="/contents"
+            gradientFrom="#373B44"
+            gradientTo="#4286f4"
+          >
             <Typography>
               Son las películas con las que contamos en la plataforma 🎥🍿
             </Typography>
           </HomeCard>
         </Grid>
         <Grid xs={12} md={6} lg={4}>
-          <HomeCard bgColor="#009de1" title="Carruseles" Icon={ViewCarouselIcon} linkTo="/carousels">
+          <HomeCard
+            title="Carruseles"
+            Icon={ViewCarouselIcon}
+            linkTo="/carousels"
+            gradientFrom="#FF5F6D"
+            gradientTo="#FFC371"
+          >
             <Typography>
               Para facilitar el uso de la plataforma agrupamos el contenido en listas así los usuarios pueden ver películas similares 😌👌
             </Typography>
           </HomeCard>
         </Grid>
         <Grid xs={12} md={6} lg={4}>
-          <HomeCard bgColor="#00cfde" title="Curadores" Icon={PersonIcon} linkTo="/register">
+          <HomeCard
+            title="Curadores"
+            Icon={PersonIcon}
+            linkTo="/register"
+            gradientFrom="#4568DC"
+            gradientTo="#B06AB3"
+          >
             <Typography>
               Los usuarios que tienen acceso a este sistema se llaman <strong>Curadores</strong>. Podemos solicitar a la gente de SSO que agregue nuevos usuarios a través de esta misma página 👍
             </Typography>
