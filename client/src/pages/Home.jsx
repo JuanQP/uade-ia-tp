@@ -33,9 +33,9 @@ export function Home() {
             title="Contenidos"
             Icon={MovieIcon}
             linkTo="/contents"
-            gradientFrom="#373B44"
+            gradientFrom="#191654"
             gradientTo="#4286f4"
-          >
+            >
             <Typography>
               Son las películas con las que contamos en la plataforma 🎥🍿
             </Typography>
@@ -46,9 +46,9 @@ export function Home() {
             title="Carruseles"
             Icon={ViewCarouselIcon}
             linkTo="/carousels"
-            gradientFrom="#FF5F6D"
-            gradientTo="#FFC371"
-          >
+            gradientFrom="#191654"
+            gradientTo="#43C6AC"
+            >
             <Typography>
               Para facilitar el uso de la plataforma agrupamos el contenido en listas así los usuarios pueden ver películas similares 😌👌
             </Typography>
@@ -59,7 +59,7 @@ export function Home() {
             title="Curadores"
             Icon={PersonIcon}
             linkTo="/register"
-            gradientFrom="#4568DC"
+            gradientFrom="#191654"
             gradientTo="#B06AB3"
           >
             <Typography>

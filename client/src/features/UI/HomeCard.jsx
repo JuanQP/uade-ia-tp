@@ -10,7 +10,7 @@ const styles = {
     background: `linear-gradient(to bottom, ${gradientFrom}, ${gradientTo})`,
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
-    boxShadow: `0px 4px 8px ${gradientTo}`,
+    boxShadow: `0px 2px 4px ${gradientTo}`,
   }),
   cardContentTop: {
     display: 'flex',
