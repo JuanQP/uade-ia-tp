@@ -85,8 +85,7 @@ export function CarouselForm({
             <LoadingButton
               type="submit"
               loading={loading}
-              className={loading ? "" : "create-button"}
-              variant="contained"
+              variant="gradient-success"
               startIcon={editing ? <SaveIcon /> : <AddIcon />}
             >
               {editing ? "Guardar" : "Crear"}

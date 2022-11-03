@@ -98,8 +98,7 @@ export function ReviewStep({
             Anterior
           </Button>
           <LoadingButton
-            className="create-button"
-            variant="contained"
+            variant="gradient-success"
             loading={loading}
             onClick={handleNextStep}
           >

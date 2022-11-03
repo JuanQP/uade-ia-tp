@@ -98,8 +98,7 @@ export function UserForm({
             <LoadingButton
               type="submit"
               loading={loading}
-              className={loading ? "" : "create-button"}
-              variant="contained"
+              variant="gradient-success"
               startIcon={<PersonAddIcon />}
             >
               Agregar
