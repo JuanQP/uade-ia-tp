@@ -42,7 +42,7 @@ const styles = {
   },
   bottomCardContent: {
     backgroundColor: 'common.white',
-    borderRadius: '20px 20px 0px 0px',
+    borderRadius: '0px 0px 0px 0px',
   },
   loginIcon: {
     fontSize: '48px',
@@ -117,7 +117,7 @@ export function Login() {
             UADE - Integración de Aplicaciones - Grupo 4
           </Typography>
         </div>
-        <Card elevation={6} sx={{
+        <Card raised sx={{
           marginTop: 'auto',
           transition: 'background-color 0.5s ease',
           backgroundColor: cardBackgroundColor,

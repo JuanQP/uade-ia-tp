@@ -23,6 +23,17 @@ export const theme = createTheme({
               backgroundColor: theme.palette.action.disabledBackground,
             }
           })
+        },
+        {
+          props: { variant: 'gradient' },
+          style: ({ ownerState, theme }) => ({
+            background: `linear-gradient(${ownerState.deg}, ${ownerState.gradientFrom}, ${ownerState.gradientTo})`,
+            color: theme.palette.common.white,
+            '&.Mui-disabled': {
+              background: 'unset',
+              backgroundColor: theme.palette.action.disabledBackground,
+            }
+          })
         }
       ]
     }

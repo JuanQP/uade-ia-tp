@@ -20,7 +20,7 @@ export function Home() {
           <Card>
             <CardContent>
               <Typography variant="h5" fontWeight={100} component="span">
-                Hola, <Typography color="primary" variant="inherit" fontWeight={400} component="span"> {user.nombre}</Typography>
+                Hola, <Typography color="primary" variant="inherit" fontWeight={400} component="span"> {user.nombre}</Typography> 👋
               </Typography>
               <Typography>
                 Para empezar a gestionar el contenido de la plataforma acá tenés un resumen 👇
@@ -28,42 +28,42 @@ export function Home() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} md={6} lg={4}>
+        <Grid xs={12} md={4}>
           <HomeCard
             title="Contenidos"
             Icon={MovieIcon}
             linkTo="/contents"
-            gradientFrom="#191654"
-            gradientTo="#4286f4"
+            gradientFrom="#65C7F7"
+            gradientTo="#0052D4"
             >
-            <Typography>
+            <Typography align="center" gutterBottom>
               Son las películas con las que contamos en la plataforma 🎥🍿
             </Typography>
           </HomeCard>
         </Grid>
-        <Grid xs={12} md={6} lg={4}>
+        <Grid xs={12} md={4}>
           <HomeCard
             title="Carruseles"
             Icon={ViewCarouselIcon}
             linkTo="/carousels"
-            gradientFrom="#191654"
-            gradientTo="#43C6AC"
+            gradientFrom="#FFC371"
+            gradientTo="#FF5F6D"
             >
-            <Typography>
+            <Typography align="center" gutterBottom>
               Para facilitar el uso de la plataforma agrupamos el contenido en listas así los usuarios pueden ver películas similares 😌👌
             </Typography>
           </HomeCard>
         </Grid>
-        <Grid xs={12} md={6} lg={4}>
+        <Grid xs={12} md={4}>
           <HomeCard
             title="Curadores"
             Icon={PersonIcon}
             linkTo="/register"
-            gradientFrom="#191654"
-            gradientTo="#B06AB3"
+            gradientFrom="#E100FF"
+            gradientTo="#7F00FF"
           >
-            <Typography>
-              Los usuarios que tienen acceso a este sistema se llaman <strong>Curadores</strong>. Podemos solicitar a la gente de SSO que agregue nuevos usuarios a través de esta misma página 👍
+            <Typography align="center" gutterBottom>
+              Los usuarios de este sistema se llaman <strong>Curadores</strong>. Podemos solicitar al equipo de SSO que agregue nuevos usuarios a través de esta misma página 👍
             </Typography>
           </HomeCard>
         </Grid>

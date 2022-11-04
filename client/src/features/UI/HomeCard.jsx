@@ -1,62 +1,62 @@
-import { Box, Card, CardContent, Link, Typography } from "@mui/material";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Button, Card, CardContent, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 const styles = {
-  card: (gradientFrom, gradientTo) => ({
+  card: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     height: '100%',
-    minHeight: '200px',
-    background: `linear-gradient(to bottom, ${gradientFrom}, ${gradientTo})`,
-    borderTopLeftRadius: '20px',
-    borderBottomLeftRadius: '20px',
-    boxShadow: `0px 2px 4px ${gradientTo}`,
-  }),
-  cardContentTop: {
+    minHeight: '300px',
+  },
+  cardContentTop: (gradientFrom, gradientTo) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 1,
-  },
+    background: `linear-gradient(45deg, ${gradientFrom}, ${gradientTo})`,
+  }),
   cardContentBottom: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
     height: '100%',
-    borderTopLeftRadius: '20px',
-    borderBottomLeftRadius: '20px',
+    backgroundColor: 'background.paper',
   },
   icon: {
-    filter: "drop-shadow(1px 1px 1px black)"
+    fontSize: 48,
+    color: 'common.white',
   },
 }
 
 export function HomeCard({ title, Icon, linkTo, gradientFrom, gradientTo, children }) {
   return (
-    <Card sx={styles.card(gradientFrom, gradientTo)}>
-      <CardContent sx={styles.cardContentTop}>
-        <Icon
-          fontSize="large"
-          htmlColor="white"
-          sx={styles.icon}
-        />
+    <Card sx={styles.card}>
+      <CardContent sx={styles.cardContentTop(gradientFrom, gradientTo)}>
+        <Icon sx={styles.icon} />
       </CardContent>
       <CardContent sx={styles.cardContentBottom}>
         <Typography
           variant="h6"
           fontWeight={200}
+          align="center"
+          gutterBottom
         >
           {title}
         </Typography>
         {/* Here goes the content */}
         {children}
-        <Box sx={{marginTop: 'auto'}} />
-        <Typography sx={{alignSelf: 'end'}}>
-          <Link color="primary.dark" underline="hover" component={RouterLink} to={linkTo}>
-            Ir a {title.toLowerCase()}
-          </Link>
-        </Typography>
+        <Button
+          variant="gradient"
+          gradientFrom={gradientFrom}
+          gradientTo={gradientTo}
+          deg="45deg"
+          component={RouterLink}
+          to={linkTo}
+          sx={{marginTop: 'auto'}}
+          endIcon={<ArrowForwardIcon />}
+        >
+          {title}
+        </Button>
       </CardContent>
     </Card>
   )

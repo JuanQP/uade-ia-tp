@@ -34,8 +34,8 @@ export function ContentCard({
   const orderText = isSelected ? `#${order}` : '-';
   return (
     <Card
-      elevation={isSelected ? 8 : undefined}
       className={isSelected ? "content-card-selected" : undefined}
+      raised={isSelected}
       sx={styles.card(isSelected)}
     >
       <CardActionArea>
