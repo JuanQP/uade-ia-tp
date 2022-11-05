@@ -46,7 +46,7 @@ export const MoviePicker = forwardRef(({
 
   async function handleSearch() {
     try {
-      const results = await contentAPI.fetchContents({
+      const { results } = await contentAPI.fetchContents({
         title: searchFieldRef.current.value,
         format: 'card',
       });
