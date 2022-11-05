@@ -17,6 +17,9 @@ const ATTRIBUTES_FORMAT = {
       'duration',
       'director',
     ],
+    order: [
+      ['id', 'DESC'],
+    ],
   },
   card: {
     attributes: [

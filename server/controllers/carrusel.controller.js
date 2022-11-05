@@ -33,6 +33,9 @@ const ATTRIBUTES_FORMAT = {
       'id',
       'title',
     ],
+    order: [
+      ['id', 'DESC'],
+    ],
   },
 };
 
