@@ -5,7 +5,7 @@ module.exports = {
         results: contenidosTerror.concat(contenidosSuspenso).concat(contenidosComedia)
       });
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -13,7 +13,7 @@ module.exports = {
     try {
       res.status(200).send(contenidoIndividual);
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -27,7 +27,7 @@ module.exports = {
         ]
       });
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -35,7 +35,7 @@ module.exports = {
     try {
       res.status(200).send({ id: 1, title: "Terror", contenidos: contenidosTerror });
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 };

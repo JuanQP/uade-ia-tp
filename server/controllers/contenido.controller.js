@@ -55,7 +55,7 @@ module.exports = {
         results: rows,
       });
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -66,7 +66,7 @@ module.exports = {
       await newContent.setGenres(genres);
       res.status(200).send(newContent);
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -78,7 +78,7 @@ module.exports = {
       });
       res.status(200).send(content);
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -91,7 +91,7 @@ module.exports = {
       await savedContent.setGenres(genres);
       res.status(200).send(savedContent);
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -101,7 +101,7 @@ module.exports = {
       const deletedCount = await Contenido.destroy({ where: { id } });
       res.status(200).send({ message: `${deletedCount} contents deleted.` });
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 };

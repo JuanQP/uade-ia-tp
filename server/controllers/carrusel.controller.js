@@ -71,7 +71,7 @@ module.exports = {
         results: rows,
       });
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -84,7 +84,7 @@ module.exports = {
       await newCarousel.setContenidos(newContenidos);
       res.status(200).send(newCarousel);
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -96,7 +96,7 @@ module.exports = {
       });
       res.status(200).send(carousel);
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -111,7 +111,7 @@ module.exports = {
       await savedCarousel.setContenidos(newContenidos);
       res.status(200).send(savedCarousel);
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 
@@ -121,7 +121,7 @@ module.exports = {
       const deletedCount = await Carrusel.destroy({ where: { id } });
       res.status(200).send({ message: `${deletedCount} carousels deleted.` });
     } catch (error) {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error.message});
     }
   },
 };
