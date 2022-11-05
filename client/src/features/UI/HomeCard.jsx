@@ -47,9 +47,7 @@ export function HomeCard({ title, Icon, linkTo, gradientFrom, gradientTo, childr
         {children}
         <Button
           variant="gradient"
-          gradientFrom={gradientFrom}
-          gradientTo={gradientTo}
-          deg="45deg"
+          gradient={{ deg: "45deg", from: gradientFrom, to: gradientTo }}
           component={RouterLink}
           to={linkTo}
           sx={{marginTop: 'auto'}}
