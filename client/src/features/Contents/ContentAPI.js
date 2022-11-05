@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export async function fetchContents({ title, format = 'table' }) {
+export async function fetchContents({ title, format = 'table', page }) {
   const response = await axios.get(`/api/contenidos`, {
-    params: { title, format },
+    params: { title, format, page },
   });
-  return response.data.results;
+  return response.data;
 }
 
 export async function fetchContent(id) {

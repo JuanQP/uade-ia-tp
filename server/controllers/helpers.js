@@ -1,4 +1,4 @@
-const DEFAULT_PAGE_LIMIT = 3;
+const DEFAULT_PAGE_LIMIT = 10;
 
 module.exports = {
   getPaginationOptions: (page) => {

@@ -15,16 +15,28 @@ const columns = [
 export function Carousel() {
 
   const [carousels, setCarousels] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pages, setPages] = useState(0);
   const { enqueueSnackbar } = useSnackbar();
 
   async function fetchData () {
-    const carousels = await carouselAPI.fetchCarousels({ format: 'table' });
-    setCarousels(carousels);
+    const {
+      results,
+      currentPage,
+      totalPages
+    } = await carouselAPI.fetchCarousels({ format: 'table', page });
+    setCarousels(results);
+    setPage(currentPage);
+    setPages(totalPages);
   };
+
+  function handlePageChange(_, newPage) {
+    setPage(newPage - 1);
+  }
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [page]);
 
   async function handleDelete(carousel) {
     const response = confirm("¿Estás seguro?");
@@ -54,7 +66,10 @@ export function Carousel() {
         items={carousels}
         columns={columns}
         url="/carousels/"
+        page={page + 1}
+        pages={pages}
         onDelete={handleDelete}
+        onPageChange={handlePageChange}
       />
     </Container>
   );

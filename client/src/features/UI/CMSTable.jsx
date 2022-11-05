@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { CMSTableBodyRow } from './CMSTableBodyRow';
 import { CMSTableHeadCell } from './CMSTableHeadCell';
 
@@ -17,7 +17,10 @@ export function CMSTable({
   items = [],
   columns = [],
   url = '',
+  page = 0,
+  pages = 0,
   onDelete = (item) => {},
+  onPageChange = (event, value) => {},
 }) {
 
   if(items.length === 0) {
@@ -55,6 +58,14 @@ export function CMSTable({
           ))}
         </TableBody>
       </Table>
+      <Box my={1} display="flex" justifyContent="center">
+        <Pagination
+          color="primary"
+          count={pages}
+          page={page}
+          onChange={onPageChange}
+        />
+      </Box>
     </TableContainer>
   )
 }

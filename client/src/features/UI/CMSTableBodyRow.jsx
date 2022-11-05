@@ -1,6 +1,6 @@
-import { IconButton, TableCell, TableRow, useMediaQuery, useTheme } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton, TableCell, TableRow, useMediaQuery, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 
 
@@ -8,9 +8,6 @@ const styles = {
   row: (theme) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
-    },
-    '&:last-child td, &:last-child th': {
-      border: 0,
     },
   }),
   cell: {

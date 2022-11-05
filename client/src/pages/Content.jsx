@@ -18,16 +18,29 @@ const columns = [
 export function Content() {
 
   const [contents, setContents] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pages, setPages] = useState(0);
+
   const { enqueueSnackbar } = useSnackbar();
 
   async function fetchData () {
-    const contents = await contentAPI.fetchContents({ format: 'table' });
-    setContents(contents);
+    const {
+      results,
+      currentPage,
+      totalPages,
+    } = await contentAPI.fetchContents({ format: 'table', page });
+    setContents(results);
+    setPage(currentPage);
+    setPages(totalPages);
   };
+
+  function handlePageChange(_, newPage) {
+    setPage(newPage - 1);
+  }
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [page]);
 
   async function handleDelete(content) {
     const response = confirm("¿Estás seguro?");
@@ -57,7 +70,10 @@ export function Content() {
         items={contents}
         columns={columns}
         url="/contents/"
+        page={page + 1}
+        pages={pages}
         onDelete={handleDelete}
+        onPageChange={handlePageChange}
       />
     </Container>
   );
