@@ -20,7 +20,7 @@ module.exports = (app) => {
 	routes.post('/login', authController.login);
 	routes.post('/logout', authController.logout);
 	routes.post('/register', verifyAuth, authController.register);
-	routes.get('/verify', verifyAuth, authController.verify);
+	routes.post('/verify', verifyAuth, authController.verify);
 
 	// Géneros
 	routes.get('/generos', generoController.list);

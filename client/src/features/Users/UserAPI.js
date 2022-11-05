@@ -30,7 +30,7 @@ export async function verifyToken() {
       throw new Error("Es necesario iniciar sesión para usar esta aplicación");
     }
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    return await axios.get('/api/verify');
+    return await axios.post('/api/verify');
   } catch (error) {
     localStorage.removeItem('token');
     localStorage.removeItem('nombre');
