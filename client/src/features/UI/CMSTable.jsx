@@ -26,7 +26,7 @@ export function CMSTable({
   if(items.length === 0) {
     return (
       <Typography align="center">
-        Nada por aquí todavía 👀...
+        No se encontraron resultados para esta búsqueda 😅
       </Typography>
     );
   }

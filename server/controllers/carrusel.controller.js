@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Carrusel, Contenido, ContenidoCarrusel, Genero, MaturityRating } = require('../models');
 const { getPaginationResults, getPaginationOptions } = require('./helpers');
 
@@ -50,11 +51,14 @@ function toSequelizeInstance(contenido) {
 module.exports = {
   list: async (req, res) => {
     try {
-      const { page } = req.query;
+      const { title: titleSearch = '', page } = req.query;
       const format = req.query?.format === 'table' ? ATTRIBUTES_FORMAT.table : ATTRIBUTES_FORMAT.default;
       const paginationOptions = getPaginationOptions(page);
 
       const { rows, count } = await Carrusel.findAndCountAll({
+        where: {
+          title: { [Op.iLike]: `%${titleSearch}%` },
+        },
         ...format,
         ...paginationOptions
       });

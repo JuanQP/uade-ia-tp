@@ -1,10 +1,10 @@
 import { notification } from "@/utils";
-import { carouselAPI } from "@features/Carousels";
+import { carouselAPI, SearchField } from "@features/Carousels";
 import { CMSTable } from "@features/UI";
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const columns = [
@@ -17,6 +17,8 @@ export function Carousel() {
   const [carousels, setCarousels] = useState([]);
   const [page, setPage] = useState(0);
   const [pages, setPages] = useState(0);
+  const [searchText, setSearchText] = useState('');
+  const searchField = useRef(null);
   const { enqueueSnackbar } = useSnackbar();
 
   async function fetchData () {
@@ -24,7 +26,11 @@ export function Carousel() {
       results,
       currentPage,
       totalPages
-    } = await carouselAPI.fetchCarousels({ format: 'table', page });
+    } = await carouselAPI.fetchCarousels({
+      format: 'table',
+      page,
+      title: searchText,
+    });
     setCarousels(results);
     setPage(currentPage);
     setPages(totalPages);
@@ -34,9 +40,13 @@ export function Carousel() {
     setPage(newPage - 1);
   }
 
+  function handleSearch() {
+    setSearchText(searchField.current.value);
+  }
+
   useEffect(() => {
     fetchData();
-  }, [page]);
+  }, [page, searchText]);
 
   async function handleDelete(carousel) {
     const response = confirm("¿Estás seguro?");
@@ -49,7 +59,7 @@ export function Carousel() {
 
   return (
     <Container maxWidth="lg">
-      <div style={{display: 'flex', gap: 10}}>
+      <Box style={{display: 'flex', gap: 10}}>
         <Typography variant="h4" fontWeight={100}>Carruseles</Typography>
         <Button
           startIcon={<AddIcon />}
@@ -60,8 +70,16 @@ export function Carousel() {
         >
           Nuevo
         </Button>
-      </div>
-      <Box mt={2}/>
+      </Box>
+      <Paper sx={{ my: 2, p: 2 }}>
+        <SearchField
+          label="Buscar carruseles"
+          ref={searchField}
+          variant="standard"
+          fullWidth
+          onSearch={handleSearch}
+        />
+      </Paper>
       <CMSTable
         items={carousels}
         columns={columns}

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export async function fetchCarousels({ format = 'table', page }) {
+export async function fetchCarousels({ format = 'table', page, title }) {
   const response = await axios.get(`/api/carruseles`, {
-    params: { format, page },
+    params: { format, page, title },
   });
   return response.data;
 }
