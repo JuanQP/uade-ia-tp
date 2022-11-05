@@ -36,5 +36,5 @@ db.sequelize.authenticate()
 	db.sequelize.sync({ alter: true });
 })
 .catch((err) => {
-	console.log(err);
+	console.log(err.message);
 });

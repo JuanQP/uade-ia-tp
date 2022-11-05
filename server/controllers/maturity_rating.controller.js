@@ -13,7 +13,7 @@ module.exports = {
       });
       res.status(200).send({ maturity_ratings });
     } catch (error) {
-      res.status(400).send(error);
+      res.status(400).send(error.message);
     }
   },
 
@@ -23,7 +23,7 @@ module.exports = {
       const maturity_rating = await MaturityRating.findByPk(id);
       res.status(200).send({ maturity_rating });
     } catch (error) {
-      res.status(400).send(error);
+      res.status(400).send(error.message);
     }
   },
 };

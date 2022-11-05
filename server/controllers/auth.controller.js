@@ -66,7 +66,7 @@ module.exports = {
         res.status(200).send({message: 'Logout ok.'});
       }
     } catch (error) {
-      res.status(400).send(error);
+      res.status(400).send(error.message);
     }
   },
 

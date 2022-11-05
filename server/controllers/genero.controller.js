@@ -13,7 +13,7 @@ module.exports = {
       });
       res.status(200).send({ generos });
     } catch (error) {
-      res.status(400).send(error);
+      res.status(400).send(error.message);
     }
   },
 
@@ -23,7 +23,7 @@ module.exports = {
       const genero = await Genero.findByPk(id);
       res.status(200).send({ genero });
     } catch (error) {
-      res.status(400).send(error);
+      res.status(400).send(error.message);
     }
   },
 };
