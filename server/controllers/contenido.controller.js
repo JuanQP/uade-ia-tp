@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const { Contenido, Genero, MaturityRating } = require('../models');
+const { getPaginationOptions, getPaginationResults } = require('./helpers');
 
 const ATTRIBUTES_FORMAT = {
   default: {
@@ -33,15 +34,26 @@ const ATTRIBUTES_FORMAT = {
 module.exports = {
   list: async (req, res) => {
     try {
+      const { page } = req.query;
       const { title: titleSearch = '', format: formatQuery } = req.query;
       const format = ATTRIBUTES_FORMAT[formatQuery] ?? ATTRIBUTES_FORMAT.default;
-      const contenidos = await Contenido.findAll({
+      const paginationOptions = getPaginationOptions(page);
+
+      const { rows, count } = await Contenido.findAndCountAll({
         where: {
           title: { [Op.iLike]: `%${titleSearch}%` },
         },
+        ...paginationOptions,
         ...format,
       });
-      res.status(200).send({ results: contenidos });
+
+      const paginationResults = getPaginationResults(page, count);
+
+      res.status(200).send({
+        count,
+        ...paginationResults,
+        results: rows,
+      });
     } catch (error) {
       res.status(400).send(error);
     }

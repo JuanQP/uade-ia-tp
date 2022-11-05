@@ -1,4 +1,5 @@
 const { Carrusel, Contenido, ContenidoCarrusel, Genero, MaturityRating } = require('../models');
+const { getPaginationResults, getPaginationOptions } = require('./helpers');
 
 const ATTRIBUTES_FORMAT = {
   default: {
@@ -49,11 +50,22 @@ function toSequelizeInstance(contenido) {
 module.exports = {
   list: async (req, res) => {
     try {
+      const { page } = req.query;
       const format = req.query?.format === 'table' ? ATTRIBUTES_FORMAT.table : ATTRIBUTES_FORMAT.default;
-      const carruseles = await Carrusel.findAll({
+      const paginationOptions = getPaginationOptions(page);
+
+      const { rows, count } = await Carrusel.findAndCountAll({
         ...format,
+        ...paginationOptions
       });
-      res.status(200).send({ results: carruseles });
+
+      const paginationResults = getPaginationResults(page, count);
+
+      res.status(200).send({
+        count,
+        ...paginationResults,
+        results: rows,
+      });
     } catch (error) {
       res.status(400).send(error);
     }
