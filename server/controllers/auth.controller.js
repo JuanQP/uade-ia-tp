@@ -18,7 +18,7 @@ module.exports = {
       if(ignoreSSO) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         if(email !== CMS_DEV_ADMIN_USER || password !== CMS_DEV_ADMIN_PASSWORD) {
-          res.status(401).send({message: 'Incorrect credentials'});
+          res.status(401).send({message: 'Incorrect credentials', errors: []});
           return;
         }
         res.status(200).send({
