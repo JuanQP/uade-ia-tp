@@ -125,7 +125,7 @@ export const MoviePicker = forwardRef<HTMLInputElement, MoviePickerProps>(({
         <Grid xs={12}>
           {values.length === 0 ? (
             <Typography fontStyle="italic" color="neutral">
-              No hay películas seleccionadas 🤔
+              No hay películas seleccionadas 🤔. Seleccioná alguna de las que aparecen acá abajo 👇
             </Typography>
           ) : (
             <Typography>
