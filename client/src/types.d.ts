@@ -28,3 +28,9 @@ type ErrorObject = {
   serverMessage: string;
   fields: FieldErrors;
 }
+
+interface PaginationServerResponse<T> {
+  results: Required<T>[];
+  currentPage: number;
+  totalPages: number;
+}

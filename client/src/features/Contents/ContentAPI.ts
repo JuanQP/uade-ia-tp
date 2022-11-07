@@ -1,14 +1,16 @@
+import { PaginationServerResponse } from "@/types";
 import axios from "axios";
 
+
 export async function fetchContents({ title, format = 'table', page }: Partial<FetchContentsOptions>) {
-  const response = await axios.get(`/api/contenidos`, {
+  const response = await axios.get<PaginationServerResponse<Content>>(`/api/contenidos`, {
     params: { title, format, page },
   });
   return response.data;
 }
 
 export async function fetchContent(id: number) {
-  const { data } = await axios.get(`/api/contenidos/${id}`);
+  const { data } = await axios.get<Required<Content>>(`/api/contenidos/${id}`);
   return data;
 }
 

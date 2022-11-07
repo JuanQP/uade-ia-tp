@@ -2,7 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, TableCell, TableRow, Theme, useMediaQuery, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Column } from './types';
+import { CMSTableColumnType, CMSTableItemType } from './types';
 
 
 const styles = {
@@ -18,8 +18,8 @@ const styles = {
 };
 
 interface CMSTableBodyRowProps {
-  item: any;
-  columns: Column[];
+  item: CMSTableItemType;
+  columns: CMSTableColumnType[];
   url: string;
   onDelete: (item: any) => void;
 }

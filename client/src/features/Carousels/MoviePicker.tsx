@@ -35,7 +35,7 @@ function mergeValuesWithNewContents(
 }
 
 interface MoviePickerProps {
-  values: any[];
+  values: CardFormatContent[];
   error: boolean;
   helperText: string;
   onBlur: () => void;

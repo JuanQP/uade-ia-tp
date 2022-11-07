@@ -18,7 +18,7 @@ const columns = [
 
 export function Content() {
 
-  const [contents, setContents] = useState([]);
+  const [contents, setContents] = useState<Required<Content>[]>([]);
   const [page, setPage] = useState(0);
   const [pages, setPages] = useState(0);
   const [searchText, setSearchText] = useState('');

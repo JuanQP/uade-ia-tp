@@ -1,7 +1,8 @@
+import { PaginationServerResponse } from "@/types";
 import axios from "axios";
 
 export async function fetchCarousels({ format = 'table', page, title }: FetchCarouselsOptions) {
-  const response = await axios.get(`/api/carruseles`, {
+  const response = await axios.get<PaginationServerResponse<Carousel>>(`/api/carruseles`, {
     params: { format, page, title },
   });
   return response.data;

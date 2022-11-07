@@ -1,7 +1,7 @@
 import { Box, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography } from "@mui/material";
 import { CMSTableBodyRow } from './CMSTableBodyRow';
 import { CMSTableHeadCell } from './CMSTableHeadCell';
-import { Column } from "./types";
+import { CMSTableColumnType } from "./types";
 
 const styles = {
   tableHeadRow: (theme: Theme) => ({
@@ -10,29 +10,29 @@ const styles = {
   }),
 }
 
-interface CMSTableProps {
-  items: any[];
-  columns: Column[];
+interface CMSTableProps<T extends {id: number}> {
+  items: T[];
+  columns: CMSTableColumnType[];
   url: string;
   page: number;
   pages: number;
-  onDelete: (item: any) => void;
-  onPageChange: (event: React.ChangeEvent<unknown>, value: any) => void;
+  onDelete: (item: T) => void;
+  onPageChange: (event: React.ChangeEvent<unknown>, value: number) => void;
 }
 
 /**
  * Table to show properly formatted contents and carousels
  * It will hide columns if screen is too small
  */
-export function CMSTable({
-  items = [],
-  columns = [],
+export function CMSTable<T extends {id: number}>({
+  items,
+  columns,
   url = '',
   page = 0,
   pages = 0,
-  onDelete = (item) => {},
-  onPageChange = (event: React.ChangeEvent<unknown>, value: number) => {},
-} : CMSTableProps) {
+  onDelete,
+  onPageChange,
+} : CMSTableProps<T>) {
 
   if(items.length === 0) {
     return (
