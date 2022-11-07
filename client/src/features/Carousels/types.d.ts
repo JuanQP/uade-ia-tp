@@ -1,12 +1,13 @@
 type Carousel = {
-  id: number;
+  id?: number;
   title: string;
   contenidos: Content[];
 }
 
-type CarouselFormValues = {
-  id?: number;
-  title: string;
+/**
+ * This type is needed to update the "Through Table"
+ */
+type CarouselFormValues = Omit<Carousel, 'contenidos'> & {
   contenidos: {
     id: number;
     ContenidoCarrusel: {
@@ -71,3 +72,9 @@ interface TableFormatCarousel {
   id: number;
   title: string;
 }
+
+type CardFormatContentWithOrder = CardFormatContent & {
+  ContenidoCarrusel: {
+    order: number
+  }
+};

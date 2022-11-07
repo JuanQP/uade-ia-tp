@@ -18,12 +18,6 @@ const styles = {
   }),
 }
 
-type CardFormatContentWithOrder = CardFormatContent & {
-  ContenidoCarrusel: {
-    order: number
-  }
-};
-
 interface ContentCardProps {
   content: CardFormatContentWithOrder;
   values: CardFormatContent[];
@@ -54,12 +48,13 @@ export function ContentCard({
       raised={isSelected}
       sx={styles.card(isSelected)}
     >
-      <CardActionArea>
+      <CardActionArea
+        onClick={() => onClick(content)}
+      >
         <Image
           style={{cursor: 'pointer'}}
           wrapperStyle={{height: 'auto'}} // Images will have same height
           src={content.urlImage}
-          onClick={() => onClick(content)}
         />
       </CardActionArea>
       <CardContent sx={{py: 1}}>

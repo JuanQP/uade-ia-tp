@@ -23,7 +23,7 @@ const DEFAULT_VALUES = {
 
 export function UserForm({
   loading = false,
-  onSubmit = (user: UserFormValues) => {},
+  onSubmit = (user: User) => {},
 }) {
 
   const { formState, register, handleSubmit } = useForm({
@@ -32,7 +32,7 @@ export function UserForm({
   });
   const { errors } = formState;
 
-  function handleUserSubmit(formValues: UserFormValues) {
+  function handleUserSubmit(formValues: User) {
     onSubmit({ ...formValues });
   }
 

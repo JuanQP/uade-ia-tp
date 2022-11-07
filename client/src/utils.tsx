@@ -1,23 +1,7 @@
 import { Slide, SlideProps } from '@mui/material';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { OptionsObject, SnackbarKey, SnackbarMessage, VariantType } from 'notistack';
-
-type EnqueueSnackbarType = (message: SnackbarMessage, options?: OptionsObject) => SnackbarKey;
-
-type ErrorResponse = {
-  message: string;
-  errors: {param: string, msg: string}[];
-}
-
-export type FieldErrors = {
-  [key: string] : string;
-}
-
-export type ErrorObject = {
-  errorMessage: string;
-  serverMessage: string;
-  fields: FieldErrors;
-}
+import { OptionsObject, VariantType } from 'notistack';
+import { EnqueueSnackbarType, ErrorObject, ErrorResponse } from './types';
 
 export const snackbarOptions: OptionsObject = {
   variant: 'info',

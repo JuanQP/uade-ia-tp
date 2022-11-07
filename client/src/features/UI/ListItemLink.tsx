@@ -1,6 +1,6 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText, styled } from "@mui/material";
 import { Link } from "react-router-dom";
-import { LinkType } from "./Layout";
+import { LinkType } from "./types";
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   // If not selected: text white

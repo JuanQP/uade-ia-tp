@@ -12,11 +12,11 @@ export async function fetchContent(id: number) {
   return data;
 }
 
-export async function patchContent(id: number, content: Content | ContentFormValues) {
+export async function patchContent(id: number, content: Content) {
   return await axios.patch(`/api/contenidos/${id}`, content);
 }
 
-export async function createContent(content: ContentFormValues) {
+export async function createContent(content: Content) {
   return await axios.post('/api/contenidos', content);
 }
 

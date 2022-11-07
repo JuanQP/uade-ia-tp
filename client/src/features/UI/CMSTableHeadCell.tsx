@@ -1,5 +1,5 @@
 import { TableCell, useMediaQuery, useTheme } from "@mui/material";
-import { Column } from "./CMSTable";
+import { Column } from "./types";
 
 export function CMSTableHeadCell({ column }: { column: Column }) {
 

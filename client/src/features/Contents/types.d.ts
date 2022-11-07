@@ -1,3 +1,6 @@
+/**
+ * Content type sent by server
+ */
 type Content = {
   id?: number,
   title: string,
@@ -12,11 +15,7 @@ type Content = {
   urlVideo: string,
   genres: Genre[],
   maturity_rating_id: number | null,
-  MaturityRating: MaturityRating | undefined,
-}
-
-type ContentFormValues = Omit<Content, 'genres' | 'MaturityRating'> & {
-  genres: number[];
+  MaturityRating?: MaturityRating,
 }
 
 type Genre = {
@@ -41,17 +40,6 @@ interface CardFormatContent {
   urlImage: string;
   genres: Genre[];
   MaturityRating: MaturityRating;
-}
-
-interface MaturityRating {
-  id: number;
-  description: string;
-}
-
-interface Genre {
-  id: number;
-  description: string;
-  ContenidoGenero: ContenidoGenero;
 }
 
 interface ContenidoGenero {

@@ -1,8 +1,8 @@
-import { FieldErrors } from "@/utils";
+import { FieldErrors } from "@/types";
 import { List, ListItemText } from "@mui/material";
 
 
-export function FieldErrorList({ errors }: { errors: FieldErrors}) {
+export function FieldErrorList({ errors }: { errors: FieldErrors }) {
 
   if(Object.keys(errors).length === 0) {
     return null;

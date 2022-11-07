@@ -19,7 +19,7 @@ export function CreateContent() {
   const [waiting, setWaiting] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
-  async function handleContentSubmit(content: ContentFormValues) {
+  async function handleContentSubmit(content: Content) {
     setWaiting(true);
     try {
       await contentAPI.createContent(content);

@@ -38,7 +38,7 @@ export function EditContent() {
     fetchData();
   }, []);
 
-  async function handleContentSubmit(content: ContentFormValues) {
+  async function handleContentSubmit(content: Content) {
     setWaiting(true);
     try {
       await contentAPI.patchContent(Number(id), content);

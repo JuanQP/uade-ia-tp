@@ -1,4 +1,4 @@
-import { FieldErrors } from '@/utils';
+import { FieldErrors } from '@/types';
 import LoginIcon from '@mui/icons-material/Login';
 import { LoadingButton } from "@mui/lab";
 import { Box, Stack } from "@mui/material";

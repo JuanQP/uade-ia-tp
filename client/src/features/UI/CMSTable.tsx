@@ -1,18 +1,13 @@
 import { Box, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography } from "@mui/material";
 import { CMSTableBodyRow } from './CMSTableBodyRow';
 import { CMSTableHeadCell } from './CMSTableHeadCell';
+import { Column } from "./types";
 
 const styles = {
   tableHeadRow: (theme: Theme) => ({
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   }),
-}
-
-export type Column = {
-  name: string;
-  key: string;
-  hide: boolean;
 }
 
 interface CMSTableProps {

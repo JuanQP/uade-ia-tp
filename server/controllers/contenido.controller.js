@@ -2,6 +2,13 @@ const { Op } = require('sequelize');
 const { Contenido, Genero, MaturityRating } = require('../models');
 const { getPaginationOptions, getPaginationResults } = require('./helpers');
 
+function genresToIDs(genre) {
+  if(typeof genre !== 'number' && genre.id === undefined) {
+    throw new Error("No se enviaron géneros válidos");
+  }
+  return genre.id ?? genre;
+}
+
 const ATTRIBUTES_FORMAT = {
   default: {
     include: [
@@ -66,7 +73,7 @@ module.exports = {
     try {
       const { genres, ...fields } = req.body;
       const newContent = await Contenido.create(fields);
-      await newContent.setGenres(genres);
+      await newContent.setGenres(genres.map(genresToIDs));
       res.status(200).send(newContent);
     } catch (error) {
       res.status(400).send({message: error.message});
@@ -91,7 +98,7 @@ module.exports = {
       const { genres, ...fields } = req.body;
       const content = await Contenido.findByPk(id);
       const savedContent = await content.update(fields);
-      await savedContent.setGenres(genres);
+      await savedContent.setGenres(genres.map(genresToIDs));
       res.status(200).send(savedContent);
     } catch (error) {
       res.status(400).send({message: error.message});

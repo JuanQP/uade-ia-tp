@@ -13,12 +13,6 @@ import { userAPI } from '../Users';
 import './App.css';
 import { ListItemLink } from './ListItemLink';
 
-export type LinkType = {
-  label: string;
-  to: string;
-  icon: JSX.Element;
-}
-
 const links = [
   {
     label: 'Home',
@@ -74,7 +68,7 @@ export function Layout() {
     const awaitVerifyToken = async () => {
       try {
         await userAPI.verifyToken();
-      } catch (error) {
+      } catch (error: any) {
         navigate('/', {
           state: { message: error.response?.data?.message ?? error.message },
         });

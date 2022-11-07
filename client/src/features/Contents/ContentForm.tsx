@@ -71,7 +71,7 @@ type ContentFormProps = {
   editing?: boolean;
   initialValues?: Content;
   loading: boolean;
-  onSubmit: (formValues: ContentFormValues) => void;
+  onSubmit: (formValues: Content) => void;
 }
 
 export function ContentForm({
@@ -94,7 +94,6 @@ export function ContentForm({
     const { MaturityRating, ...cleanFormValues } = formValues;
     onSubmit({
       ...cleanFormValues,
-      genres: formValues.genres.map(g => g.id),
       maturity_rating_id: MaturityRating!.id,
     });
   }
@@ -177,12 +176,10 @@ export function ContentForm({
                 cacheOptions
                 defaultOptions
                 isMulti
-                getOptionLabel={(item: Genre) => item.description}
-                getOptionValue={(item: Genre) => item.id}
+                getOptionLabel={(item: any) => item.description}
+                getOptionValue={(item: any) => item.id}
                 fetchCallback={loadGenresDelayed}
                 delay={1500}
-                error={!!errors.genres}
-                helperText={errors.genres?.message}
                 {...field}
               />
             )}
@@ -197,12 +194,10 @@ export function ContentForm({
                 placeholder="Calificación de Madurez *"
                 cacheOptions
                 defaultOptions
-                getOptionLabel={(item: MaturityRating) => item.description}
-                getOptionValue={(item: MaturityRating) => item.id}
+                getOptionLabel={(item: any) => item.description}
+                getOptionValue={(item: any) => item.id}
                 fetchCallback={loadMaturityRatingsDelayed}
                 delay={1500}
-                error={!!errors.maturity_rating}
-                helperText={errors.maturity_rating?.message}
                 {...field}
               />
             )}

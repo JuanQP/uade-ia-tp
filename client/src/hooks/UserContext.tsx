@@ -1,8 +1,12 @@
 import { createContext, useContext, useState } from 'react';
 
-const UserContext = createContext();
+const UserContext = createContext<any>(null);
 
-export const UserContextProvider = ({ children }) => {
+interface UserContextProviderProps {
+  children: JSX.Element | JSX.Element[];
+}
+
+export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [user, setUser] = useState({
     nombre: 'Invitado',
   });

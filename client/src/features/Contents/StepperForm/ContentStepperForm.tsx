@@ -14,7 +14,7 @@ const steps = [
 
 type ContentStepperForm = {
   loading: boolean;
-  onSubmit: (formValues: ContentFormValues) => void;
+  onSubmit: (formValues: Content) => void;
 }
 
 export function ContentStepperForm({ loading, onSubmit }: ContentStepperForm) {
@@ -43,10 +43,9 @@ export function ContentStepperForm({ loading, onSubmit }: ContentStepperForm) {
   }
 
   function handleSubmit() {
-    const { genres, MaturityRating, ...values } = newContent!;
+    const { MaturityRating, ...values } = newContent!;
     onSubmit({
       ...values,
-      genres: genres!.map(g => g.id),
       maturity_rating_id: MaturityRating!.id,
     });
   }

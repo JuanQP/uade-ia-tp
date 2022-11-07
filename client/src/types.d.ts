@@ -11,3 +11,20 @@ export declare module '@mui/material/styles' {
     loginOk: string;
   }
 }
+
+type EnqueueSnackbarType = (message: SnackbarMessage, options?: OptionsObject) => SnackbarKey;
+
+type ErrorResponse = {
+  message: string;
+  errors: {param: string, msg: string}[];
+}
+
+type FieldErrors = {
+  [key: string] : string;
+}
+
+type ErrorObject = {
+  errorMessage: string;
+  serverMessage: string;
+  fields: FieldErrors;
+}

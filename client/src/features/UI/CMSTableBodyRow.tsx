@@ -2,7 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, TableCell, TableRow, Theme, useMediaQuery, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Column } from './CMSTable';
+import { Column } from './types';
 
 
 const styles = {
