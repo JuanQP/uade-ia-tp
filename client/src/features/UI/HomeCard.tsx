@@ -1,6 +1,7 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import { GradientButton } from './GradientButton';
 
 const styles = {
   card: {
@@ -54,8 +55,7 @@ export function HomeCard({ title, Icon, linkTo, gradientFrom, gradientTo, childr
         </Typography>
         {/* Here goes the content */}
         {children}
-        <Button
-          variant="gradient"
+        <GradientButton
           gradient={{ deg: "45deg", from: gradientFrom, to: gradientTo }}
           component={RouterLink}
           to={linkTo}
@@ -63,7 +63,7 @@ export function HomeCard({ title, Icon, linkTo, gradientFrom, gradientTo, childr
           endIcon={<ArrowForwardIcon />}
         >
           {title}
-        </Button>
+        </GradientButton>
       </CardContent>
     </Card>
   )

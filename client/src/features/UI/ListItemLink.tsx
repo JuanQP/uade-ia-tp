@@ -1,45 +1,58 @@
-import { ListItem, ListItemButton, ListItemIcon, ListItemText, styled } from "@mui/material";
+import { ListItem, ListItemButton, ListItemButtonProps, ListItemIcon, ListItemText, Theme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { LinkType } from "./types";
 
-const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  // If not selected: text white
-  '&:not(.Mui-selected)': {
-    color: 'white',
-    transition: 'none',
-  },
-  // If selected, then, make round the nav button
-  '&.Mui-selected': {
-    borderTopLeftRadius: '40px',
-    borderBottomLeftRadius: '40px',
-    backgroundColor: `${theme.palette.background.default} !important`,
-    color: 'background.drawer',
-    // Remove button transition effects
-    transition: 'none',
-    // "Before" and "after" pseudo elements to make
-    // active links rounded in the outside
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: '-30px',
-      right: 0,
-      width: '30px',
-      height: '30px',
-      borderRadius: '50%',
-      boxShadow: `15px 15px 0 ${theme.palette.background.default}`,
+function StyledListItemButton(props: StyledListItemButtonProps) {
+  const styles = (theme: Theme) => ({
+    // If not selected: text white
+    '&:not(.Mui-selected)': {
+      color: 'white',
+      transition: 'none',
     },
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      bottom: '-30px',
-      right: 0,
-      width: '30px',
-      height: '30px',
-      borderRadius: '50%',
-      boxShadow: `15px -15px 0 ${theme.palette.background.default}`,
+    // If selected, then, make round the nav button
+    '&.Mui-selected': {
+      borderTopLeftRadius: '40px',
+      borderBottomLeftRadius: '40px',
+      backgroundColor: `${theme.palette.background.default} !important`,
+      color: 'background.drawer',
+      // Remove button transition effects
+      transition: 'none',
+      // "Before" and "after" pseudo elements to make
+      // active links rounded in the outside
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: '-30px',
+        right: 0,
+        width: '30px',
+        height: '30px',
+        borderRadius: '50%',
+        boxShadow: `15px 15px 0 ${theme.palette.background.default}`,
+      },
+      '&::after': {
+        content: '""',
+        position: 'absolute',
+        bottom: '-30px',
+        right: 0,
+        width: '30px',
+        height: '30px',
+        borderRadius: '50%',
+        boxShadow: `15px -15px 0 ${theme.palette.background.default}`,
+      },
     },
-  },
-}));
+  })
+
+  return (
+    <ListItemButton {...props} sx={styles}>
+      {props.children}
+    </ListItemButton>
+  );
+}
+
+interface StyledListItemButtonProps extends ListItemButtonProps {
+  component: typeof Link;
+  to: string;
+}
 
 type ListItemLinkProps = {
   pathname: string;
