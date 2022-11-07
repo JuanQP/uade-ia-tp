@@ -1,7 +1,7 @@
 import { TableCell, useMediaQuery, useTheme } from "@mui/material";
-import { Column } from "./types";
+import { CMSTableColumnType } from "./types";
 
-export function CMSTableHeadCell({ column }: { column: Column }) {
+export function CMSTableHeadCell({ column }: { column: CMSTableColumnType }) {
 
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));

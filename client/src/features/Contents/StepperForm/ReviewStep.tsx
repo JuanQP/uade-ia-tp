@@ -1,14 +1,14 @@
 import { ContentImage } from "@features/UI";
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, Chip, Typography, Unstable_Grid2 as Grid } from "@mui/material";
+import { Box, Button, Chip, Typography, TypographyProps, Unstable_Grid2 as Grid } from "@mui/material";
 import { StepperFormStepProps } from "./types";
 
-const valueTypographyProps = {
+const valueTypographyProps: TypographyProps = {
   align: 'center',
   fontWeight: 'bold',
 }
 
-const propertyTypographyProps = {
+const propertyTypographyProps: TypographyProps = {
   align: 'center',
   variant: 'body2',
   color: 'dimgray',

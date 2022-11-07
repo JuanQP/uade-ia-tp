@@ -2,7 +2,6 @@ import { createTheme } from "@mui/material";
 
 const SUCCESS_GRADIENT = 'linear-gradient(to right, #00F260, #0575E6)';
 
-
 export const theme = createTheme({
   palette: {
     background: {
