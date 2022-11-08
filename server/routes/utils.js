@@ -42,7 +42,7 @@ function verifyAuth(req, res, next) {
 		}
 	} catch (error) {
 		if(error instanceof jwt.TokenExpiredError) {
-			res.status(401).send({message: "El token expiró. Vuelva a iniciar sesión."});
+			res.status(401).send({message: "La sesión expiró. Vuelva a iniciar sesión."});
 		}
 		else {
 			res.status(401).send({message: error.message});

@@ -69,7 +69,7 @@ export function Layout() {
       try {
         await userAPI.verifyToken();
       } catch (error: any) {
-        navigate('/', {
+        navigate('/login', {
           state: { message: error.response?.data?.message ?? error.message },
         });
       }
