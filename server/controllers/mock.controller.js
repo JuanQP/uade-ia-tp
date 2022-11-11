@@ -54,7 +54,8 @@ const contenidoIndividual = {
       description: "Terror"
     }
   ],
-  MaturityRating:
+  maturityRatingId: 1,
+  maturityRating:
   {
     id: 1,
     description: "NC-17 - Adults Only"
@@ -80,7 +81,8 @@ const contenidosTerror = [
         description: "Terror"
       }
     ],
-    MaturityRating:
+    maturityRatingId: 1,
+    maturityRating:
     {
       id: 1,
       description: "R - Restricted"
@@ -109,7 +111,8 @@ const contenidosSuspenso = [
           description: "Suspenso"
         }
       ],
-    MaturityRating:
+    maturityRatingId: 1,
+    maturityRating:
     {
       id: 1,
       description: "G - General Audiences"
@@ -134,7 +137,8 @@ const contenidosSuspenso = [
           description: "Suspenso"
         }
       ],
-    MaturityRating:
+    maturityRatingId: 1,
+    maturityRating:
     {
       id: 1,
       description: "G - General Audiences"
@@ -161,7 +165,8 @@ const contenidosComedia = [
           description: "Comedia"
         }
       ],
-    MaturityRating:
+    maturityRatingId: 1,
+    maturityRating:
     {
       id: 1,
       description: "G - General Audiences"

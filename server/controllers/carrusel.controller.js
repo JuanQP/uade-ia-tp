@@ -47,6 +47,24 @@ async function tableList (page, searchText) {
   };
 }
 
+const contentsInclude = {
+  include: {
+    content: {
+      include: {
+        genres: {
+          include: {
+            genre: true
+          }
+        },
+        maturityRating: true,
+      }
+    },
+  },
+  orderBy: {
+    order: 'asc',
+  }
+};
+
 const ATTRIBUTES_FORMAT = {
   default: {
     getCarousels: defaultList,
@@ -54,23 +72,7 @@ const ATTRIBUTES_FORMAT = {
       select: {
         id: true,
         title: true,
-        contents: {
-          include: {
-            content: {
-              include: {
-                genres: {
-                  include: {
-                    genre: true
-                  }
-                },
-                maturityRating: true,
-              }
-            },
-          },
-          orderBy: {
-            order: 'asc',
-          }
-        },
+        contents: contentsInclude,
       },
     }
   },
@@ -126,7 +128,7 @@ module.exports = {
           }
         },
         include: {
-          contents: true,
+          contents: contentsInclude,
         },
       });
 
@@ -163,9 +165,14 @@ module.exports = {
             deleteMany: {},
             create: contents.map(contentsToConnect),
           }
+        },
+        include: {
+          contents: contentsInclude,
         }
       });
-      res.status(200).send({ carousel });
+      res.status(200).send({
+        carousel: format(carousel),
+      });
     } catch (error) {
       res.status(400).send({message: error.message});
     }

@@ -120,7 +120,8 @@ module.exports = {
           },
         },
         include: {
-          genres: true,
+          genres: { include: { genre: true } },
+          maturityRating: true,
         },
       });
       res.status(200).send({ content: formatContent(newContent) });
@@ -156,8 +157,12 @@ module.exports = {
             create: genres.map(genresToConnect),
           },
         },
+        include: {
+          genres: { include: { genre: true } },
+          maturityRating: true,
+        },
       });
-      res.status(200).send({ content });
+      res.status(200).send({ content: formatContent(content) });
     } catch (error) {
       res.status(400).send({message: error.message});
     }
