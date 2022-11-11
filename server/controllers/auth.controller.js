@@ -103,7 +103,9 @@ module.exports = {
     }
   },
 
-  verify: async (_, res) => {
-    res.status(200).send({ message: 'Ok' });
+  verify: async (req, res) => {
+    res.status(200).send({
+      ...req.decryptedUser,
+    });
   },
 };

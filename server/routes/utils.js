@@ -28,13 +28,19 @@ function verifyAuth(req, res, next) {
 		if(useSSO()) {
 			const decryptedToken = jwt.verify(token, SSO_JWT_PUBLIC_KEY);
 			if(!isCMSAdmin(decryptedToken)) return new Error("Not a CMS Admin user");
-
+			req.decryptedUser = decryptedToken;
 			next();
 			return;
 		}
 		// Development without SSO
 		else {
 			if(token === CMS_DEV_ADMIN_USER) {
+				req.decryptedUser = {
+					nombre: 'Admin',
+					email: 'admin@uadeflix.com',
+					tenant: 'Cms',
+					admin: 'true',
+				};
 				next();
 				return;
 			}

@@ -73,11 +73,25 @@ export function Login() {
 
   useEffect(() => {
     const awaitVerifyToken = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const urlToken = params.get('token');
       try {
-        await userAPI.verifyToken();
-        navigate('/home');
+        setWaiting(true);
+        if(urlToken) {
+          localStorage.setItem('token', urlToken);
+        }
+        const { data } = await userAPI.verifyToken();
+        setUser(data);
+        setLoginOk(true);
+        setTimeout(() => {
+          navigate('/home');
+        }, 2000);
       } catch (error) {
-        // Stays in this page for logging in
+        if(urlToken) {
+          setMessage('Parece que el token en la URL no es válido 😔. Probá logeándote acá ☝️');
+        }
+      } finally {
+        setWaiting(false);
       }
     }
     if(state?.message) {
