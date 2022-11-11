@@ -20,10 +20,11 @@ Everything is settled now. The other microservices (frontend, and back office) c
 
 ## Development
 
-To run the server first install dependencies and then start it:
+To run the server first install dependencies, create database, and then start it:
 
 ```sh
 npm install
+npm run migrate-dev
 npm start
 ```
 
@@ -47,6 +48,7 @@ To deploy, just install dependencies, build the app, and run only the server. Th
 
 ```sh
 npm install
+npm run migrate-deploy
 npm run build
 npm start
 ```

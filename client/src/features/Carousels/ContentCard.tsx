@@ -18,7 +18,7 @@ const styles = {
 }
 
 interface ContentCardProps {
-  content: CardFormatContentWithOrder;
+  content: ContentWithOrderField;
   values: CardFormatContent[];
   onClick: (content: CardFormatContent) => void;
   onMoveToFirst: (content: CardFormatContent) => void;
@@ -37,7 +37,7 @@ export function ContentCard({
   onMoveToLast,
 }: ContentCardProps) {
   const isSelected = values.some(v => v.id === content.id);
-  const { order } = content.ContenidoCarrusel ?? { order: 0 };
+  const order = content.order ?? 0;
   const isFirstContent = isSelected && order === 1;
   const isLastContent = isSelected && order === values.length;
   const orderText = isSelected ? `#${order}` : '#0';
@@ -104,7 +104,7 @@ export function ContentCard({
           <Typography variant="body2" color="text.secondary">
             Calificación
           </Typography>
-          <Chip label={content.MaturityRating.description} />
+          <Chip label={content.maturityRating.description} />
         </Box>
         <Box>
           <Typography variant="body2" color="text.secondary">

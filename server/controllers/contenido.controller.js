@@ -1,43 +1,97 @@
-const { Op } = require('sequelize');
-const { Contenido, Genero, MaturityRating } = require('../models');
-const { getPaginationOptions, getPaginationResults } = require('./helpers');
+const { prisma } = require("../prisma");
+const { getPaginationOptions, getPaginationResults, findManyAndCount, formatContent } = require('./helpers');
 
-function genresToIDs(genre) {
+function genresToConnect(genre) {
   if(typeof genre !== 'number' && genre.id === undefined) {
     throw new Error("No se enviaron géneros válidos");
   }
-  return genre.id ?? genre;
+  return {
+    genre: { connect: { id: Number(genre.id ?? genre) } }
+  };
+}
+
+/**
+ * Default list of contenidos
+ */
+async function defaultList (page, searchText) {
+  const paginationOptions = getPaginationOptions(page);
+  const [count, rows] = await findManyAndCount(prisma.content, {
+    where: {
+      title: { contains: `${searchText}`, mode: "insensitive" },
+    },
+    ...paginationOptions,
+    ...ATTRIBUTES_FORMAT.default.attributes,
+  });
+  const paginationResults = getPaginationResults(page, count);
+
+  return {
+    count,
+    ...paginationResults,
+    results: rows.map(formatContent),
+  };
+};
+
+async function tableList (page, searchText) {
+  const paginationOptions = getPaginationOptions(page);
+  const [count, rows] = await findManyAndCount(prisma.content, {
+    where: {
+      title: { contains: `%${searchText}%`, mode: "insensitive" },
+    },
+    select: {
+      id: true,
+      title: true,
+      year: true,
+      duration: true,
+      director: true,
+    },
+    orderBy: {
+      id: 'desc',
+    },
+    ...paginationOptions,
+  });
+  const paginationResults = getPaginationResults(page, count);
+
+  return {
+    count,
+    ...paginationResults,
+    results: rows
+  };
+}
+
+async function cardList (page, searchText) {
+  const rows = await prisma.content.findMany({
+      where: {
+        title: { contains: `%${searchText}%`, mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        title: true,
+        urlImage: true,
+        genres: { include: { genre: true } },
+        maturityRating: true,
+      },
+    });
+  return {
+    count: rows.length,
+    results: rows.map(formatContent),
+  };
 }
 
 const ATTRIBUTES_FORMAT = {
   default: {
-    include: [
-      { model: Genero, as: 'genres' },
-      { model: MaturityRating },
-    ]
+    getContents: defaultList,
+    attributes: {
+      include: {
+        genres: { include: { genre: true } },
+        maturityRating: true,
+      },
+    },
   },
   table: {
-    attributes: [
-      'id',
-      'title',
-      'year',
-      'duration',
-      'director',
-    ],
-    order: [
-      ['id', 'DESC'],
-    ],
+    getContents: tableList,
   },
   card: {
-    attributes: [
-      'id',
-      'title',
-      'urlImage',
-    ],
-    include: [
-      { model: Genero, as: 'genres' },
-      { model: MaturityRating },
-    ],
+    getContents: cardList,
   },
 };
 
@@ -46,47 +100,43 @@ module.exports = {
     try {
       const { page } = req.query;
       const { title: titleSearch = '', format: formatQuery } = req.query;
-      const format = ATTRIBUTES_FORMAT[formatQuery] ?? ATTRIBUTES_FORMAT.default;
-      const paginationOptions = getPaginationOptions(page);
+      const { getContents } = ATTRIBUTES_FORMAT[formatQuery] ?? ATTRIBUTES_FORMAT.default;
+      const response = await getContents(page, titleSearch);
 
-      const { rows, count } = await Contenido.findAndCountAll({
-        where: {
-          title: { [Op.iLike]: `%${titleSearch}%` },
-        },
-        ...paginationOptions,
-        ...format,
-      });
-
-      const paginationResults = getPaginationResults(page, count);
-
-      res.status(200).send({
-        count,
-        ...paginationResults,
-        results: rows,
-      });
+      res.status(200).send(response);
     } catch (error) {
-      res.status(400).send({message: error.message});
+      res.status(400).send({ message: error.message });
     }
   },
 
   create: async (req, res) => {
     try {
       const { genres, ...fields } = req.body;
-      const newContent = await Contenido.create(fields);
-      await newContent.setGenres(genres.map(genresToIDs));
-      res.status(200).send(newContent);
+      const newContent = await prisma.content.create({
+        data: {
+          ...fields,
+          genres: {
+            create: genres.map(genresToConnect),
+          },
+        },
+        include: {
+          genres: true,
+        },
+      });
+      res.status(200).send({ content: formatContent(newContent) });
     } catch (error) {
-      res.status(400).send({message: error.message});
+      res.status(400).send({ message: error.message });
     }
   },
 
   get: async (req, res) => {
     try {
       const { id } = req.params;
-      const content = await Contenido.findByPk(id, {
-        ...ATTRIBUTES_FORMAT.default,
+      const content = await prisma.content.findFirstOrThrow({
+        where: { id: Number(id) },
+        ...ATTRIBUTES_FORMAT.default.attributes,
       });
-      res.status(200).send(content);
+      res.status(200).send(formatContent(content));
     } catch (error) {
       res.status(400).send({message: error.message});
     }
@@ -96,10 +146,18 @@ module.exports = {
     try {
       const { id } = req.params;
       const { genres, ...fields } = req.body;
-      const content = await Contenido.findByPk(id);
-      const savedContent = await content.update(fields);
-      await savedContent.setGenres(genres.map(genresToIDs));
-      res.status(200).send(savedContent);
+      const content = await prisma.content.update({
+        where: { id: Number(id) },
+        data: {
+          ...fields,
+          genres: {
+            // Delete all and reassign
+            deleteMany: {},
+            create: genres.map(genresToConnect),
+          },
+        },
+      });
+      res.status(200).send({ content });
     } catch (error) {
       res.status(400).send({message: error.message});
     }
@@ -108,8 +166,10 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const { id } = req.params;
-      const deletedCount = await Contenido.destroy({ where: { id } });
-      res.status(200).send({ message: `${deletedCount} contents deleted.` });
+      await prisma.content.delete({
+        where: { id: Number(id) },
+      });
+      res.status(200).send({ message: `Content deleted.` });
     } catch (error) {
       res.status(400).send({message: error.message});
     }

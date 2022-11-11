@@ -5,7 +5,7 @@ const contenidoController = require('../controllers/contenido.controller');
 const carruselController = require('../controllers/carrusel.controller');
 const authController = require('../controllers/auth.controller');
 const generoController = require('../controllers/genero.controller');
-const maturityRatingController = require('../controllers/maturity_rating.controller');
+const maturityRatingController = require('../controllers/maturityRating.controller');
 const routes = express.Router();
 const { verifyAuth } = require('./utils');
 
@@ -43,13 +43,6 @@ module.exports = (app) => {
 	routes.post('/carruseles', verifyAuth, carruselController.create);
 	routes.patch('/carruseles/:id', verifyAuth, carruselController.patch);
 	routes.delete('/carruseles/:id', verifyAuth, carruselController.delete);
-
-	/*
-	contenido por id
-	carrusel por id (con sus contenidos)
-	crear y actualizar contenido
-	crear y actualizar carrusel
-	*/
 
 	// Mocks contenidos
 	routes.get('/mocks/contenidos', mockController.contenidosList);

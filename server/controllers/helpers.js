@@ -1,12 +1,33 @@
+const { prisma } = require("../prisma");
+
 const DEFAULT_PAGE_LIMIT = 10;
 
 module.exports = {
+
+    /**
+   * Maps ContentGenre to Genre in field content.genres
+   */
+  formatContent: function (content) {
+    return {
+      ...content,
+      genres: content.genres.map(g => g.genre),
+    }
+  },
+
+  findManyAndCount: async function (prismaModel, options) {
+    const { where } = options;
+
+    return await prisma.$transaction([
+      prismaModel.count({ where }),
+      prismaModel.findMany(options),
+    ]);
+  },
+
   getPaginationOptions: (page) => {
     const paginationOptions = page ? {
-      distinct: true,
-      offset: Number(page) * DEFAULT_PAGE_LIMIT,
-      limit: DEFAULT_PAGE_LIMIT,
-    } : { distinct: true };
+      skip: Number(page) * DEFAULT_PAGE_LIMIT,
+      take: DEFAULT_PAGE_LIMIT,
+    } : {};
 
     return paginationOptions;
   },

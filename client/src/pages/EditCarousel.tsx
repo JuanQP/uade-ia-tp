@@ -18,7 +18,7 @@ export function EditCarousel() {
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [carousel, setCarousel] = useState<CarouselResponse>();
+  const [carousel, setCarousel] = useState<Carousel>();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {

@@ -9,7 +9,7 @@ export async function fetchCarousels({ format = 'table', page, title }: FetchCar
 }
 
 export async function fetchCarousel(id: number | string) {
-  const { data } : { data: CarouselResponse } = await axios.get(`/api/carruseles/${id}`);
+  const { data } : { data: Carousel } = await axios.get(`/api/carruseles/${id}`);
   return data;
 }
 

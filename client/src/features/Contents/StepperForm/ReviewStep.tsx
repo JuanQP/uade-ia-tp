@@ -86,7 +86,7 @@ export function ReviewStep({
         <FormValueChips label="Géneros" values={formValues?.genres!} />
         <FormValueChips
           label="Calificación de Madurez"
-          values={formValues?.MaturityRating ? [formValues?.MaturityRating] : []}
+          values={formValues?.maturityRating ? [formValues.maturityRating] : []}
         />
         <FormValue label="Director" value={formValues?.director} />
         <FormValue label="Escritor" value={formValues?.writer} />

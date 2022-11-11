@@ -4,10 +4,10 @@ module.exports = {
   list: async (req, res) => {
     try {
       const searchText = req.query.description ?? '';
-      const results = await prisma.genre.findMany({
+      const results = await prisma.maturityRating.findMany({
         select: { id: true, description: true },
         where: {
-          description: { contains: `${searchText}`, mode: 'insensitive' },
+          description: { contains: `${searchText}`, mode: "insensitive" },
         },
       });
       res.status(200).send({ results });
@@ -19,10 +19,10 @@ module.exports = {
   get: async (req, res) => {
     try {
       const { id } = req.params;
-      const genre = await prisma.genre.findFirstOrThrow({
+      const maturityRating = await prisma.maturityRating.findFirstOrThrow({
         where: { id: Number(id) },
       });
-      res.status(200).send({ genre });
+      res.status(200).send({ maturityRating });
     } catch (error) {
       res.status(400).send({message: error.message});
     }

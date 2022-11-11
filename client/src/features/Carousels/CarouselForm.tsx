@@ -10,23 +10,21 @@ import { MoviePicker } from "./MoviePicker";
 
 const schema = z.object({
   title: z.string().min(1).max(255),
-  contenidos: z.object({
+  contents: z.object({
     id: z.number(),
-    ContenidoCarrusel: z.object({
-      order: z.number().min(1),
-    }),
+    order: z.number().min(1),
   }).array().nonempty('El carrusel tiene que tener al menos una película'),
 });
 
 export const DEFAULT_VALUES = {
   id: 0,
   title: '',
-  contenidos: [],
+  contents: [],
 };
 
 type CarouselFormProps = {
   editing?: boolean;
-  initialValues?: CarouselResponse;
+  initialValues?: Carousel;
   loading: boolean;
   onSubmit: (formValues: CarouselFormValues) => void;
 }
@@ -45,13 +43,7 @@ export function CarouselForm({
   const { errors } = formState;
 
   function handleCarouselSubmit(formValues: CarouselFormValues) {
-    onSubmit({
-      title: formValues.title,
-      contenidos: formValues.contenidos.map(c => ({
-        id: c.id,
-        ContenidoCarrusel: c.ContenidoCarrusel,
-      })),
-    });
+    onSubmit(formValues);
   }
 
   return (
@@ -76,13 +68,13 @@ export function CarouselForm({
         </Grid>
         <Grid xs={12}>
           <Controller
-            name="contenidos"
+            name="contents"
             control={control}
             render={({ field }) => (
               <MoviePicker
                 values={field.value}
-                error={!!errors.contenidos}
-                helperText={errors.contenidos?.message ?? ''}
+                error={!!errors.contents}
+                helperText={errors.contents?.message ?? ''}
                 {...field}
               />
             )}

@@ -17,9 +17,7 @@ function idExistsIn(oneContent: CardFormatContent, contents: CardFormatContent[]
 function addOrderField(content: CardFormatContent, index: number) {
   return {
     ...content,
-    ContenidoCarrusel: {
-      order: index + 1,
-    },
+    order: index + 1,
   };
 }
 

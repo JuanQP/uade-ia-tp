@@ -43,7 +43,7 @@ export const schemaShape = {
     id: z.number(),
     description: z.string().optional(),
   }).array().nonempty(),
-  MaturityRating: z.object({
+  maturityRating: z.object({
     id: z.number(),
     description: z.string().optional(),
   }).nullable(),
@@ -63,7 +63,7 @@ export const DEFAULT_VALUES = {
   verticalUrlImage: DEFAULT_VERTICAL_IMAGE,
   urlVideo: DEFAULT_VIDEO,
   genres: [],
-  maturity_rating_id: null,
+  maturityRatingId: null,
   MaturityRating: undefined,
 };
 
@@ -84,17 +84,17 @@ export function ContentForm({
   const { control, formState, register, handleSubmit } = useForm({
     defaultValues: {
       ...initialValues,
-      maturity_rating: initialValues.MaturityRating,
+      maturity_rating: initialValues.maturityRating,
     },
     resolver: zodResolver(schema),
   });
   const { errors } = formState;
 
   function handleContentSubmit(formValues: Content) {
-    const { MaturityRating, ...cleanFormValues } = formValues;
+    const { maturityRating, ...cleanFormValues } = formValues;
     onSubmit({
       ...cleanFormValues,
-      maturity_rating_id: MaturityRating!.id,
+      maturityRatingId: maturityRating!.id!,
     });
   }
 
@@ -187,7 +187,7 @@ export function ContentForm({
         </Grid>
         <Grid xs={12} md={6}>
           <Controller
-            name="MaturityRating"
+            name="maturityRating"
             control={control}
             render={({ field }) => (
               <DelayedAsyncSelect

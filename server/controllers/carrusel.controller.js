@@ -1,78 +1,115 @@
-const { Op } = require('sequelize');
-const { Carrusel, Contenido, ContenidoCarrusel, Genero, MaturityRating } = require('../models');
-const { getPaginationResults, getPaginationOptions } = require('./helpers');
+const { prisma } = require("../prisma");
+const { getPaginationResults, getPaginationOptions, findManyAndCount, formatContent } = require('./helpers');
+
+function format(carousel) {
+  return {
+    ...carousel,
+    contents: carousel.contents.map(c => ({
+      order: c.order,
+      ...formatContent(c.content),
+    })),
+  }
+}
+
+async function defaultList (page, searchText) {
+  const paginationOptions = getPaginationOptions(page);
+  const [count, rows] = await findManyAndCount(prisma.carousel, {
+    where: {
+      title: { contains: `%${searchText}%`, mode: "insensitive" },
+    },
+    ...paginationOptions,
+    ...ATTRIBUTES_FORMAT.default.attributes,
+  });
+  const paginationResults = getPaginationResults(page, count);
+
+  return {
+    count,
+    ...paginationResults,
+    results: rows.map(format),
+  };
+};
+
+async function tableList (page, searchText) {
+  const paginationOptions = getPaginationOptions(page);
+  const [count, rows] = await findManyAndCount(prisma.carousel, {
+    where: {
+      title: { contains: `%${searchText}%`, mode: "insensitive" },
+    },
+    ...paginationOptions,
+    ...ATTRIBUTES_FORMAT.table.attributes,
+  });
+  const paginationResults = getPaginationResults(page, count);
+
+  return {
+    count,
+    ...paginationResults,
+    results: rows,
+  };
+}
 
 const ATTRIBUTES_FORMAT = {
   default: {
-    attributes: [
-      'id',
-      'title',
-    ],
-    include: [{
-      model: Contenido,
-      as: 'contenidos',
-      include: [
-        { model: Genero, as: 'genres' },
-        { model: MaturityRating },
-      ],
-      through: {
-        attributes: ['order'],
+    getCarousels: defaultList,
+    attributes: {
+      select: {
+        id: true,
+        title: true,
+        contents: {
+          include: {
+            content: {
+              include: {
+                genres: {
+                  include: {
+                    genre: true
+                  }
+                },
+                maturityRating: true,
+              }
+            },
+          },
+          orderBy: {
+            order: 'asc',
+          }
+        },
       },
-    }],
-    order: [
-      [
-        { model: Contenido, as: 'contenidos' },
-        ContenidoCarrusel,
-        'order',
-        'ASC',
-      ],
-    ],
+    }
   },
   table: {
-    attributes: [
-      'id',
-      'title',
-    ],
-    order: [
-      ['id', 'DESC'],
-    ],
+    getCarousels: tableList,
+    attributes: {
+      select: {
+        id: true,
+        title: true,
+      },
+      orderBy: {
+        id: 'desc',
+      },
+    }
   },
 };
 
-/**
- * Map Contenido JSON to Sequelize Model Instance.
- * This is necessary to update the through table attributes.
- * https://sequelize.org/api/v6/class/src/associations/belongs-to-many.js~belongstomany
- */
-function toSequelizeInstance(contenido) {
-  const contenidoInstance = Contenido.build({ id: contenido.id });
-  contenidoInstance.ContenidoCarrusel = contenido.ContenidoCarrusel;
-
-  return contenidoInstance;
+function contentsToConnect(content) {
+  if(typeof content !== 'number' && content.id === undefined) {
+    throw new Error("No se enviaron contenidos válidos");
+  }
+  return {
+    content: {
+      connect: {
+        id: Number(content.id ?? content),
+      },
+    },
+    order: Number(content.order),
+  };
 }
 
 module.exports = {
   list: async (req, res) => {
     try {
       const { title: titleSearch = '', page } = req.query;
-      const format = req.query?.format === 'table' ? ATTRIBUTES_FORMAT.table : ATTRIBUTES_FORMAT.default;
-      const paginationOptions = getPaginationOptions(page);
+      const { getCarousels } = req.query?.format === 'table' ? ATTRIBUTES_FORMAT.table : ATTRIBUTES_FORMAT.default;
+      const response = await getCarousels(page, titleSearch);
 
-      const { rows, count } = await Carrusel.findAndCountAll({
-        where: {
-          title: { [Op.iLike]: `%${titleSearch}%` },
-        },
-        ...format,
-        ...paginationOptions
-      });
-
-      const paginationResults = getPaginationResults(page, count);
-
-      res.status(200).send({
-        count,
-        ...paginationResults,
-        results: rows,
-      });
+      res.status(200).send(response);
     } catch (error) {
       res.status(400).send({message: error.message});
     }
@@ -80,12 +117,22 @@ module.exports = {
 
   create: async (req, res) => {
     try {
-      const { contenidos, ...fields } = req.body;
-      const newCarousel = await Carrusel.create(fields);
-      const newContenidos = contenidos.map(toSequelizeInstance);
+      const { contents, ...fields } = req.body;
+      const newCarousel = await prisma.carousel.create({
+        data: {
+          ...fields,
+          contents: {
+            create: contents.map(contentsToConnect),
+          }
+        },
+        include: {
+          contents: true,
+        },
+      });
 
-      await newCarousel.setContenidos(newContenidos);
-      res.status(200).send(newCarousel);
+      res.status(200).send({
+        carousel: format(newCarousel),
+      });
     } catch (error) {
       res.status(400).send({message: error.message});
     }
@@ -94,10 +141,11 @@ module.exports = {
   get: async (req, res) => {
     try {
       const { id } = req.params;
-      const carousel = await Carrusel.findByPk(id, {
-        ...ATTRIBUTES_FORMAT.default,
+      const carousel = await prisma.carousel.findFirstOrThrow({
+        where: { id: Number(id) },
+        ...ATTRIBUTES_FORMAT.default.attributes,
       });
-      res.status(200).send(carousel);
+      res.status(200).send(format(carousel));
     } catch (error) {
       res.status(400).send({message: error.message});
     }
@@ -106,13 +154,18 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const { id } = req.params;
-      const { contenidos, ...fields } = req.body;
-      const carousel = await Carrusel.findByPk(id);
-      const savedCarousel = await carousel.update(fields);
-      const newContenidos = contenidos.map(toSequelizeInstance);
-
-      await savedCarousel.setContenidos(newContenidos);
-      res.status(200).send(savedCarousel);
+      const { contents, ...fields } = req.body;
+      const carousel = await prisma.carousel.update({
+        where: { id: Number(id) },
+        data: {
+          ...fields,
+          contents: {
+            deleteMany: {},
+            create: contents.map(contentsToConnect),
+          }
+        }
+      });
+      res.status(200).send({ carousel });
     } catch (error) {
       res.status(400).send({message: error.message});
     }
@@ -121,8 +174,10 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const { id } = req.params;
-      const deletedCount = await Carrusel.destroy({ where: { id } });
-      res.status(200).send({ message: `${deletedCount} carousels deleted.` });
+      await prisma.carousel.delete({
+        where: { id: Number(id) },
+      });
+      res.status(200).send({ message: `Carousel deleted.` });
     } catch (error) {
       res.status(400).send({message: error.message});
     }

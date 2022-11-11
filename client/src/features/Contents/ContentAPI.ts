@@ -30,12 +30,12 @@ export async function fetchGenres(description: string) {
   const response = await axios.get('/api/generos', {
     params: { description }
   });
-  return response.data.generos;
+  return response.data.results;
 }
 
 export async function fetchMaturityRatings(description: string) {
   const response = await axios.get('/api/maturity-ratings', {
     params: { description }
   });
-  return response.data.maturity_ratings;
+  return response.data.results;
 }

@@ -16,7 +16,7 @@ const {
   writer,
   cast,
   genres,
-  MaturityRating,
+  maturityRating,
 } = schemaShape;
 
 const schema = z.object({
@@ -25,7 +25,7 @@ const schema = z.object({
   writer,
   cast,
   genres,
-  MaturityRating,
+  maturityRating,
 });
 
 const DEFAULT_VALUES = {
@@ -34,7 +34,7 @@ const DEFAULT_VALUES = {
   writer: CONTENT_DEFAULT_VALUES.writer,
   cast: CONTENT_DEFAULT_VALUES.cast,
   genres: CONTENT_DEFAULT_VALUES.genres,
-  MaturityRating: undefined,
+  maturityRating: undefined,
 }
 
 function loadGenresDelayed(searchText: string, callback: ReactSelectCallbackType) {
@@ -146,7 +146,7 @@ export function DetailsStep({ active, onNextStep, onPreviousStep }: StepperFormS
         </Grid>
         <Grid xs={12}>
           <Controller
-            name="MaturityRating"
+            name="maturityRating"
             control={control}
             render={({ field }) => (
               <DelayedAsyncSelect

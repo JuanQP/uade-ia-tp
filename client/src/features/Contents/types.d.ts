@@ -14,8 +14,8 @@ type Content = {
   verticalUrlImage: string,
   urlVideo: string,
   genres: Genre[],
-  maturity_rating_id: number | null,
-  MaturityRating?: MaturityRating,
+  maturityRatingId: number | null,
+  maturityRating?: MaturityRating,
 }
 
 type Genre = {
@@ -39,12 +39,5 @@ interface CardFormatContent {
   title: string;
   urlImage: string;
   genres: Genre[];
-  MaturityRating: MaturityRating;
-}
-
-interface ContenidoGenero {
-  createdAt: string;
-  updatedAt: string;
-  ContenidoId: number;
-  GeneroId: number;
+  maturityRating: MaturityRating;
 }

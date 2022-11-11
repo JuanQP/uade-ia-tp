@@ -43,10 +43,10 @@ export function ContentStepperForm({ loading, onSubmit }: ContentStepperForm) {
   }
 
   function handleSubmit() {
-    const { MaturityRating, ...values } = newContent!;
+    const { maturityRating, ...values } = newContent!;
     onSubmit({
       ...values,
-      maturity_rating_id: MaturityRating!.id,
+      maturityRatingId: maturityRating!.id!,
     });
   }
 

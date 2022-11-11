@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs	https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Content {
+  id                Int @id @default(autoincrement())
+  title	            String
+  description	      String
+  year	            Int
+  duration	        Int
+  director	        String
+  cast	            String
+  writer	          String
+  urlImage	        String
+  verticalUrlImage	String
+  urlVideo	        String
+  genres            ContentGenre[]
+  maturityRating    MaturityRating @relation(fields: [maturityRatingId], references: [id])
+  maturityRatingId  Int
+  carousels         CarouselContent[]
+}
+
+model Carousel {
+  id                Int @id @default(autoincrement())
+  title             String
+  contents          CarouselContent[]
+}
+
+model CarouselContent {
+  @@id([contentId, carouselId])
+  content           Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentId         Int
+  carousel          Carousel @relation(fields: [carouselId], references: [id], onDelete: Cascade)
+  carouselId        Int
+  order             Int
+}
+
+model Genre {
+  id                Int @id @default(autoincrement())
+  description       String
+  contents          ContentGenre[]
+}
+
+model ContentGenre {
+  @@id([contentId, genreId])
+  content           Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentId         Int
+  genre             Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  genreId           Int
+}
+
+model MaturityRating {
+  id                Int @id @default(autoincrement())
+  description       String
+  contents          Content[]
+}

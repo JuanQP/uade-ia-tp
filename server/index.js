@@ -2,7 +2,6 @@ const path = require('path');
 const express = require("express");
 const cors = require('cors');
 require('dotenv').config();
-const db = require('./models');
 
 const PORT = process.env.PORT || 3001;
 
@@ -28,13 +27,4 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}...`);
-});
-
-db.sequelize.authenticate()
-.then(() => {
-	console.log('Connection with database has been established successfully.');
-	db.sequelize.sync({ alter: true });
-})
-.catch((err) => {
-	console.log(err.message);
 });
