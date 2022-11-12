@@ -1,4 +1,5 @@
 {
+  "homepage": "https://github.com/JuanQP/uade-ia-tp#readme",
   "name": "uade-ia-tp",
   "version": "1.0.0",
   "description": "",
@@ -6,9 +7,8 @@
   "scripts": {
     "build": "cd client && npm install && npm run build",
     "frontend": "cd client && npm run dev",
-    "migrate-deploy": "npm run prisma-generate && prisma migrate deploy --schema=./server/prisma/schema.prisma",
-    "migrate-dev": "npm run prisma-generate && prisma migrate dev --schema=./server/prisma/schema.prisma",
-    "prisma-generate": "prisma generate --schema=./server/prisma/schema.prisma",
+    "migrate-deploy": "prisma generate && prisma migrate deploy",
+    "migrate-dev": "prisma generate && prisma migrate dev",
     "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,7 +22,6 @@
   "bugs": {
     "url": "https://github.com/JuanQP/uade-ia-tp/issues"
   },
-  "homepage": "https://github.com/JuanQP/uade-ia-tp#readme",
   "dependencies": {
     "@prisma/client": "^4.6.0",
     "axios": "^1.0.0",
@@ -31,5 +30,8 @@
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
     "prisma": "^4.6.0"
+  },
+  "prisma": {
+    "schema": "server/prisma/schema.prisma"
   }
 }
