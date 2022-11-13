@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cms
+    ports:
+      - "5432:5432"
+  web:
+    image: uadeflix-cms:1.0.0
+    restart: always
+    build:
+      context: .
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/cms
+      # User and password
+      - CMS_DEV_ADMIN_USER=admin
+      - CMS_DEV_ADMIN_PASSWORD=uade2022
+      # This is necessary to avoid using SSO and test this
+      # project in isolation
+      - USE_SSO=false
+    ports:
+      - "3001:3001"
+    depends_on:
+      # DB must be up before running migrations
+      - db

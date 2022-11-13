@@ -5,10 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd client && npm install && npm run build",
+    "build": "prisma generate && cd client && npm install && npm run build",
     "frontend": "cd client && npm run dev",
-    "migrate-deploy": "prisma generate && prisma migrate deploy",
-    "migrate-dev": "prisma generate && prisma migrate dev",
+    "migrate-deploy": "prisma migrate deploy",
+    "migrate-dev": "prisma migrate dev",
     "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +32,7 @@
     "prisma": "^4.6.0"
   },
   "prisma": {
-    "schema": "server/prisma/schema.prisma"
+    "schema": "server/prisma/schema.prisma",
+    "seed": "node server/prisma/seed.js"
   }
 }

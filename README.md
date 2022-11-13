@@ -18,9 +18,26 @@ In this project, the contents were organized in carousels (the same as other str
 
 Everything is settled now. The other microservices (frontend, and back office) can consume the API that this CMS exposes 👌
 
+## I just want to see the app
+
+If you just want to see this app deployed with example data, this is the easiest way:
+
+```
+docker-compose up
+```
+
+Then, in another terminal populate the database with:
+```
+docker-compose exec web /bin/sh -c "npx prisma db seed"
+```
+
+Now you can log in with the example default credentials:
+
+* `admin`
+* `uade2022`
 ## Development
 
-To run the server first install dependencies, create database, and then start it:
+Once the DB is up, start the backend with:
 
 ```sh
 npm install
@@ -28,27 +45,21 @@ npm run migrate-dev
 npm start
 ```
 
-To run the frontend, change directory to `/client` and run:
-
-```sh
-cd client
-npm install
-```
-
-Now you can run it in two different ways:
+Then run the frontend:
 
 ```
-npm run dev # From the /client folder
-npm run frontend # From the root folder
+# From the root folder
+npm run frontend
 ```
 
+That's all. Now you have the backend and the frontend running.
 ## Production
 
-To deploy, just install dependencies, build the app, and run only the server. The server will serve the compiled app directly because all the necessary files are in `/client/dist`.
+You can run it with:
 
 ```sh
 npm install
-npm run migrate-deploy
 npm run build
+npm run migrate-deploy
 npm start
 ```
