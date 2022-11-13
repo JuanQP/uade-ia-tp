@@ -60,6 +60,5 @@ You can run it with:
 ```sh
 npm install
 npm run build
-npm run migrate-deploy
-npm start
+npm run deploy
 ```

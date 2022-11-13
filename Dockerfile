@@ -11,4 +11,4 @@ RUN npm run build
 EXPOSE 3001
 
 # Execute pending migrations and start the app 🎉
-CMD [ "sh", "-c", "npm run migrate-deploy && npm start" ]
+CMD [ "sh", "-c", "npm run deploy" ]

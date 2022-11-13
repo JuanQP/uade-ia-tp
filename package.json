@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "prisma generate && cd client && npm install && npm run build",
+    "deploy": "npm run migrate-deploy && npm start",
     "frontend": "cd client && npm run dev",
     "migrate-deploy": "prisma migrate deploy",
     "migrate-dev": "prisma migrate dev",
