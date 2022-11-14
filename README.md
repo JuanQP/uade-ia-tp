@@ -26,7 +26,7 @@ If you just want to see this app deployed with example data, this is the easiest
 docker-compose up
 ```
 
-Then, in another terminal populate the database with:
+If this is the first time running the app, in another terminal populate the database with:
 ```
 docker-compose exec web /bin/sh -c "npx prisma db seed"
 ```
@@ -37,7 +37,12 @@ Now you can log in with the example default credentials:
 * `uade2022`
 ## Development
 
-Once the DB is up, start the backend with:
+First, you need a running DB, and set the `.env` variable `DATABASE_URL` to connect to it.
+
+In `.env.sample` everything is configured to run a development environment with a postgres DB with
+user `postgres`, password `postgres`, in `localhost:5432` and database name `cms`. Just copy that file and rename it to `.env` so the app can start. Of course, you can change this.
+
+Once you have a running DB, start the backend with:
 
 ```sh
 npm install

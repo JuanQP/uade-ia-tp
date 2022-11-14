@@ -1,10 +1,19 @@
 FROM node:18-alpine
 
-# Copy repo code to the image
+# Install backend dependencies
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
+# Install frontend dependencies
+WORKDIR /app/client
+COPY client/*.json ./
+COPY client/vite.config.ts ./
+RUN npm install
+
+# Add source code and build
 WORKDIR /app
 COPY . .
-
-RUN npm install
 RUN npm run build
 
 # Default port on server/index.js
