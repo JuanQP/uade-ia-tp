@@ -6,7 +6,7 @@ The main idea is to build a streaming service platform. This repo is the microse
 
 An admin user is needed to enter the app 🪪
 
-![uadeflix-1](https://user-images.githubusercontent.com/11776905/199602581-ed54ff6b-3275-406c-9b41-ef3c05003817.gif)
+![uadeflix-1](https://user-images.githubusercontent.com/11776905/201707921-0fd78eef-1582-4d33-89a3-ec09f7735cc8.gif)
 
 Then we can create content (movies) in the platform 🎥
 
@@ -14,7 +14,7 @@ Then we can create content (movies) in the platform 🎥
 
 In this project, the contents were organized in carousels (the same as other streaming platform services). So, the first step is to create a carousel, and then add movies to that carousel 👇
 
-![uadeflix-3](https://user-images.githubusercontent.com/11776905/199602631-0b4decc3-997c-46d7-bf4e-87c937b30401.gif)
+![uadeflix-3](https://user-images.githubusercontent.com/11776905/201707939-3cd51fa3-1c1a-4e8f-aa6a-da404774ecf4.gif)
 
 Everything is settled now. The other microservices (frontend, and back office) can consume the API that this CMS exposes 👌
 
