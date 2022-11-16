@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 # Install backend dependencies
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json tsconfig.json ./
 RUN npm install
 
 # Install frontend dependencies

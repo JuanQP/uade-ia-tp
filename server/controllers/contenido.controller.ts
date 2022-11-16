@@ -37,7 +37,7 @@ async function defaultList (page: string | undefined, searchText: string) {
 };
 
 async function tableList (page: string | undefined, searchText: string) {
-  const paginationOptions = getPaginationOptions(Number(page));
+  const paginationOptions = getPaginationOptions(page);
   const whereCondition: Prisma.ContentWhereInput = { title: { contains: `%${searchText}%`, mode: "insensitive" } }
   const [count, rows] = await prisma.$transaction([
     prisma.content.count({
@@ -108,13 +108,13 @@ const ATTRIBUTES_FORMAT = {
 type ContenidoFormat = "default" | "table" | "card"
 
 function isContenidoFormat(format: string): format is ContenidoFormat {
-  return format in ["default", "table", "card"]
+  return ["default", "table", "card"].includes(format)
 }
 
 export async function list (req: Request, res: Response) {
   try {
     const { page } = req.query;
-    const { title: titleSearch = '', format: formatQuery } = req.query;
+    const { title: titleSearch = '', format: formatQuery = 'default' } = req.query;
     if(typeof page !== "string" && typeof page !== "undefined")
       throw new Error("Invalid page")
     if(typeof titleSearch !== "string")

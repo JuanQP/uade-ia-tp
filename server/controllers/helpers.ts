@@ -13,20 +13,20 @@ type PaginationOptions = {
   take: number;
 } | {};
 
-export function getPaginationOptions (page: number | undefined): PaginationOptions {
-  const paginationOptions = page ? {
+export function getPaginationOptions (page: number | string | undefined): PaginationOptions {
+  const paginationOptions = isNaN(Number(page)) ? {} : {
     skip: Number(page) * DEFAULT_PAGE_LIMIT,
     take: DEFAULT_PAGE_LIMIT,
-  } : {};
+  };
 
   return paginationOptions;
 }
 
-export function getPaginationResults (page: number | undefined, count: number) {
-  const paginationResults = page ? {
+export function getPaginationResults (page: number | string | undefined, count: number) {
+  const paginationResults = isNaN(Number(page)) ? {} : {
     currentPage: Number(page),
     totalPages: Math.ceil(count / DEFAULT_PAGE_LIMIT),
-  } : {};
+  };
 
   return paginationResults;
 }

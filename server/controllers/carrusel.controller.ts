@@ -15,7 +15,7 @@ function format(carousel: any) {
 }
 
 async function defaultList (page: string | undefined, searchText: string) {
-  const paginationOptions = getPaginationOptions(Number(page));
+  const paginationOptions = getPaginationOptions(page);
   const whereCondition: Prisma.CarouselWhereInput = {
     title: { contains: `%${searchText}%`, mode: "insensitive" },
   };
