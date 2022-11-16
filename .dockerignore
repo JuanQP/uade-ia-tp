@@ -1,5 +1,6 @@
 .env
 .vscode
 node_modules
+dist
 client/node_modules
 client/dist

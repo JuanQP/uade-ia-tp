@@ -47,7 +47,7 @@ Once you have a running DB, start the backend with:
 ```sh
 npm install
 npm run migrate-dev
-npm start
+npm run dev
 ```
 
 Then run the frontend:

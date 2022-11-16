@@ -1,44 +1,44 @@
-module.exports = {
-  contenidosList: async (_, res) => {
-    try {
-      res.status(200).send({
-        results: contenidosTerror.concat(contenidosSuspenso).concat(contenidosComedia)
-      });
-    } catch (error) {
-      res.status(400).send({message: error.message});
-    }
-  },
+import { Request, Response } from "express";
 
-  contenidoGet: async (_, res) => {
-    try {
-      res.status(200).send(contenidoIndividual);
-    } catch (error) {
-      res.status(400).send({message: error.message});
-    }
-  },
+export async function contenidosList (_: Request, res: Response) {
+  try {
+    res.status(200).send({
+      results: contenidosTerror.concat(contenidosSuspenso).concat(contenidosComedia)
+    });
+  } catch (error: any) {
+    res.status(400).send({message: error.message});
+  }
+}
 
-  carruselesList: async (_, res) => {
-    try {
-      res.status(200).send({
-        results: [
-          { id: 1, title: "Terror", contenidos: contenidosTerror },
-          { id: 2, title: "Suspenso", contenidos: contenidosSuspenso },
-          { id: 3, title: "Comedia", contenidos: contenidosComedia },
-        ]
-      });
-    } catch (error) {
-      res.status(400).send({message: error.message});
-    }
-  },
+export async function contenidoGet (_: Request, res: Response) {
+  try {
+    res.status(200).send(contenidoIndividual);
+  } catch (error: any) {
+    res.status(400).send({message: error.message});
+  }
+}
 
-  carruselesGet: async (_, res) => {
-    try {
-      res.status(200).send({ id: 1, title: "Terror", contenidos: contenidosTerror });
-    } catch (error) {
-      res.status(400).send({message: error.message});
-    }
-  },
-};
+export async function carruselesList (_: Request, res: Response) {
+  try {
+    res.status(200).send({
+      results: [
+        { id: 1, title: "Terror", contenidos: contenidosTerror },
+        { id: 2, title: "Suspenso", contenidos: contenidosSuspenso },
+        { id: 3, title: "Comedia", contenidos: contenidosComedia },
+      ]
+    });
+  } catch (error: any) {
+    res.status(400).send({message: error.message});
+  }
+}
+
+export async function carruselesGet (_: Request, res: Response) {
+  try {
+    res.status(200).send({ id: 1, title: "Terror", contenidos: contenidosTerror });
+  } catch (error: any) {
+    res.status(400).send({message: error.message});
+  }
+}
 
 const contenidoIndividual = {
   title: "La monja",

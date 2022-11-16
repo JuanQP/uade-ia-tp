@@ -1,15 +1,15 @@
 // Controllers
-const express = require('express');
-const mockController = require('../controllers/mock.controller');
-const contenidoController = require('../controllers/contenido.controller');
-const carruselController = require('../controllers/carrusel.controller');
-const authController = require('../controllers/auth.controller');
-const generoController = require('../controllers/genero.controller');
-const maturityRatingController = require('../controllers/maturityRating.controller');
-const routes = express.Router();
-const { verifyAuth } = require('./utils');
+import express from 'express'
+import * as authController from '../controllers/auth.controller'
+import * as carruselController from '../controllers/carrusel.controller'
+import * as contenidoController from '../controllers/contenido.controller'
+import * as generoController from '../controllers/genero.controller'
+import * as maturityRatingController from '../controllers/maturityRating.controller'
+import * as mockController from '../controllers/mock.controller'
+import { verifyAuth } from '../routes/utils'
+const routes = express.Router()
 
-module.exports = (app) => {
+export default function (app: express.Express) {
 	app.use('/api', routes);
 
 	routes.get('/', async (_, res) => res.status(200).send({
@@ -35,14 +35,14 @@ module.exports = (app) => {
 	routes.get('/contenidos/:id', contenidoController.get);
 	routes.post('/contenidos', verifyAuth, contenidoController.create);
 	routes.patch('/contenidos/:id', verifyAuth, contenidoController.patch);
-	routes.delete('/contenidos/:id', verifyAuth, contenidoController.delete);
+	routes.delete('/contenidos/:id', verifyAuth, contenidoController.remove);
 
 	// Carruseles
 	routes.get('/carruseles', carruselController.list);
 	routes.get('/carruseles/:id', carruselController.get);
 	routes.post('/carruseles', verifyAuth, carruselController.create);
 	routes.patch('/carruseles/:id', verifyAuth, carruselController.patch);
-	routes.delete('/carruseles/:id', verifyAuth, carruselController.delete);
+	routes.delete('/carruseles/:id', verifyAuth, carruselController.remove);
 
 	// Mocks contenidos
 	routes.get('/mocks/contenidos', mockController.contenidosList);

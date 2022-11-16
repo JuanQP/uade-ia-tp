@@ -1,7 +1,8 @@
-const path = require('path');
-const express = require("express");
-const cors = require('cors');
-require('dotenv').config();
+import cors from 'cors';
+import 'dotenv/config';
+import express from "express";
+import path from 'path';
+import routes from './routes';
 
 const PORT = process.env.PORT || 3001;
 
@@ -15,13 +16,13 @@ app.use(cors({
 // Parse request body to JSON
 app.use(express.json());
 
-require('./routes')(app);
+routes(app);
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/dist')));
 
 // All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
+app.get('*', (_req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 });
 
