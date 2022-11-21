@@ -5,7 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MovieIcon from '@mui/icons-material/Movie';
 import PersonIcon from '@mui/icons-material/Person';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, CircularProgress, Drawer, IconButton, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -55,6 +55,12 @@ const styles = {
     },
   },
 };
+
+const LoadingIcon = (
+  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <CircularProgress />
+  </Box>
+)
 
 export function Layout() {
   const theme = useTheme();
@@ -139,7 +145,7 @@ export function Layout() {
         {!isMdUp && <Toolbar />}
         <Box py={2}>
           {/* Page content is displayed here */}
-          {checkingToken ? null : <Outlet />}
+          {checkingToken ? LoadingIcon : <Outlet />}
         </Box>
       </Box>
     </Box>

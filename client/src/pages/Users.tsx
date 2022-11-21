@@ -11,18 +11,24 @@ import { Link } from "react-router-dom";
 
 const columns: CMSTableColumnType<ListUser>[] = [
   {name: 'E-Mail', key: "email", hide: false},
-  {name: 'Apellido', key: "apellido", hide: false},
-  {name: 'Nombre', key: "nombre", hide: false},
+  {name: 'Apellido', key: "apellido", hide: true},
+  {name: 'Nombre', key: "nombre", hide: true},
 ];
 
 export function Users() {
 
   const [users, setUsers] = useState<ListUser[]>([]);
+  const [loading, setLoading] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
 
   async function fetchData () {
-    const users = await userAPI.getUsers();
-    setUsers(users);
+    try {
+      setLoading(true)
+      const users = await userAPI.getUsers();
+      setUsers(users);
+    } finally {
+      setLoading(false)
+    }
   };
 
   useEffect(() => {
@@ -53,6 +59,7 @@ export function Users() {
         </Button>
       </Box>
       <CMSTable
+        loading={loading}
         editButton={false}
         items={users}
         idField="email"

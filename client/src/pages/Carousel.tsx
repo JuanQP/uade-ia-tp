@@ -21,20 +21,26 @@ export function Carousel() {
   const [searchText, setSearchText] = useState('');
   const searchField = useRef<HTMLInputElement>(null);
   const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(true);
 
   async function fetchData () {
-    const {
-      results,
-      currentPage,
-      totalPages
-    } = await carouselAPI.fetchCarousels({
-      format: 'table',
-      page,
-      title: searchText,
-    });
-    setCarousels(results);
-    setPage(currentPage);
-    setPages(totalPages);
+    try {
+      setLoading(true)
+      const {
+        results,
+        currentPage,
+        totalPages
+      } = await carouselAPI.fetchCarousels({
+        format: 'table',
+        page,
+        title: searchText,
+      });
+      setCarousels(results);
+      setPage(currentPage);
+      setPages(totalPages);
+    } finally {
+      setLoading(false)
+    }
   };
 
   function handlePageChange(_: any, newPage: number) {
@@ -82,6 +88,7 @@ export function Carousel() {
         />
       </Paper>
       <CMSTable
+        loading={loading}
         idField="id"
         items={carousels}
         columns={columns}

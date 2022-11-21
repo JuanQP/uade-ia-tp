@@ -25,20 +25,26 @@ export function Content() {
   const [searchText, setSearchText] = useState('');
   const searchField = useRef<HTMLInputElement>(null);
   const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(true);
 
   async function fetchData () {
-    const {
-      results,
-      currentPage,
-      totalPages,
-    } = await contentAPI.fetchContents({
-      format: 'table',
-      page,
-      title: searchText,
-    });
-    setContents(results);
-    setPage(currentPage);
-    setPages(totalPages);
+    try {
+      setLoading(true)
+      const {
+        results,
+        currentPage,
+        totalPages,
+      } = await contentAPI.fetchContents({
+        format: 'table',
+        page,
+        title: searchText,
+      });
+      setContents(results);
+      setPage(currentPage);
+      setPages(totalPages);
+    } finally {
+      setLoading(false)
+    }
   };
 
   function handlePageChange(_: any, newPage: number) {
@@ -86,6 +92,7 @@ export function Content() {
         />
       </Paper>
       <CMSTable
+        loading={loading}
         idField="id"
         items={contents}
         columns={columns}
