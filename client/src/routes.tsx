@@ -1,3 +1,4 @@
+import { Layout } from '@features/UI';
 import { Carousel } from '@pages/Carousel';
 import { Content } from '@pages/Content';
 import { CreateCarousel } from '@pages/CreateCarousel';
@@ -8,12 +9,11 @@ import { Home } from '@pages/Home';
 import { Login } from '@pages/Login';
 import { Logout } from '@pages/Logout';
 import { Register } from '@pages/Register';
-
+import { Users } from '@pages/Users';
 import {
   createBrowserRouter,
   Navigate
 } from "react-router-dom";
-import { Layout } from './features/UI';
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: "/carousels/new",
         element: <CreateCarousel />,
+      },
+      {
+        path: "/users",
+        element: <Users />,
       },
       {
         path: "/register",

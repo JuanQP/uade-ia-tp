@@ -1,12 +1,7 @@
-export type CMSTableColumnType = {
+export type CMSTableColumnType<T> = {
   name: string;
-  key: string;
+  key: keyof T;
   hide: boolean;
-}
-
-export type CMSTableItemType = {
-  id: number;
-  [key: string]: any;
 }
 
 type LinkType = {

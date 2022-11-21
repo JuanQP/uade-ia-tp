@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export interface ListUser extends Pick<User, "email" | "nombre" | "apellido"> {}
+interface ListUsersResponse {
+  results: ListUser[];
+}
+
 export async function login(email: string, password: string) {
   const { data }: { data: Required<User> } = await axios.post('/api/login', {
     email,
@@ -37,4 +42,15 @@ export async function verifyToken() {
     axios.defaults.headers.common['Authorization'] = ``;
     throw error;
   }
+}
+
+export async function getUsers() {
+  const { data } = await axios.get<ListUsersResponse>(`/api/users`);
+  return data.results;
+}
+
+export async function deleteUser(user: ListUser) {
+  return await axios.delete('/api/users', { data: {
+    email: user.email
+  }});
 }

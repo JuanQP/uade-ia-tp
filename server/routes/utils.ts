@@ -14,7 +14,7 @@ function useSSO() {
 	return /^true/i.test(USE_SSO)
 }
 
-function getAuthorizationToken(req: Request) {
+export function getAuthorizationToken(req: Request) {
 	if (!req.headers.authorization) throw new Error("No Authorization header provided")
 	return req.headers.authorization?.split(' ')[1];
 }

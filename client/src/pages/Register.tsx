@@ -29,7 +29,7 @@ export function Register() {
     try {
       await userAPI.register(user);
       notification(enqueueSnackbar, `Usuario ${user.email} creado correctamente`, "success");
-      navigate('/home');
+      navigate('/users');
     } catch (error) {
       if(error instanceof Error) {
         console.error("Server error", error);

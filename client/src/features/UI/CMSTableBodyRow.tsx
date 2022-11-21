@@ -2,7 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, TableCell, TableRow, Theme, useMediaQuery, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { CMSTableColumnType, CMSTableItemType } from './types';
+import { CMSTableColumnType } from './types';
 
 
 const styles = {
@@ -17,14 +17,23 @@ const styles = {
   },
 };
 
-interface CMSTableBodyRowProps {
-  item: CMSTableItemType;
-  columns: CMSTableColumnType[];
+interface CMSTableBodyRowProps<T> {
+  columns: CMSTableColumnType<T>[];
+  editButton?: boolean;
+  idField: keyof T;
+  item: T;
   url: string;
   onDelete: (item: any) => void;
 }
 
-export function CMSTableBodyRow({ columns, item, url, onDelete }: CMSTableBodyRowProps) {
+export function CMSTableBodyRow<T>({
+  columns,
+  editButton = true,
+  idField,
+  item,
+  url,
+  onDelete
+}: CMSTableBodyRowProps<T>) {
 
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
@@ -36,17 +45,19 @@ export function CMSTableBodyRow({ columns, item, url, onDelete }: CMSTableBodyRo
           key={columnIndex}
           sx={{display: column.hide && !isMdUp ? 'none' : undefined}}
         >
-          {item[column.key]}
+          {String(item[column.key])}
         </TableCell>
       ))}
       <TableCell style={styles.cell}>
-        <IconButton
-          color="primary"
-          component={Link}
-          to={`${url}${item.id}`}
-        >
-          <EditIcon />
-        </IconButton>
+        {!editButton ? null : (
+          <IconButton
+            color="primary"
+            component={Link}
+            to={`${url}${item[idField]}`}
+          >
+            <EditIcon />
+          </IconButton>
+        )}
         <IconButton
           color="error"
           component="label"

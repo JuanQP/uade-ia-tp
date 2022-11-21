@@ -2,13 +2,14 @@ import { notification } from "@/utils";
 import { SearchField } from "@features/Carousels";
 import { contentAPI } from "@features/Contents";
 import { CMSTable } from "@features/UI";
+import { CMSTableColumnType } from "@features/UI/types";
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import { useSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-const columns = [
+const columns: CMSTableColumnType<Required<Content>>[] = [
   {name: 'ID', key: "id", hide: true},
   {name: 'Título', key: "title", hide: false},
   {name: 'Año', key: "year", hide: true},
@@ -85,6 +86,7 @@ export function Content() {
         />
       </Paper>
       <CMSTable
+        idField="id"
         items={contents}
         columns={columns}
         url="/contents/"

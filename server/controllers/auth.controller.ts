@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { SSO_ADMIN_STRING, SSO_TENANT_STRING } from '../routes/utils';
+import { getAuthorizationToken, SSO_ADMIN_STRING, SSO_TENANT_STRING } from '../routes/utils';
 const DOMAIN = 'uadeflix.com'
 const {
   CMS_DEV_ADMIN_USER,
@@ -18,8 +18,39 @@ interface SSOResponse {
   }
 }
 
+interface User {
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  password: string;
+  tenant: "Cms";
+  admin: "true" | "false";
+}
+
 function isUsingSSO() {
   return USE_SSO?.toLowerCase() === 'true'
+}
+
+export async function list (req: Request, res: Response) {
+  try {
+    const { email } = req.decryptedUser;
+    const token = getAuthorizationToken(req);
+    const response = await axios.get<User[]>(`${SSO_AUTH_BASEURL}/users`, {
+      headers: { "Authorization": `Bearer ${token}` },
+      data: { email, tenant: SSO_TENANT_STRING },
+    });
+    const users = response.data.map(u => ({
+      email: u.email,
+      nombre: u.nombre,
+      apellido: u.apellido,
+    }))
+    res.status(200).send({
+      results: users,
+    });
+  } catch (error: any) {
+    res.status(400).send({ message: error.message });
+  }
 }
 
 export async function login(req: Request, res: Response) {
@@ -113,6 +144,29 @@ export async function register(req: Request, res: Response) {
     res.status(400).send({
       errors: error.response?.data?.errors ?? [],
     });
+  }
+}
+
+export async function remove(req: Request, res: Response) {
+  try {
+    const { email } = req.body;
+    if(typeof email !== "string")
+      throw new Error("Email was not provided or is invalid")
+    if (isUsingSSO()) {
+      const data = {
+        email,
+        tenant: SSO_TENANT_STRING,
+      }
+      const token = getAuthorizationToken(req)
+      await axios.delete(`${SSO_AUTH_BASEURL}/deleteUser`, {
+        headers: { "Authorization": `Bearer ${token}` },
+        data,
+      })
+    }
+    // If everything was ok, return code 200
+    res.status(200).send({ message: 'User removed.' });
+  } catch (error: any) {
+    res.status(400).send({ message: error.message });
   }
 }
 

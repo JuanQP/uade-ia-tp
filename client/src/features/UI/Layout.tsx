@@ -31,7 +31,7 @@ const links = [
   },
   {
     label: 'Curadores',
-    to: '/register',
+    to: '/users',
     icon: <PersonIcon />,
   },
   {
@@ -60,18 +60,22 @@ export function Layout() {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [checkingToken, setCheckingToken] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, setUser } = useUserContext();
 
   useEffect(() => {
     const awaitVerifyToken = async () => {
+      setCheckingToken(true);
       try {
         await userAPI.verifyToken();
       } catch (error: any) {
         navigate('/login', {
           state: { message: error.response?.data?.message ?? error.message },
         });
+      } finally {
+        setCheckingToken(false)
       }
     }
     const nombre = localStorage.getItem('nombre');
@@ -135,7 +139,7 @@ export function Layout() {
         {!isMdUp && <Toolbar />}
         <Box py={2}>
           {/* Page content is displayed here */}
-          <Outlet />
+          {checkingToken ? null : <Outlet />}
         </Box>
       </Box>
     </Box>

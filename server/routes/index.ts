@@ -17,10 +17,12 @@ export default function (app: express.Express) {
 	}));
 
 	//Login
+	routes.get('/users', verifyAuth, authController.list);
 	routes.post('/login', authController.login);
 	routes.post('/logout', authController.logout);
 	routes.post('/register', verifyAuth, authController.register);
 	routes.post('/verify', verifyAuth, authController.verify);
+	routes.delete('/users', verifyAuth, authController.remove)
 
 	// Géneros
 	routes.get('/generos', generoController.list);

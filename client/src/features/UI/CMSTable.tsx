@@ -10,23 +10,27 @@ const styles = {
   }),
 }
 
-interface CMSTableProps<T extends {id: number}> {
+interface CMSTableProps<T> {
+  columns: CMSTableColumnType<T>[];
+  editButton?: boolean;
+  idField: keyof T;
   items: T[];
-  columns: CMSTableColumnType[];
   url: string;
-  page: number;
-  pages: number;
+  page?: number;
+  pages?: number;
   onDelete: (item: T) => void;
-  onPageChange: (event: React.ChangeEvent<unknown>, value: number) => void;
+  onPageChange?: (event: React.ChangeEvent<unknown>, value: number) => void;
 }
 
 /**
  * Table to show properly formatted contents and carousels
  * It will hide columns if screen is too small
  */
-export function CMSTable<T extends {id: number}>({
-  items,
+export function CMSTable<T>({
   columns,
+  editButton = true,
+  idField,
+  items,
   url = '',
   page = 0,
   pages = 0,
@@ -60,23 +64,27 @@ export function CMSTable<T extends {id: number}>({
         <TableBody>
           {items.map((item) => (
             <CMSTableBodyRow
-              key={item.id}
+              key={String(item[idField])}
+              idField={idField}
               item={item}
               columns={columns}
               url={url}
+              editButton={editButton}
               onDelete={handleDelete}
             />
           ))}
         </TableBody>
       </Table>
-      <Box my={1} display="flex" justifyContent="center">
-        <Pagination
-          color="primary"
-          count={pages}
-          page={page}
-          onChange={onPageChange}
-        />
-      </Box>
+      {typeof page === "undefined" ? null : (
+        <Box my={1} display="flex" justifyContent="center">
+          <Pagination
+            color="primary"
+            count={pages}
+            page={page}
+            onChange={onPageChange}
+          />
+        </Box>
+      )}
     </TableContainer>
   )
 }

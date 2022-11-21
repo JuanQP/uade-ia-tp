@@ -1,3 +1,4 @@
+import { CMSTableColumnType } from "@/features/UI/types";
 import { notification } from "@/utils";
 import { carouselAPI, SearchField } from "@features/Carousels";
 import { CMSTable } from "@features/UI";
@@ -7,7 +8,7 @@ import { useSnackbar } from "notistack";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-const columns = [
+const columns: CMSTableColumnType<TableFormatCarousel>[] = [
   {name: 'ID', key: "id", hide: true},
   {name: 'Título', key: "title", hide: false},
 ];
@@ -81,6 +82,7 @@ export function Carousel() {
         />
       </Paper>
       <CMSTable
+        idField="id"
         items={carousels}
         columns={columns}
         url="/carousels/"
