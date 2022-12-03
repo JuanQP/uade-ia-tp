@@ -29,8 +29,8 @@ const movies = [
     director: "Peter Jackson",
     cast: "Viggo Mortensen, Elijah Wood",
     writer: "Peter Jackson",
-    urlImage: "https://i.ibb.co/h8WyN6W/lotr1-horizontal.png",
-    verticalUrlImage: "https://i.ibb.co/kmG8GWC/lotr1-vertical.png",
+    urlImage: "/static/lotr1-horizontal.png",
+    verticalUrlImage: "/static/lotr1-vertical.png",
     urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     maturityRatingId: 3,
     genres: {
@@ -48,8 +48,8 @@ const movies = [
     director: "Peter Jackson",
     cast: "Elijah Wood, Viggo Mortensen",
     writer: "Peter Jackson",
-    urlImage: "https://i.ibb.co/RcbyXQW/twoposter.png",
-    verticalUrlImage: "https://i.ibb.co/Xs1f4TY/lotr.png",
+    urlImage: "/static/lotr2-horizontal.png",
+    verticalUrlImage: "/static/lotr2-vertical.png",
     urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     maturityRatingId: 3,
     genres: {
@@ -67,8 +67,8 @@ const movies = [
     director: "Peter Jackson",
     cast: "Viggo Mortensen, Elijah Wood",
     writer: "Peter Jackson",
-    urlImage: "https://wallpapercave.com/wp/wp4119586.jpg",
-    verticalUrlImage: "https://i.ibb.co/BcbNfCN/lotr3-v.png",
+    urlImage: "/static/lotr3-horizontal.jpg",
+    verticalUrlImage: "/static/lotr3-vertical.png",
     urlVideo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     maturityRatingId: 3,
     genres: {

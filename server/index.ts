@@ -20,6 +20,8 @@ routes(app);
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/dist')));
+// Images folder
+app.use('/static', express.static(path.resolve(__dirname, '../public')));
 
 // All other GET requests not handled before will return our React app
 app.get('*', (_req, res) => {
