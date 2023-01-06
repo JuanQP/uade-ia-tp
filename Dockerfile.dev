@@ -1,0 +1,10 @@
+FROM node:18-alpine
+
+# Install backend dependencies
+WORKDIR /app
+
+# Default port on server/index.js
+EXPOSE 3001
+
+# Execute pending migrations and start the app 🎉
+CMD [ "sh", "-c", "npm run dev" ]

@@ -7,7 +7,7 @@
   "scripts": {
     "build": "prisma generate && tsc && cd client && npm install && npm run build",
     "deploy": "npm run migrate-deploy && npm start",
-    "dev": "nodemon server/index.ts",
+    "dev": "prisma generate && nodemon server/index.ts",
     "frontend": "cd client && npm run dev",
     "migrate-deploy": "prisma migrate deploy",
     "migrate-dev": "prisma migrate dev",

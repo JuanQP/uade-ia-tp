@@ -1,0 +1,10 @@
+FROM node:18-alpine
+
+# Install dependencies
+WORKDIR /app
+
+# Default port on server/index.js
+EXPOSE 5173
+
+# Start the app 🎉
+CMD [ "sh", "-c", "npm run dev -- --host" ]

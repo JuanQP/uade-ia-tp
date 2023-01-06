@@ -37,25 +37,25 @@ Now you can log in with the example default credentials:
 * `uade2022`
 ## Development
 
-First, you need a running DB, and set the `.env` variable `DATABASE_URL` to connect to it.
+Simply run the `docker-compose.dev.yml` file:
 
-In `.env.sample` everything is configured to run a development environment with a postgres DB with
-user `postgres`, password `postgres`, in `localhost:5432` and database name `cms`. Just copy that file and rename it to `.env` so the app can start. Of course, you can change this.
-
-Once you have a running DB, start the backend with:
+Only on first run:
 
 ```sh
-npm install
-npm run migrate-dev
-npm run dev
+docker compose -f docker-compose.dev.yml up
+docker-compose exec web /bin/sh -c "npm run migrate-dev"
+docker-compose exec web /bin/sh -c "npx prisma db seed"
 ```
 
-Then run the frontend:
+Then, you can just use
 
+```sh
+docker compose -f docker-compose.dev.yml up
 ```
-# From the root folder
-npm run frontend
-```
+
+* DB running in `localhost:5432`
+* Frontend running in `http://localhost:5173`
+* Backend running in `http://localhost:3001`
 
 That's all. Now you have the backend and the frontend running.
 ## Production
